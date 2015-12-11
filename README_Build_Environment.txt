@@ -1,0 +1,1 @@
+The build environment is Code Composer Version: 6.1.1.00022  using the TI v6.4.9 compiler (free version). The debugger is the built in XDS100v2 emulator.

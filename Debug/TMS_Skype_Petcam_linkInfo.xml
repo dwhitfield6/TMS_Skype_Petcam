@@ -2,7 +2,7 @@
 <link_info>
    <banner>TMS320C2000 Linker PC v6.4.9</banner>
    <copyright>Copyright (c) 1996-2015 Texas Instruments Incorporated</copyright>
-   <link_time>0x566b2a00</link_time>
+   <link_time>0x566b2ea6</link_time>
    <link_errors>0x0</link_errors>
    <output_file>TMS_Skype_Petcam.out</output_file>
    <entry_point>

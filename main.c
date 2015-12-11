@@ -34,12 +34,6 @@
 int main (void)
 {
 
-    /* Initialize */
-
-    /* Flash red and green leds */
-
-    /* Initialize variables */
-
     while(1)
     {
 
