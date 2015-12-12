@@ -1,0 +1,21 @@
+The easiest way to determine if a Skype call has been answered or ended when in "auto answer" mode
+ is to set the call end to play a specific audio tone and also to set the chat received tone to a
+ certain sound. If either of these sounds are played, our microcontroller should recognize them
+ and do the corresponding action. Luckily, Skype filters its audio by low pass filtering the audio
+ at a corner frequency of 250 Hz. We will take advantage of this fact and set our "active" tone to 40Hz.
+ 
+"1" means the 150mS seconds of 20 Hz then 50mS seconds of no sound
+"0" means the 150mS seconds of no sound then 50mS seconds of 20 Hz sound
+
+Codes are 5 bits long which corresponds to a code taking 1 Second
+ 
+chat message received code (00000)
+Call ended (00001)
+
+To change the setting to play our code for each instance above:
+1) Tools->Options
+2) Notification Settings->Sounds
+3) Unselect all (no sound should play for anything)
+4) Click hang up and select import sound under my custom sounds (Code00001.MP3)
+5) Click IM in current chat and select import sound under my custom sounds (Code00000.MP3)
+6) Save
