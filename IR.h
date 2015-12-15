@@ -17,8 +17,8 @@
 #ifndef IR_H
 #define	IR_H
 
-#include <stdint.h>         /* For uint8_t definition */
-#include <stdbool.h>        /* For true/false definition */
+#include <stdint.h>
+#include <stdbool.h>
 
 #include "USER.h"
 

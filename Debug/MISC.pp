@@ -11,7 +11,6 @@ MISC.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include/math.h
 MISC.obj: ../MISC.h
 MISC.obj: ../SYSTEM.h
 MISC.obj: ../USER.h
-MISC.obj: ../TIMERS.h
 
 ../MISC.c: 
 C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include/stdint.h: 
@@ -24,4 +23,3 @@ C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include/math.h:
 ../MISC.h: 
 ../SYSTEM.h: 
 ../USER.h: 
-../TIMERS.h: 

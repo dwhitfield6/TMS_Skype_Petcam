@@ -19,12 +19,9 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#include <stdint.h>        /* For uint8_t definition */
-#include <stdbool.h>       /* For true/false definition */
+#include <stdint.h>
+#include <stdbool.h>
 
-#include "IR.h"
-#include "MISC.h"
-#include "SYSTEM.h"
 #include "TIMERS.h"
 #include "USER.h"
 

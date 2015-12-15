@@ -12,16 +12,18 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* Contains Functions for PIC initialization
+/* Contains Functions for TMS320 initialization.
  *																			  */
 /******************************************************************************/
 
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#include <stdint.h>         /* For uint8_t definition */
-#include <stdbool.h>        /* For true/false definition */
-#include <stdio.h>         /* For sprintf definition */
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
+
+#include "USER.h"
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
