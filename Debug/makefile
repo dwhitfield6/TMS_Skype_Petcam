@@ -14,6 +14,7 @@ ORDERED_OBJS += \
 "./AUDIO.obj" \
 "./BUTTON.obj" \
 "./CMD.obj" \
+"./DAC.obj" \
 "./DMA.obj" \
 "./INTERRUPTS.obj" \
 "./IR.obj" \
@@ -25,6 +26,7 @@ ORDERED_OBJS += \
 "./TV.obj" \
 "./UART.obj" \
 "./USER.obj" \
+"./WAV.obj" \
 "./main.obj" \
 "../28377S_FLASH_lnk.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -164,8 +166,8 @@ TMS_Skype_Petcam.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "ADC.pp" "AUDIO.pp" "BUTTON.pp" "CMD.pp" "DMA.pp" "INTERRUPTS.pp" "IR.pp" "LED.pp" "MISC.pp" "RELAY.pp" "SYSTEM.pp" "TIMERS.pp" "TV.pp" "UART.pp" "USER.pp" "main.pp" 
-	-$(RM) "ADC.obj" "AUDIO.obj" "BUTTON.obj" "CMD.obj" "DMA.obj" "INTERRUPTS.obj" "IR.obj" "LED.obj" "MISC.obj" "RELAY.obj" "SYSTEM.obj" "TIMERS.obj" "TV.obj" "UART.obj" "USER.obj" "main.obj" 
+	-$(RM) "ADC.pp" "AUDIO.pp" "BUTTON.pp" "CMD.pp" "DAC.pp" "DMA.pp" "INTERRUPTS.pp" "IR.pp" "LED.pp" "MISC.pp" "RELAY.pp" "SYSTEM.pp" "TIMERS.pp" "TV.pp" "UART.pp" "USER.pp" "WAV.pp" "main.pp" 
+	-$(RM) "ADC.obj" "AUDIO.obj" "BUTTON.obj" "CMD.obj" "DAC.obj" "DMA.obj" "INTERRUPTS.obj" "IR.obj" "LED.obj" "MISC.obj" "RELAY.obj" "SYSTEM.obj" "TIMERS.obj" "TV.obj" "UART.obj" "USER.obj" "WAV.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
