@@ -38,13 +38,13 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* Init_App
+/* Init_Pins
  *
- * The function initializes the application. It sets the pins and pull-ups.   */
+ * The function initializes the gpio pins. It also sets the pins and pull-ups.*/
 /******************************************************************************/
-void Init_App(void)
+void Init_Pins(void)
 {
-    
+
 }
 
 /******************************************************************************/

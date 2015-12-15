@@ -109,4 +109,12 @@ S64_DEPS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+controlSUITE/F2837xS/F2837xS_headers/source \
+controlSUITE/F2837xS/F2837xS_common/utils \
+controlSUITE/F2837xS/F2837xS_common/usblib \
+controlSUITE/F2837xS/F2837xS_common/usblib/host \
+controlSUITE/F2837xS/F2837xS_common/usblib/device \
+controlSUITE/F2837xS/F2837xS_common/source \
+controlSUITE/F2837xS/F2837xS_common/lib \
+controlSUITE/F2837xS/F2837xS_common/driverlib \
 

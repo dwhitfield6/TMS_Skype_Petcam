@@ -41,10 +41,26 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DISPLAY_ERROR_NUMBER.450567535" name="Emit diagnostic identifier numbers (--display_error_number, -pden)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DISPLAY_ERROR_NUMBER" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DIAG_WRAP.2128642528" name="Wrap diagnostic messages (--diag_wrap)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DIAG_WRAP" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DIAG_WRAP.off" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.INCLUDE_PATH.696060071" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.INCLUDE_PATH" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/usblib/host}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/utils}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/usblib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/driverlib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/usblib/device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_headers/include}&quot;"/>
 								</option>
-								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.OPT_FOR_SPEED.1425318283" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.OPT_FOR_SPEED" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.OPT_FOR_SPEED._none" valueType="enumerated"/>
-								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.ADVICE__PERFORMANCE.1284931607" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.ADVICE__PERFORMANCE" value="--advice:performance=all" valueType="string"/>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.OPT_FOR_SPEED.1425318283" name="Speed vs. size trade-offs (--opt_for_speed, -mf)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.OPT_FOR_SPEED" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.OPT_FOR_SPEED._none" valueType="enumerated"/>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.ADVICE__PERFORMANCE.1284931607" name="Provide advice on optimization techniques (--advice:performance)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.ADVICE__PERFORMANCE" value="--advice:performance=all" valueType="string"/>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEFINE.1002613579" name="Pre-define NAME (--define, -D)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.DEFINE" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="DISK0_USB_MSC"/>
+									<listOptionValue builtIn="false" value="ccs_c2k"/>
+									<listOptionValue builtIn="false" value="DISK1_USB_MSC"/>
+								</option>
+								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.FP_MODE.463677745" name="Floating Point mode (--fp_mode)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.FP_MODE" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.compilerID.FP_MODE.relaxed" valueType="enumerated"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compiler.inputType__C_SRCS.585570231" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compiler.inputType__C_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compiler.inputType__CPP_SRCS.1520663096" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compiler.inputType__CPP_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.compiler.inputType__ASM_SRCS.248471343" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.compiler.inputType__ASM_SRCS"/>
@@ -59,10 +75,15 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.DIAG_WRAP.1594687509" name="Wrap diagnostic messages (--diag_wrap)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.DIAG_WRAP" value="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.DIAG_WRAP.off" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.SEARCH_PATH.1571872616" name="Add &lt;dir&gt; to library search path (--search_path, -i)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.SEARCH_PATH" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_common/cmd}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/controlSUITE/F2837xS/F2837xS_headers/cmd}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.LIBRARY.1255950481" name="Include library file or command file as input (--library, -l)" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.linkerID.LIBRARY" valueType="libs">
 									<listOptionValue builtIn="false" value="&quot;libc.a&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;F2837xS_Headers_nonBIOS.cmd&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;2837xS_Generic_FLASH_lnk.cmd&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;rts2800_fpu32.lib&quot;"/>
 								</option>
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__CMD_SRCS.1708291605" name="Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__CMD_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__CMD2_SRCS.1253792426" name="Linker Command Files" superClass="com.ti.ccstudio.buildDefinitions.C2000_6.4.exeLinker.inputType__CMD2_SRCS"/>
@@ -72,7 +93,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="Supporting Documents" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="controlSUITE/F2837xS/F2837xS_common/third_party|controlSUITE/F2837xS/F2837xS_headers/cmd|controlSUITE/F2837xS/F2837xS_common/cmd|controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/port/dual-disk-driver.c|controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/port/sample-mmc.c|controlSUITE/F2837xS/F2837xS_common/include|controlSUITE/F2837xS/F2837xS_headers/include|controlSUITE/F2837xS/F2837xS_common/tools|controlSUITE/F2837xS/F2837xS_common/windows_drivers|controlSUITE/F2837xS/v180/F2837xS_common/windows_drivers|controlSUITE/F2837xS/v180/F2837xS_common/tools|controlSUITE/F2837xS/v170|controlSUITE/F2837xS/v160|controlSUITE/F2837xS/v150|controlSUITE/F2837xS/v140|controlSUITE/F2837xS/v130|Supporting Documents" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
