@@ -6,39 +6,52 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 12/14/15     13.0_DW0a   New project creation.
+ * 12/14/15     13.0_DW0a   Ported from
+ * 							  "PIC_Catalyst_RPI_daughter_Speech_Recognition"
  *                                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
-/* Contains main function.
- *                                                                            */
+/* Contains functions for Universal asynchronous receiver/transmitter.
+ *																			  */
 /******************************************************************************/
 
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
+#include <stdint.h>        /* For uint8_t definition */
+#include <stdbool.h>       /* For true/false definition */
+
+#include "USER.h"
+#include "UART.h"
+#include "SYSTEM.h"
+#include "MISC.h"
 
 /******************************************************************************/
-/* Defines                                                                    */
+/* User Global Variable Declaration                                           */
+/******************************************************************************/
+unsigned short RX1_Buffer_Place = 0;
+unsigned char RX1_Buffer[UART1_RECEIVE_SIZE];
+unsigned char TX1_Buffer[UART1_TRANSMIT_SIZE];
+volatile unsigned short TX1_Buffer_ADD_Place = 0;
+unsigned short TX1_Buffer_REMOVE_Place = 0;
+
+/******************************************************************************/
+/* Inline Functions															  */
 /******************************************************************************/
 
 /******************************************************************************/
-/* Global Variable                                                            */
+/* Functions																  */
 /******************************************************************************/
 
 /******************************************************************************/
-/* Main Program                                                               */
+/* InitUART
+ *
+ * The function initializes the UART module.								  */
 /******************************************************************************/
-
-int main (void)
+void InitUART(void)
 {
 
-    while(1)
-    {
-
-    }
-	return 0;
 }
 
 /*-----------------------------------------------------------------------------/

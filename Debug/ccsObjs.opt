@@ -1,1 +1,1 @@
-"./main.obj" "../28377S_FLASH_lnk.cmd" -l"libc.a" 
+"./ADC.obj" "./CMD.obj" "./DMA.obj" "./IR.obj" "./MISC.obj" "./SYSTEM.obj" "./TIMERS.obj" "./UART.obj" "./USER.obj" "./main.obj" "../28377S_FLASH_lnk.cmd" -l"libc.a" 

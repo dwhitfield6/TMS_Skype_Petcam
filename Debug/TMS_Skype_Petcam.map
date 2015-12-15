@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.4.9                      
 ******************************************************************************
->> Linked Fri Dec 11 12:14:30 2015
+>> Linked Mon Dec 14 17:30:46 2015
 
 OUTPUT FILE NAME:   <TMS_Skype_Petcam.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00082018
+ENTRY POINT SYMBOL: "_c_int00"  address: 000820e4
 
 
 MEMORY CONFIGURATION
@@ -23,7 +23,7 @@ PAGE 0:
   RAMGS15               0001b000   00001000  00000000  00001000  RWIX
   BEGIN                 00080000   00000002  00000000  00000002  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  00000098  00001f68  RWIX
+  FLASHB                00082000   00002000  00000166  00001e9a  RWIX
   FLASHC                00084000   00002000  00000000  00002000  RWIX
   FLASHD                00086000   00002000  00000000  00002000  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
@@ -54,23 +54,10 @@ PAGE 0:
 
 PAGE 1:
   BOOT_RSVD             00000002   00000120  00000000  00000120  RWIX
-  RAMM1                 00000400   00000400  00000200  00000200  RWIX
-  RAMLS5                0000a800   00000800  00000008  000007f8  RWIX
+  RAMM1                 00000400   00000400  00000400  00000000  RWIX
+  RAMLS5                0000a800   00000800  00000056  000007aa  RWIX
   RAMD1                 0000b800   00000800  00000000  00000800  RWIX
-  RAMGS0                0000c000   00001000  00000000  00001000  RWIX
-  RAMGS1                0000d000   00001000  00000000  00001000  RWIX
-  RAMGS2                0000e000   00001000  00000000  00001000  RWIX
-  RAMGS3                0000f000   00001000  00000000  00001000  RWIX
-  RAMGS4                00010000   00001000  00000000  00001000  RWIX
-  RAMGS5                00011000   00001000  00000000  00001000  RWIX
-  RAMGS6                00012000   00001000  00000000  00001000  RWIX
-  RAMGS7                00013000   00001000  00000000  00001000  RWIX
-  RAMGS8                00014000   00001000  00000000  00001000  RWIX
-  RAMGS9                00015000   00001000  00000000  00001000  RWIX
-  RAMGS10               00016000   00001000  00000000  00001000  RWIX
-  RAMGS11               00017000   00001000  00000000  00001000  RWIX
-  RAMGS12               00018000   00001000  00000000  00001000  RWIX
-  RAMGS13               00019000   00001000  00000000  00001000  RWIX
+  RAMGS0                0000c000   0000c000  000013e0  0000ac20  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -78,33 +65,39 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.cinit     0    00082000    00000016     
-                  00082000    0000000a     rts2800_fpu32.lib : exit.obj (.cinit)
-                  0008200a    00000005                       : _lock.obj (.cinit:__lock)
-                  0008200f    00000005                       : _lock.obj (.cinit:__unlock)
-                  00082014    00000002     --HOLE-- [fill = 0]
+.cinit     0    00082000    000000e4     
+                  00082000    000000c2     IR.obj (.cinit)
+                  000820c2    0000000c     UART.obj (.cinit)
+                  000820ce    0000000a     rts2800_fpu32.lib : exit.obj (.cinit)
+                  000820d8    00000005                       : _lock.obj (.cinit:__lock)
+                  000820dd    00000005                       : _lock.obj (.cinit:__unlock)
+                  000820e2    00000002     --HOLE-- [fill = 0]
 
 .pinit     0    00082000    00000000     UNINITIALIZED
 
 ramfuncs   0    00008000    00000000     UNINITIALIZED
 
-.stack     1    00000400    00000200     UNINITIALIZED
-                  00000400    00000200     --HOLE--
+.stack     1    00000400    00000400     UNINITIALIZED
+                  00000400    00000400     --HOLE--
 
 .reset     0    003fffc0    00000002     DSECT
                   003fffc0    00000002     rts2800_fpu32.lib : boot.obj (.reset)
 
-.text      0    00082018    00000082     
-                  00082018    00000046     rts2800_fpu32.lib : boot.obj (.text)
-                  0008205e    00000019                       : args_main.obj (.text)
-                  00082077    00000019                       : exit.obj (.text)
-                  00082090    00000009                       : _lock.obj (.text)
-                  00082099    00000001     main.obj (.text)
+.text      0    000820e4    00000082     
+                  000820e4    00000046     rts2800_fpu32.lib : boot.obj (.text)
+                  0008212a    00000019                       : args_main.obj (.text)
+                  00082143    00000019                       : exit.obj (.text)
+                  0008215c    00000009                       : _lock.obj (.text)
+                  00082165    00000001     main.obj (.text)
 
-.ebss      1    0000a800    00000008     UNINITIALIZED
-                  0000a800    00000004     rts2800_fpu32.lib : exit.obj (.ebss)
-                  0000a804    00000002                       : _lock.obj (.ebss:__lock)
-                  0000a806    00000002                       : _lock.obj (.ebss:__unlock)
+.ebss.1    1    0000a800    00000056     UNINITIALIZED
+                  0000a800    0000004e     IR.obj (.ebss)
+                  0000a84e    00000004     rts2800_fpu32.lib : exit.obj (.ebss)
+                  0000a852    00000002                       : _lock.obj (.ebss:__lock)
+                  0000a854    00000002                       : _lock.obj (.ebss:__unlock)
+
+.ebss.2    1    0000c000    000013e0     UNINITIALIZED
+                  0000c000    000013e0     UART.obj (.ebss)
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -113,87 +106,226 @@ address     data page           name
 --------    ----------------    ----
 00000400      10 (00000400)     __stack
 
-0000a800     2a0 (0000a800)     ___TI_cleanup_ptr
-0000a802     2a0 (0000a800)     ___TI_dtors_ptr
-0000a804     2a0 (0000a800)     __lock
-0000a806     2a0 (0000a800)     __unlock
+0000a800     2a0 (0000a800)     _IR_PWM50
+0000a801     2a0 (0000a800)     _IR_state
+0000a802     2a0 (0000a800)     _Sanyo_Pause
+0000a804     2a0 (0000a800)     _Sanyo_Record
+0000a806     2a0 (0000a800)     _Vizio_Power
+0000a808     2a0 (0000a800)     _Sanyo_Stop
+0000a80a     2a0 (0000a800)     _Sanyo_Rewind
+0000a80c     2a0 (0000a800)     _Sanyo_Source
+0000a80e     2a0 (0000a800)     _Sanyo_Forward
+0000a810     2a0 (0000a800)     _Sanyo_Play
+0000a812     2a0 (0000a800)     _Vizio_Sleep
+0000a814     2a0 (0000a800)     _Idylis_Mode
+0000a816     2a0 (0000a800)     _Idylis_FanSpeed
+0000a818     2a0 (0000a800)     _Idylis_Minus
+0000a81a     2a0 (0000a800)     _Idylis_Plus
+0000a81c     2a0 (0000a800)     _Vizio_Volume_Up
+0000a81e     2a0 (0000a800)     _Vizio_Menu
+0000a820     2a0 (0000a800)     _Idylis_Power
+0000a822     2a0 (0000a800)     _Vizio_Volume_Down
+0000a824     2a0 (0000a800)     _Idylis_Timer
+0000a826     2a0 (0000a800)     _Sanyo_Channel_Down
+0000a828     2a0 (0000a800)     _Sanyo_Channel_Up
+0000a82a     2a0 (0000a800)     _Sanyo_Back
+0000a82c     2a0 (0000a800)     _Sanyo_Mute
+0000a82e     2a0 (0000a800)     _Sanyo_1
+0000a830     2a0 (0000a800)     _Sanyo_Sleep
+0000a832     2a0 (0000a800)     _Sanyo_Power
+0000a834     2a0 (0000a800)     _Sanyo_Volume_Up
+0000a836     2a0 (0000a800)     _Sanyo_Menu
+0000a838     2a0 (0000a800)     _Sanyo_Volume_Down
+0000a83a     2a0 (0000a800)     _Sanyo_8
+0000a83c     2a0 (0000a800)     _Sanyo_7
+0000a83e     2a0 (0000a800)     _Sanyo_0
+
+0000a840     2a1 (0000a840)     _Sanyo_9
+0000a842     2a1 (0000a840)     _Sanyo_Enter
+0000a844     2a1 (0000a840)     _Sanyo_3
+0000a846     2a1 (0000a840)     _Sanyo_2
+0000a848     2a1 (0000a840)     _Sanyo_5
+0000a84a     2a1 (0000a840)     _Sanyo_4
+0000a84c     2a1 (0000a840)     _Sanyo_6
+0000a84e     2a1 (0000a840)     ___TI_cleanup_ptr
+0000a850     2a1 (0000a840)     ___TI_dtors_ptr
+0000a852     2a1 (0000a840)     __lock
+0000a854     2a1 (0000a840)     __unlock
+
+0000c000     300 (0000c000)     _TX1_Buffer_REMOVE_Place
+0000c001     300 (0000c000)     _RX1_Buffer_Place
+0000c002     300 (0000c000)     _TX1_Buffer_ADD_Place
+
+0000c040     301 (0000c040)     _TX1_Buffer
+
+0000c440     311 (0000c440)     _RX1_Buffer
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
-page  address   name              
-----  -------   ----              
-abs   ffffffff  .text             
-0     00082077  C$$EXIT           
-0     00008000  _RamfuncsLoadEnd  
-abs   00000000  _RamfuncsLoadSize 
-0     00008000  _RamfuncsLoadStart
-0     00008000  _RamfuncsRunEnd   
-abs   00000000  _RamfuncsRunSize  
-0     00008000  _RamfuncsRunStart 
-1     00000600  __STACK_END       
-abs   00000200  __STACK_SIZE      
-1     0000a800  ___TI_cleanup_ptr 
-1     0000a802  ___TI_dtors_ptr   
-abs   ffffffff  ___binit__        
-abs   ffffffff  ___c_args__       
-0     00082000  ___cinit__        
-abs   ffffffff  ___etext__        
-abs   ffffffff  ___pinit__        
-abs   ffffffff  ___text__         
-0     0008205e  __args_main       
-1     0000a804  __lock            
-0     00082098  __nop             
-0     00082094  __register_lock   
-0     00082090  __register_unlock 
-1     00000400  __stack           
-1     0000a806  __unlock          
-0     00082077  _abort            
-0     00082018  _c_int00          
-0     00082079  _exit             
-0     00082099  _main             
-abs   ffffffff  binit             
-0     00082000  cinit             
-abs   ffffffff  etext             
-abs   ffffffff  pinit             
+page  address   name                    
+----  -------   ----                    
+abs   ffffffff  .text                   
+0     00082143  C$$EXIT                 
+1     0000a800  _IR_PWM50               
+1     0000a801  _IR_state               
+1     0000a816  _Idylis_FanSpeed        
+1     0000a818  _Idylis_Minus           
+1     0000a814  _Idylis_Mode            
+1     0000a81a  _Idylis_Plus            
+1     0000a820  _Idylis_Power           
+1     0000a824  _Idylis_Timer           
+1     0000c440  _RX1_Buffer             
+1     0000c001  _RX1_Buffer_Place       
+0     00008000  _RamfuncsLoadEnd        
+abs   00000000  _RamfuncsLoadSize       
+0     00008000  _RamfuncsLoadStart      
+0     00008000  _RamfuncsRunEnd         
+abs   00000000  _RamfuncsRunSize        
+0     00008000  _RamfuncsRunStart       
+1     0000a83e  _Sanyo_0                
+1     0000a82e  _Sanyo_1                
+1     0000a846  _Sanyo_2                
+1     0000a844  _Sanyo_3                
+1     0000a84a  _Sanyo_4                
+1     0000a848  _Sanyo_5                
+1     0000a84c  _Sanyo_6                
+1     0000a83c  _Sanyo_7                
+1     0000a83a  _Sanyo_8                
+1     0000a840  _Sanyo_9                
+1     0000a82a  _Sanyo_Back             
+1     0000a826  _Sanyo_Channel_Down     
+1     0000a828  _Sanyo_Channel_Up       
+1     0000a842  _Sanyo_Enter            
+1     0000a80e  _Sanyo_Forward          
+1     0000a836  _Sanyo_Menu             
+1     0000a82c  _Sanyo_Mute             
+1     0000a802  _Sanyo_Pause            
+1     0000a810  _Sanyo_Play             
+1     0000a832  _Sanyo_Power            
+1     0000a804  _Sanyo_Record           
+1     0000a80a  _Sanyo_Rewind           
+1     0000a830  _Sanyo_Sleep            
+1     0000a80c  _Sanyo_Source           
+1     0000a808  _Sanyo_Stop             
+1     0000a838  _Sanyo_Volume_Down      
+1     0000a834  _Sanyo_Volume_Up        
+1     0000c040  _TX1_Buffer             
+1     0000c002  _TX1_Buffer_ADD_Place   
+1     0000c000  _TX1_Buffer_REMOVE_Place
+1     0000a81e  _Vizio_Menu             
+1     0000a806  _Vizio_Power            
+1     0000a812  _Vizio_Sleep            
+1     0000a822  _Vizio_Volume_Down      
+1     0000a81c  _Vizio_Volume_Up        
+1     00000800  __STACK_END             
+abs   00000400  __STACK_SIZE            
+1     0000a84e  ___TI_cleanup_ptr       
+1     0000a850  ___TI_dtors_ptr         
+abs   ffffffff  ___binit__              
+abs   ffffffff  ___c_args__             
+0     00082000  ___cinit__              
+abs   ffffffff  ___etext__              
+abs   ffffffff  ___pinit__              
+abs   ffffffff  ___text__               
+0     0008212a  __args_main             
+1     0000a852  __lock                  
+0     00082164  __nop                   
+0     00082160  __register_lock         
+0     0008215c  __register_unlock       
+1     00000400  __stack                 
+1     0000a854  __unlock                
+0     00082143  _abort                  
+0     000820e4  _c_int00                
+0     00082145  _exit                   
+0     00082165  _main                   
+abs   ffffffff  binit                   
+0     00082000  cinit                   
+abs   ffffffff  etext                   
+abs   ffffffff  pinit                   
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
 
-page  address   name              
-----  -------   ----              
-0     00008000  _RamfuncsLoadEnd  
-0     00008000  _RamfuncsLoadStart
-0     00008000  _RamfuncsRunEnd   
-0     00008000  _RamfuncsRunStart 
-0     00082000  ___cinit__        
-0     00082000  cinit             
-0     00082018  _c_int00          
-0     0008205e  __args_main       
-0     00082077  C$$EXIT           
-0     00082077  _abort            
-0     00082079  _exit             
-0     00082090  __register_unlock 
-0     00082094  __register_lock   
-0     00082098  __nop             
-0     00082099  _main             
-1     00000400  __stack           
-1     00000600  __STACK_END       
-1     0000a800  ___TI_cleanup_ptr 
-1     0000a802  ___TI_dtors_ptr   
-1     0000a804  __lock            
-1     0000a806  __unlock          
-abs   00000000  _RamfuncsLoadSize 
-abs   00000000  _RamfuncsRunSize  
-abs   00000200  __STACK_SIZE      
-abs   ffffffff  .text             
-abs   ffffffff  ___binit__        
-abs   ffffffff  ___c_args__       
-abs   ffffffff  ___etext__        
-abs   ffffffff  ___pinit__        
-abs   ffffffff  ___text__         
-abs   ffffffff  binit             
-abs   ffffffff  etext             
-abs   ffffffff  pinit             
+page  address   name                    
+----  -------   ----                    
+0     00008000  _RamfuncsLoadEnd        
+0     00008000  _RamfuncsLoadStart      
+0     00008000  _RamfuncsRunEnd         
+0     00008000  _RamfuncsRunStart       
+0     00082000  ___cinit__              
+0     00082000  cinit                   
+0     000820e4  _c_int00                
+0     0008212a  __args_main             
+0     00082143  C$$EXIT                 
+0     00082143  _abort                  
+0     00082145  _exit                   
+0     0008215c  __register_unlock       
+0     00082160  __register_lock         
+0     00082164  __nop                   
+0     00082165  _main                   
+1     00000400  __stack                 
+1     00000800  __STACK_END             
+1     0000a800  _IR_PWM50               
+1     0000a801  _IR_state               
+1     0000a802  _Sanyo_Pause            
+1     0000a804  _Sanyo_Record           
+1     0000a806  _Vizio_Power            
+1     0000a808  _Sanyo_Stop             
+1     0000a80a  _Sanyo_Rewind           
+1     0000a80c  _Sanyo_Source           
+1     0000a80e  _Sanyo_Forward          
+1     0000a810  _Sanyo_Play             
+1     0000a812  _Vizio_Sleep            
+1     0000a814  _Idylis_Mode            
+1     0000a816  _Idylis_FanSpeed        
+1     0000a818  _Idylis_Minus           
+1     0000a81a  _Idylis_Plus            
+1     0000a81c  _Vizio_Volume_Up        
+1     0000a81e  _Vizio_Menu             
+1     0000a820  _Idylis_Power           
+1     0000a822  _Vizio_Volume_Down      
+1     0000a824  _Idylis_Timer           
+1     0000a826  _Sanyo_Channel_Down     
+1     0000a828  _Sanyo_Channel_Up       
+1     0000a82a  _Sanyo_Back             
+1     0000a82c  _Sanyo_Mute             
+1     0000a82e  _Sanyo_1                
+1     0000a830  _Sanyo_Sleep            
+1     0000a832  _Sanyo_Power            
+1     0000a834  _Sanyo_Volume_Up        
+1     0000a836  _Sanyo_Menu             
+1     0000a838  _Sanyo_Volume_Down      
+1     0000a83a  _Sanyo_8                
+1     0000a83c  _Sanyo_7                
+1     0000a83e  _Sanyo_0                
+1     0000a840  _Sanyo_9                
+1     0000a842  _Sanyo_Enter            
+1     0000a844  _Sanyo_3                
+1     0000a846  _Sanyo_2                
+1     0000a848  _Sanyo_5                
+1     0000a84a  _Sanyo_4                
+1     0000a84c  _Sanyo_6                
+1     0000a84e  ___TI_cleanup_ptr       
+1     0000a850  ___TI_dtors_ptr         
+1     0000a852  __lock                  
+1     0000a854  __unlock                
+1     0000c000  _TX1_Buffer_REMOVE_Place
+1     0000c001  _RX1_Buffer_Place       
+1     0000c002  _TX1_Buffer_ADD_Place   
+1     0000c040  _TX1_Buffer             
+1     0000c440  _RX1_Buffer             
+abs   00000000  _RamfuncsLoadSize       
+abs   00000000  _RamfuncsRunSize        
+abs   00000400  __STACK_SIZE            
+abs   ffffffff  .text                   
+abs   ffffffff  ___binit__              
+abs   ffffffff  ___c_args__             
+abs   ffffffff  ___etext__              
+abs   ffffffff  ___pinit__              
+abs   ffffffff  ___text__               
+abs   ffffffff  binit                   
+abs   ffffffff  etext                   
+abs   ffffffff  pinit                   
 
-[33 symbols]
+[78 symbols]
