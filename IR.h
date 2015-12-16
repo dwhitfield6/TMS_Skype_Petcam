@@ -17,6 +17,8 @@
 #ifndef IR_H
 #define	IR_H
 
+#include "F2837xS_device.h"     		// TMS320F28377S Include file
+#include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 

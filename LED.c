@@ -18,6 +18,8 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
+#include "F2837xS_device.h"     		// TMS320F28377S Include file
+#include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -43,7 +45,41 @@
 /******************************************************************************/
 void InitLEDs(void)
 {
+	NOP();
+}
 
+/******************************************************************************/
+/* LED_RedLED
+ *
+ * The function controls the Red LED.										  */
+/******************************************************************************/
+void LED_RedLED(unsigned char state)
+{
+	if(state)
+	{
+		GPIO_WritePin(REDLED_GPIO, ON);
+	}
+	else
+	{
+		GPIO_WritePin(REDLED_GPIO, OFF);
+	}
+}
+
+/******************************************************************************/
+/* LED_BlueLED
+ *
+ * The function controls the Blue LED.										  */
+/******************************************************************************/
+void LED_BlueLED(unsigned char state)
+{
+	if(state)
+	{
+		GPIO_WritePin(BLUELED_GPIO, ON);
+	}
+	else
+	{
+		GPIO_WritePin(BLUELED_GPIO, OFF);
+	}
 }
 
 /*-----------------------------------------------------------------------------/

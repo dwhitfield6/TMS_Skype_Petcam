@@ -17,6 +17,8 @@
 #ifndef MISC_H
 #define	MISC_H
 
+#include "F2837xS_device.h"     		// TMS320F28377S Include file
+#include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -37,5 +39,6 @@
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
+void MSC_DelayNOP(unsigned long NOPs);
 
 #endif	/* MISC_H */

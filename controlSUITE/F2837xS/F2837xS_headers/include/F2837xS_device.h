@@ -39,6 +39,7 @@ extern __cregister volatile unsigned int IER;
 #define  EDIS   __asm(" EDIS")
 #define  ESTOP0 __asm(" ESTOP0")
 
+
 #define M_INT1  0x0001
 #define M_INT2  0x0002
 #define M_INT3  0x0004
@@ -151,6 +152,7 @@ typedef long double     	float64;
 #include "F2837xS_eqep.h"
 #include "F2837xS_flash.h"
 #include "F2837xS_gpio.h"                // General Purpose I/O Registers
+#include "F2837xS_Gpio_defines.h"                // General Purpose I/O Registers
 #include "F2837xS_i2c.h"
 #include "F2837xS_input_xbar.h"
 #include "F2837xS_mcbsp.h"

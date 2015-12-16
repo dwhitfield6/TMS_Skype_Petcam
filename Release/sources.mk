@@ -109,4 +109,21 @@ S64_DEPS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+controlSUITE/F2837xS/F2837xS_headers/source \
+controlSUITE/F2837xS/F2837xS_headers/cmd \
+controlSUITE/F2837xS/F2837xS_common/windows_drivers/i386 \
+controlSUITE/F2837xS/F2837xS_common/windows_drivers/amd64 \
+controlSUITE/F2837xS/F2837xS_common/utils \
+controlSUITE/F2837xS/F2837xS_common/usblib \
+controlSUITE/F2837xS/F2837xS_common/usblib/host \
+controlSUITE/F2837xS/F2837xS_common/usblib/device \
+controlSUITE/F2837xS/F2837xS_common/tools/usb_bulk_example \
+controlSUITE/F2837xS/F2837xS_common/tools/usb_bulk_example/Release \
+controlSUITE/F2837xS/F2837xS_common/tools/tiusbdll \
+controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/src \
+controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/port \
+controlSUITE/F2837xS/F2837xS_common/source \
+controlSUITE/F2837xS/F2837xS_common/lib \
+controlSUITE/F2837xS/F2837xS_common/driverlib \
+controlSUITE/F2837xS/F2837xS_common/cmd \
 

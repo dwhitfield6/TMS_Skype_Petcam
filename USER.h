@@ -17,6 +17,8 @@
 #ifndef USER_H
 #define	USER_H
 
+#include "F2837xS_device.h"     		// TMS320F28377S Include file
+#include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -29,21 +31,25 @@
 #define FALSE 0
 #define INPUT 1
 #define OUTPUT 0
-#define PASS 1
-#define FAIL 0
 #define YES 1
 #define NO 0
+
+/******************************************************************************/
+/* Macro functions                                                            */
+/******************************************************************************/
+#define NOP() __asm(" nop");
+#define Nop()	NOP()
 
 /******************************************************************************/
 /* Pin Defines                                                                */
 /******************************************************************************/
 
-/************* Oscillator *************/
-/* Connected to the secondary oscillator */
-
 /************* LEDs *************/
 /* Connected to the Red LED on the board */
-//GPIO 12
+#define REDLED_GPIO 12 // GPIO12
+
+/* Connected to the Blue LED on the board */
+#define BLUELED_GPIO 13 // GPIO13
 
 /******************************************************************************/
 /* Version variables                                                          */
@@ -60,7 +66,7 @@
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
-void Init_App(void);        
-void Init_System (void);
+void Init_Pins(void);
+void Init_Modules(void);
 
 #endif	/* USER_H */

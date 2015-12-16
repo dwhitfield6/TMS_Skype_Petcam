@@ -16,6 +16,8 @@
 #ifndef LED_H
 #define	LED_H
 
+#include "F2837xS_device.h"     		// TMS320F28377S Include file
+#include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -37,5 +39,7 @@
 /* Function prototypes                                                        */
 /******************************************************************************/
 void InitLEDs(void);
+void LED_RedLED(unsigned char state);
+void LED_BlueLED(unsigned char state);
 
 #endif	/* LED_H */

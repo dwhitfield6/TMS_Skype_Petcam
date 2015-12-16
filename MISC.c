@@ -19,8 +19,10 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#include <stdint.h>         /* For uint8_t definition */
-#include <stdbool.h>        /* For true/false definition */
+#include "F2837xS_device.h"     		// TMS320F28377S Include file
+#include "F2837xS_GlobalPrototypes.h"
+#include <stdint.h>
+#include <stdbool.h>
 #include <math.h>        /* For true/false definition */
 
 #include "MISC.h"
@@ -38,6 +40,19 @@
 /* Functions                                                                  */
 /******************************************************************************/
 
+/******************************************************************************/
+/* MSC_DelayNOP
+ *
+ * The function waists the number of cycles passed into the function.
+/******************************************************************************/
+void MSC_DelayNOP(unsigned long NOPs)
+{
+    unsigned char i;
+    for(i=0; i<NOPs; i++)
+    {
+        NOP();
+    }
+}
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/
