@@ -68,10 +68,10 @@ int main (void)
     {
     	LED_RedLED(ON);
     	LED_BlueLED(OFF);
-    	MSC_DelayNOP(1000000);
+    	MSC_DelayNOP(10000000);
     	LED_RedLED(OFF);
     	LED_BlueLED(ON);
-    	MSC_DelayNOP(1000000);
+    	MSC_DelayNOP(10000000);
     }
 }
 

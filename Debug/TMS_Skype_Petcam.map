@@ -1,7 +1,7 @@
 ******************************************************************************
-             TMS320C2000 Linker PC v6.4.9                      
+             TMS320C2000 Linker PC v6.4.6                      
 ******************************************************************************
->> Linked Tue Dec 15 16:33:06 2015
+>> Linked Wed Dec 16 22:13:52 2015
 
 OUTPUT FILE NAME:   <TMS_Skype_Petcam.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 000891a5
@@ -24,7 +24,7 @@ PAGE 0:
   FLASHB                00082000   00002000  00001ffd  00000003  RWIX
   FLASHC                00084000   00002000  00001ffe  00000002  RWIX
   FLASHD                00086000   00002000  00001ffd  00000003  RWIX
-  FLASHE                00088000   00008000  000012ff  00006d01  RWIX
+  FLASHE                00088000   00008000  00001302  00006cfe  RWIX
   FLASHF                00090000   00008000  00000742  000078be  RWIX
   FLASHG                00098000   00008000  00000000  00008000  RWIX
   FLASHH                000a0000   00008000  00000000  00008000  RWIX
@@ -223,7 +223,7 @@ ramfuncs   0    00086000    00000076     RUN ADDR = 00008000
                   00087b48    00000273     sysctl.obj (.text)
                   00087dbb    00000244     usbhmsc.obj (.text)
 
-.text.4    0    00088000    000012ff     
+.text.4    0    00088000    00001302     
                   00088000    0000025c     usbmode.obj (.text)
                   0008825c    0000024a     F2837xS_Gpio.obj (.text)
                   000884a6    0000022a     usbhhid.obj (.text)
@@ -248,11 +248,11 @@ ramfuncs   0    00086000    00000076     RUN ADDR = 00008000
                   00089271    00000019                       : args_main.obj (.text)
                   0008928a    00000019                       : exit.obj (.text)
                   000892a3    00000016                       : ul_tofd.obj (.text)
-                  000892b9    00000012     usbdhandler.obj (.text)
-                  000892cb    00000010     MISC.obj (.text)
-                  000892db    0000000e     interrupt.obj (.text:retain)
-                  000892e9    0000000e     rts2800_fpu32.lib : fd_sub.obj (.text)
-                  000892f7    00000008     F2837xS_CodeStartBranch.obj (.text)
+                  000892b9    00000013     MISC.obj (.text)
+                  000892cc    00000012     usbdhandler.obj (.text)
+                  000892de    0000000e     interrupt.obj (.text:retain)
+                  000892ec    0000000e     rts2800_fpu32.lib : fd_sub.obj (.text)
+                  000892fa    00000008     F2837xS_CodeStartBranch.obj (.text)
 
 .econst    0    00090000    00000742     
                   00090000    00000200     usbkeyboardmap.obj (.econst:_g_pui8KeyBoardMap)
@@ -1102,7 +1102,7 @@ abs   ffffffff  .text
 0     00088dc1  FD$$ADD                               
 0     00088eed  FD$$DIV                               
 0     00089000  FD$$MPY                               
-0     000892e9  FD$$SUB                               
+0     000892ec  FD$$SUB                               
 0     00089234  FD$$TOL                               
 0     000892a3  UL$$TOFD                              
 1     0000ad22  _ADC                                  
@@ -1324,7 +1324,7 @@ abs   ffffffff  .text
 0     00089150  _Init_Modules                         
 0     000890f8  _Init_Pins                            
 1     00007900  _InputXbarRegs                        
-0     000892db  _IntDefaultHandler                    
+0     000892de  _IntDefaultHandler                    
 0     000889b0  _IntDisable                           
 0     00088918  _IntEnable                            
 0     00088a35  _IntIFRClear                          
@@ -1344,7 +1344,7 @@ abs   ffffffff  .text
 0     000862b2  _MCBSPA_TX_ISR                        
 0     000862bc  _MCBSPB_RX_ISR                        
 0     000862c6  _MCBSPB_TX_ISR                        
-0     000892cb  _MSC_DelayNOP                         
+0     000892b9  _MSC_DelayNOP                         
 1     00006000  _McbspaRegs                           
 1     00006040  _McbspbRegs                           
 1     0005f400  _MemCfgRegs                           
@@ -1476,7 +1476,7 @@ abs   00000076  _RamfuncsRunSize
 1     0000aee6  _TX1_Buffer_ADD_Place                 
 1     0000aee4  _TX1_Buffer_REMOVE_Place              
 0     00086528  _UPPA_ISR                             
-0     000892b9  _USB0DeviceIntHandler                 
+0     000892cc  _USB0DeviceIntHandler                 
 0     00088050  _USB0DualModeIntHandler               
 0     00083451  _USB0HostIntHandler                   
 0     0008817f  _USB0OTGModeIntHandler                
@@ -2316,10 +2316,10 @@ page  address   name
 0     0008928a  _abort                                
 0     0008928c  _exit                                 
 0     000892a3  UL$$TOFD                              
-0     000892b9  _USB0DeviceIntHandler                 
-0     000892cb  _MSC_DelayNOP                         
-0     000892db  _IntDefaultHandler                    
-0     000892e9  FD$$SUB                               
+0     000892b9  _MSC_DelayNOP                         
+0     000892cc  _USB0DeviceIntHandler                 
+0     000892de  _IntDefaultHandler                    
+0     000892ec  FD$$SUB                               
 0     00090000  _g_pui8KeyBoardMap                    
 0     00090200  _PieVectTableInit                     
 0     000903c0  _g_sUSKeyboardMap                     

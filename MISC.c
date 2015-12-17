@@ -47,7 +47,7 @@
 /******************************************************************************/
 void MSC_DelayNOP(unsigned long NOPs)
 {
-    unsigned char i;
+    unsigned long i;
     for(i=0; i<NOPs; i++)
     {
         NOP();
