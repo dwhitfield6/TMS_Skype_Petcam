@@ -43,7 +43,7 @@
 /******************************************************************************/
 /* MSC_DelayNOP
  *
- * The function waists the number of cycles passed into the function.
+ * The function waists the number of cycles passed into the function.		  */
 /******************************************************************************/
 void MSC_DelayNOP(unsigned long NOPs)
 {

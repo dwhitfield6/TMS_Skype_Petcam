@@ -121,6 +121,7 @@ void GPIO_SetupPinMux(Uint16 pin, Uint16 cpu, Uint16 peripheral)
 //For output pins, the valid flags are:
 //GPIO_OPENDRAIN	Output in open drain mode
 //GPIO_PULLUP		If open drain enabled, also enable the pull-up
+//GPIO_PUSHPULL		Push and pull
 //and the input qualification flags (SYNC/QUAL3/QUAL6/SYNC) listed above.
 //
 //With no flags, the default input state is synchronous with no

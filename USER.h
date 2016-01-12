@@ -35,6 +35,12 @@
 #define NO 0
 
 /******************************************************************************/
+/* Analog pins                                                                */
+/******************************************************************************/
+#define ADCINA0 0
+#define ADCINB0 0
+
+/******************************************************************************/
 /* Macro functions                                                            */
 /******************************************************************************/
 #define NOP() __asm(" nop");
@@ -45,11 +51,47 @@
 /******************************************************************************/
 
 /************* LEDs *************/
-/* Connected to the Red LED on the board */
-#define REDLED_GPIO 12 // GPIO12
+/* Connected to the Red LED portion of the RED/GREEN LED */
+#define RED_LED_GPIO 13 // GPIO13
 
-/* Connected to the Blue LED on the board */
-#define BLUELED_GPIO 13 // GPIO13
+/* Connected to the Green LED portion of the RED/GREEN LED */
+#define GREEN_LED_GPIO 14 // GPIO14
+
+/************* Zero_cross Optocoupler *************/
+/* Connected to the optocoupler output from AC line */
+#define ZEROCROSS_GPIO 12 // GPIO12
+
+/************* IR Communications *************/
+/* Connected to the MOSFET controllng the IR LED */
+#define IR_LED_GPIO 15 // GPIO15
+
+/* Connected to the output of the IR receiver */
+#define IR_RECEIVER_GPIO 16 // GPIO16
+
+/************* Relays *************/
+/* Connected to the Solid State Relay */
+#define SS_RELAY_GPIO 17 // GPIO17
+
+/* Connected to the Mechanical Relay */
+#define MECH_RELAY_GPIO 71 // GPIO71
+
+/************* Pushbutton *************/
+/* Connected to the pushbutton switch */
+#define PUSHBUTTON_GPIO 20 // GPIO20
+
+/************* Audio *************/
+/* Connected to the output of the audio driver */
+#define ADC_AUDIO_1_GPIO ADCINB0 // ADCINB0
+
+/* Connected to the output of the audio driver */
+#define ADC_AUDIO_2_GPIO ADCINA0 // ADCINA0
+
+/************* UART over USB *************/
+/* Connected to the input of the FTDI UART */
+#define UART_TX_GPIO 84 // GPIO84
+
+/* Connected to the output of the FTDI UART */
+#define UART_RX_GPIO 85 // GPIO85
 
 /******************************************************************************/
 /* Version variables                                                          */

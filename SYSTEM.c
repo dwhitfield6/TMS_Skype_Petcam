@@ -62,7 +62,8 @@ void SYS_ConfigureOscillator(void)
    	CpuSysRegs.PCLKCR13.bit.ADC_D = 1;
 
 	//check if device is trimmed
-	if(*((Uint16 *)0x5D1B6) == 0x0000){
+	if(*((Uint16 *)0x5D1B6) == 0x0000)
+	{
 	   //device is not trimmed, apply static calibration values
 	   AnalogSubsysRegs.ANAREFTRIMA.all = 31709;
 	   AnalogSubsysRegs.ANAREFTRIMB.all = 31709;

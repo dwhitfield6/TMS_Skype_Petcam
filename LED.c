@@ -24,6 +24,7 @@
 #include <stdbool.h>
 
 #include "LED.h"
+#include "MISC.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -45,7 +46,19 @@
 /******************************************************************************/
 void InitLEDs(void)
 {
-	NOP();
+	unsigned char i;
+
+	/* flash LEDs for user */
+	for(i=0;i<10;i++)
+	{
+		LED_RedLED(ON);
+		LED_GreenLED(OFF);
+		MSC_DelayNOP(10000000);
+		LED_RedLED(OFF);
+		LED_GreenLED(ON);
+		MSC_DelayNOP(10000000);
+	}
+	LED_GreenLED(OFF);
 }
 
 /******************************************************************************/
@@ -57,28 +70,28 @@ void LED_RedLED(unsigned char state)
 {
 	if(state)
 	{
-		GPIO_WritePin(REDLED_GPIO, ON);
+		GPIO_WritePin(RED_LED_GPIO, ON);
 	}
 	else
 	{
-		GPIO_WritePin(REDLED_GPIO, OFF);
+		GPIO_WritePin(RED_LED_GPIO, OFF);
 	}
 }
 
 /******************************************************************************/
-/* LED_BlueLED
+/* LED_GreenLED
  *
- * The function controls the Blue LED.										  */
+ * The function controls the Green LED.										  */
 /******************************************************************************/
-void LED_BlueLED(unsigned char state)
+void LED_GreenLED(unsigned char state)
 {
 	if(state)
 	{
-		GPIO_WritePin(BLUELED_GPIO, ON);
+		GPIO_WritePin(GREEN_LED_GPIO, ON);
 	}
 	else
 	{
-		GPIO_WritePin(BLUELED_GPIO, OFF);
+		GPIO_WritePin(GREEN_LED_GPIO, OFF);
 	}
 }
 

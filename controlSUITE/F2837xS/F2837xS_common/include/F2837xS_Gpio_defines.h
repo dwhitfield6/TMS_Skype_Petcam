@@ -29,6 +29,7 @@
 #define GPIO_INPUT		0
 #define GPIO_OUTPUT		1
 #define GPIO_PUSHPULL   0
+#define GPIO_NONE		0
 #define GPIO_PULLUP		(1 << 0)
 #define GPIO_INVERT		(1 << 1)
 #define GPIO_OPENDRAIN	(1 << 2)

@@ -66,12 +66,7 @@ int main (void)
 
     while(1)
     {
-    	LED_RedLED(ON);
-    	LED_BlueLED(OFF);
-    	MSC_DelayNOP(10000000);
-    	LED_RedLED(OFF);
-    	LED_BlueLED(ON);
-    	MSC_DelayNOP(10000000);
+
     }
 }
 

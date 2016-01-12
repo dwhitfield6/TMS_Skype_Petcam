@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "LED.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -87,13 +88,53 @@ void Init_Pins(void)
 
     /************* LEDs *************/
     /* Red LED */
-    GPIO_SetupPinMux(REDLED_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(REDLED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    GPIO_SetupPinMux(RED_LED_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(RED_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
-    /* Blue LED */
-    GPIO_SetupPinMux(BLUELED_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(BLUELED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    /* Green LED */
+    GPIO_SetupPinMux(GREEN_LED_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(GREEN_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
+    /************* Zero_cross Optocoupler *************/
+    /* optocoupler */
+    GPIO_SetupPinMux(ZEROCROSS_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(ZEROCROSS_GPIO, GPIO_INPUT, GPIO_NONE);
+
+    /************* IR Communications *************/
+    /* Connected to the MOSFET controllng the IR LED */
+    /* optocoupler */
+    GPIO_SetupPinMux(IR_LED_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(IR_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+    /* Connected to the output of the IR receiver */
+    GPIO_SetupPinMux(IR_RECEIVER_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(IR_RECEIVER_GPIO, GPIO_INPUT, GPIO_NONE);
+
+    /************* Relays *************/
+    /* Connected to the Solid State Relay */
+    GPIO_SetupPinMux(SS_RELAY_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(SS_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+    /* Connected to the Mechanical Relay */
+    GPIO_SetupPinMux(MECH_RELAY_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(MECH_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+    /************* Pushbutton *************/
+    /* Connected to the pushbutton switch */
+    GPIO_SetupPinMux(PUSHBUTTON_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(PUSHBUTTON_GPIO, GPIO_INPUT, GPIO_NONE);
+
+    /************* Audio *************/
+    /* Nothing to do for analog pins */
+
+    /************* UART over USB *************/
+    /* Connected to the input of the FTDI UART */
+    GPIO_SetupPinMux(UART_TX_GPIO, GPIO_MUX_CPU1, 0);
+	GPIO_SetupPinOptions(UART_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+    /* Connected to the output of the FTDI UART */
+    GPIO_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_NONE);
 }
 
 /******************************************************************************/
@@ -103,7 +144,7 @@ void Init_Pins(void)
 /******************************************************************************/
 void Init_Modules(void)
 {
-
+	InitLEDs();
 }
 
 /*-----------------------------------------------------------------------------/

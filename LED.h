@@ -40,6 +40,6 @@
 /******************************************************************************/
 void InitLEDs(void);
 void LED_RedLED(unsigned char state);
-void LED_BlueLED(unsigned char state);
+void LED_GreenLED(unsigned char state);
 
 #endif	/* LED_H */

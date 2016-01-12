@@ -32,11 +32,6 @@
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-unsigned short RX1_Buffer_Place = 0;
-unsigned char RX1_Buffer[UART1_RECEIVE_SIZE];
-unsigned char TX1_Buffer[UART1_TRANSMIT_SIZE];
-volatile unsigned short TX1_Buffer_ADD_Place = 0;
-unsigned short TX1_Buffer_REMOVE_Place = 0;
 
 /******************************************************************************/
 /* Inline Functions															  */
