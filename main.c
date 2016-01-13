@@ -26,6 +26,7 @@
 #include "LED.h"
 #include "MISC.h"
 #include "SYSTEM.h"
+#include "UART.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -35,6 +36,7 @@
 /******************************************************************************/
 /* Global Variable                                                            */
 /******************************************************************************/
+unsigned char banner[] = "Marley PetCam";
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -51,8 +53,8 @@ int main (void)
 	IER = 0x0000;
 	IFR = 0x0000;
 
-	/* set up the interrupt vectors */
-	SYS_PIEVectorTable();
+	/* set up the Peripheral interupts */
+	SYS_PerInterrupts(ON);
 
 	/* Enable global Interrupts and higher priority real-time debug events */
 	SYS_Interrupts(ON);
@@ -64,9 +66,14 @@ int main (void)
 	/* initialize the hardware modules */
 	Init_Modules();
 
+	/* print banner */
+	UART_SendString(banner);
+
     while(1)
     {
-
+    	/* print banner */
+    	UART_SendString(banner);
+    	MSC_DelayNOP(500000);
     }
 }
 

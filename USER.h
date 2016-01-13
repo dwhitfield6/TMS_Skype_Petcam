@@ -88,10 +88,10 @@
 
 /************* UART over USB *************/
 /* Connected to the input of the FTDI UART */
-#define UART_TX_GPIO 84 // GPIO84
+#define UART_TX_GPIO 84 // GPIO84 used as SCITXDA
 
 /* Connected to the output of the FTDI UART */
-#define UART_RX_GPIO 85 // GPIO85
+#define UART_RX_GPIO 85 // GPIO85 used as SCITXDA
 
 /******************************************************************************/
 /* Version variables                                                          */

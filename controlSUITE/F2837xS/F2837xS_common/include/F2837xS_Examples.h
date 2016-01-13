@@ -334,10 +334,6 @@ extern "C" {
 
 #define   PARTNO_2837xPACKAGEHERE 0x00
 
-#define CPU_FRQ_200MHZ 1
-#define CPU_FRQ_150MHZ 0
-#define CPU_FRQ_120MHZ 0
-
 // Include files not used with F/BIOS
 #ifndef F28_BIOS
 #include "F2837xS_defaultisr.h"

@@ -47,6 +47,7 @@ main.obj: ../LED.h
 main.obj: ../USER.h
 main.obj: ../MISC.h
 main.obj: ../SYSTEM.h
+main.obj: ../UART.h
 
 ../main.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -95,3 +96,4 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 ../USER.h: 
 ../MISC.h: 
 ../SYSTEM.h: 
+../UART.h: 

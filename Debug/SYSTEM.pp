@@ -43,6 +43,7 @@ SYSTEM.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F
 SYSTEM.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xbar.h
 SYSTEM.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h
 SYSTEM.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
+SYSTEM.obj: ../MISC.h
 SYSTEM.obj: ../SYSTEM.h
 SYSTEM.obj: ../USER.h
 
@@ -89,5 +90,6 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xbar.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
+../MISC.h: 
 ../SYSTEM.h: 
 ../USER.h: 

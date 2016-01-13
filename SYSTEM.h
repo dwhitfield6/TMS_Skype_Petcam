@@ -272,8 +272,30 @@
 #define CPU_FRQ_120MHZ 0
 
 /******************************************************************************/
+/* Interrupt groups
+ *
+ * This is the peripheral group number macro.				                  */
+/******************************************************************************/
+#define INTERRUPT_GROUP1   0x001
+#define INTERRUPT_GROUP2   0x002
+#define INTERRUPT_GROUP3   0x004
+#define INTERRUPT_GROUP4   0x008
+#define INTERRUPT_GROUP5   0x010
+#define INTERRUPT_GROUP6   0x020
+#define INTERRUPT_GROUP7   0x040
+#define INTERRUPT_GROUP8   0x080
+#define INTERRUPT_GROUP9   0x100
+
+/******************************************************************************/
 /* Defines                                                                    */
 /******************************************************************************/
+
+/******************************************************************************/
+/* User Global Variable Declaration                                           */
+/******************************************************************************/
+extern unsigned long SYSCLK;
+extern unsigned long LSPCLK;
+extern unsigned long CPU_FREQ;
 
 /******************************************************************************/
 /* Macro Functions                                                            */
@@ -286,6 +308,6 @@ void SYS_ConfigureOscillator(void);
 void SYS_DisableWatchdog(void);
 void SYS_Interrupts(unsigned char state);
 void SYS_ClearPIE(void);
-void SYS_PIEVectorTable(void);
+void SYS_PerInterrupts(unsigned char state);
 
 #endif	/* SYSTEM_H */

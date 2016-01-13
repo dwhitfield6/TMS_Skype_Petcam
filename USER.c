@@ -25,6 +25,8 @@
 #include <stdbool.h>
 
 #include "LED.h"
+#include "SYSTEM.h"
+#include "UART.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -129,12 +131,13 @@ void Init_Pins(void)
 
     /************* UART over USB *************/
     /* Connected to the input of the FTDI UART */
+    GPIO_WritePin(UART_TX_GPIO, ON);
     GPIO_SetupPinMux(UART_TX_GPIO, GPIO_MUX_CPU1, 0);
 	GPIO_SetupPinOptions(UART_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /* Connected to the output of the FTDI UART */
     GPIO_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_NONE);
+    GPIO_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
 }
 
 /******************************************************************************/
@@ -144,7 +147,9 @@ void Init_Pins(void)
 /******************************************************************************/
 void Init_Modules(void)
 {
+	IER |= INTERRUPT_GROUP9; // Enable CPU INT for group 9 (UART)
 	InitLEDs();
+	InitUART();
 }
 
 /*-----------------------------------------------------------------------------/

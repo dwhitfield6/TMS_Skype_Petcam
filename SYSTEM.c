@@ -24,7 +24,26 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "MISC.h"
 #include "SYSTEM.h"
+
+/******************************************************************************/
+/* Global Variable Declaration 		                                          */
+/******************************************************************************/
+unsigned long SYSCLK = 0;
+unsigned long LSPCLK = 0;
+
+#if CPU_FRQ_200MHZ
+unsigned long CPU_FREQ = 200000000;
+#endif
+
+#if CPU_FRQ_150MHZ
+unsigned long CPU_FREQ = 150000000;
+#endif
+
+#if CPU_FRQ_120MHZ
+unsigned long CPU_FREQ = 120000000;
+#endif
 
 /******************************************************************************/
 /* Functions																  */
@@ -82,6 +101,13 @@ void SYS_ConfigureOscillator(void)
 
 	//Turn on all peripherals
 	InitPeripheralClocks();
+
+	/* Calculate Clock variables */
+	SYSCLK = CPU_FREQ;
+
+	ClkCfgRegs.LOSPCP.bit.LSPCLKDIV = b010; // SYSCLK / 4
+	LSPCLK = SYSCLK / 4;
+
 }
 
 /******************************************************************************/
@@ -109,6 +135,7 @@ void SYS_Interrupts(unsigned char state)
 {
     if(state)
     {
+    	IER |= INTERRUPT_GROUP9;
     	EINT;
     }
     else
@@ -158,13 +185,20 @@ void SYS_ClearPIE(void)
 }
 
 /******************************************************************************/
-/* SYS_PIEVectorTable
+/* SYS_PerInterrupts
  *
- * Wrapper function that sets up the interrupt vectors.  					  */
+ * Controls teh Peripheral interupts.					 					  */
 /******************************************************************************/
-void SYS_PIEVectorTable(void)
+void SYS_PerInterrupts(unsigned char state)
 {
-	InitPieVectTable();
+	if(state)
+	{
+		PieCtrlRegs.PIECTRL.bit.ENPIE  =  1;
+	}
+	else
+	{
+		PieCtrlRegs.PIECTRL.bit.ENPIE  =  0;
+	}
 }
 
 /*-----------------------------------------------------------------------------/

@@ -45,9 +45,11 @@ INTERRUPTS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUI
 INTERRUPTS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h
 INTERRUPTS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
 INTERRUPTS.obj: ../USER.h
-INTERRUPTS.obj: ../TIMERS.h
+INTERRUPTS.obj: ../INTERRUPTS.h
 INTERRUPTS.obj: ../LED.h
 INTERRUPTS.obj: ../SYSTEM.h
+INTERRUPTS.obj: ../TIMERS.h
+INTERRUPTS.obj: ../UART.h
 
 ../INTERRUPTS.c: 
 ../BUTTON.h: 
@@ -94,6 +96,8 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
 ../USER.h: 
-../TIMERS.h: 
+../INTERRUPTS.h: 
 ../LED.h: 
 ../SYSTEM.h: 
+../TIMERS.h: 
+../UART.h: 

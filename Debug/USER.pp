@@ -45,6 +45,8 @@ USER.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F28
 USER.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
 USER.obj: ../LED.h
 USER.obj: ../USER.h
+USER.obj: ../SYSTEM.h
+USER.obj: ../UART.h
 
 ../USER.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -91,3 +93,5 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
 ../LED.h: 
 ../USER.h: 
+../SYSTEM.h: 
+../UART.h: 

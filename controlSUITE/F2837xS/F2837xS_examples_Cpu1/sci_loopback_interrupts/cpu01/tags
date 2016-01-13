@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CPU_FREQ	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	38;"	kind:macro	line:38	language:C	file:
+LSPCLK_FREQ	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	39;"	kind:macro	line:39	language:C	file:
+SCI_FREQ	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	40;"	kind:macro	line:40	language:C	file:
+SCI_PRD	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	41;"	kind:macro	line:41	language:C	file:
+error	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	131;"	kind:function	line:131	language:C	signature:(void)
+main	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	54;"	kind:function	line:54	language:C	signature:(void)
+rdataA	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	51;"	kind:variable	line:51	language:C
+rdata_pointA	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	52;"	kind:variable	line:52	language:C
+sciaRxFifoIsr	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	154;"	kind:function	line:154	language:C	signature:(void)
+sciaTxFifoIsr	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	137;"	kind:function	line:137	language:C	signature:(void)
+scia_fifo_init	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	173;"	kind:function	line:173	language:C
+sdataA	C:\Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\sci_loopback_interrupts\cpu01\Example_2837xSSci_FFDLB_int.c	50;"	kind:variable	line:50	language:C

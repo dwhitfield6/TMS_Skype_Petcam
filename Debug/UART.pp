@@ -43,10 +43,11 @@ UART.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F28
 UART.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xbar.h
 UART.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h
 UART.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
+UART.obj: ../INTERRUPTS.h
+UART.obj: ../MISC.h
+UART.obj: ../SYSTEM.h
 UART.obj: ../USER.h
 UART.obj: ../UART.h
-UART.obj: ../SYSTEM.h
-UART.obj: ../MISC.h
 
 ../UART.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -91,7 +92,8 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xbar.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
+../INTERRUPTS.h: 
+../MISC.h: 
+../SYSTEM.h: 
 ../USER.h: 
 ../UART.h: 
-../SYSTEM.h: 
-../MISC.h: 

@@ -1,0 +1,7 @@
+# FIXED
+
+INTERRUPTS.obj: ../INTERRUPTS.c
+INTERRUPTS.obj: ../BUTTON.h
+
+../INTERRUPTS.c: 
+../BUTTON.h: 

@@ -8,7 +8,6 @@ C_SRCS += \
 ../AUDIO.c \
 ../BUTTON.c \
 ../CMD.c \
-../DAC.c \
 ../DMA.c \
 ../INTERRUPTS.c \
 ../IR.c \
@@ -20,7 +19,6 @@ C_SRCS += \
 ../TV.c \
 ../UART.c \
 ../USER.c \
-../WAV.c \
 ../main.c 
 
 OBJS += \
@@ -28,7 +26,6 @@ OBJS += \
 ./AUDIO.obj \
 ./BUTTON.obj \
 ./CMD.obj \
-./DAC.obj \
 ./DMA.obj \
 ./INTERRUPTS.obj \
 ./IR.obj \
@@ -40,7 +37,6 @@ OBJS += \
 ./TV.obj \
 ./UART.obj \
 ./USER.obj \
-./WAV.obj \
 ./main.obj 
 
 C_DEPS += \
@@ -48,7 +44,6 @@ C_DEPS += \
 ./AUDIO.pp \
 ./BUTTON.pp \
 ./CMD.pp \
-./DAC.pp \
 ./DMA.pp \
 ./INTERRUPTS.pp \
 ./IR.pp \
@@ -60,7 +55,6 @@ C_DEPS += \
 ./TV.pp \
 ./UART.pp \
 ./USER.pp \
-./WAV.pp \
 ./main.pp 
 
 C_DEPS__QUOTED += \
@@ -68,7 +62,6 @@ C_DEPS__QUOTED += \
 "AUDIO.pp" \
 "BUTTON.pp" \
 "CMD.pp" \
-"DAC.pp" \
 "DMA.pp" \
 "INTERRUPTS.pp" \
 "IR.pp" \
@@ -80,7 +73,6 @@ C_DEPS__QUOTED += \
 "TV.pp" \
 "UART.pp" \
 "USER.pp" \
-"WAV.pp" \
 "main.pp" 
 
 OBJS__QUOTED += \
@@ -88,7 +80,6 @@ OBJS__QUOTED += \
 "AUDIO.obj" \
 "BUTTON.obj" \
 "CMD.obj" \
-"DAC.obj" \
 "DMA.obj" \
 "INTERRUPTS.obj" \
 "IR.obj" \
@@ -100,7 +91,6 @@ OBJS__QUOTED += \
 "TV.obj" \
 "UART.obj" \
 "USER.obj" \
-"WAV.obj" \
 "main.obj" 
 
 C_SRCS__QUOTED += \
@@ -108,7 +98,6 @@ C_SRCS__QUOTED += \
 "../AUDIO.c" \
 "../BUTTON.c" \
 "../CMD.c" \
-"../DAC.c" \
 "../DMA.c" \
 "../INTERRUPTS.c" \
 "../IR.c" \
@@ -120,7 +109,6 @@ C_SRCS__QUOTED += \
 "../TV.c" \
 "../UART.c" \
 "../USER.c" \
-"../WAV.c" \
 "../main.c" 
 
 
