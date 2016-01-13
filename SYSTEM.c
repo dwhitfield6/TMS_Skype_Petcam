@@ -187,7 +187,8 @@ void SYS_ClearPIE(void)
 /******************************************************************************/
 /* SYS_PerInterrupts
  *
- * Controls teh Peripheral interupts.					 					  */
+ * Controls the Peripheral interupts. See 2.4.5 PIE Channel Mapping in TRM
+ *  page 88 for cahnnel mapping.					 					 	  */
 /******************************************************************************/
 void SYS_PerInterrupts(unsigned char state)
 {

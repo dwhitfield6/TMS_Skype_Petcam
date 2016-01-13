@@ -47,6 +47,8 @@ CMD.obj: ../CMD.h
 CMD.obj: ../UART.h
 CMD.obj: ../USER.h
 CMD.obj: ../IR.h
+CMD.obj: ../MISC.h
+CMD.obj: ../SYSTEM.h
 
 ../CMD.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -95,3 +97,5 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 ../UART.h: 
 ../USER.h: 
 ../IR.h: 
+../MISC.h: 
+../SYSTEM.h: 

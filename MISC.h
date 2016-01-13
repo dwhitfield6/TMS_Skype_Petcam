@@ -153,6 +153,9 @@
 /* Function prototypes                                                        */
 /******************************************************************************/
 void MSC_DelayNOP(unsigned long NOPs);
+unsigned char MSC_IsPrintable(unsigned char data);
+void MSC_StringCopy(unsigned char* from,unsigned char* to);
+unsigned char MSC_LowercaseChar(unsigned char Input);
 double MSC_Round(double input);
 
 #endif	/* MISC_H */

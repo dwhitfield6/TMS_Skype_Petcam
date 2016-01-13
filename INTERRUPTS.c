@@ -284,11 +284,7 @@ interrupt void ISR_UART_A_RX(void)
 		}
 		else
 		{
-			if(RX_A_Buffer_Place < (UART_A_RECEIVE_SIZE - 1))
-			{
-				RX_A_Buffer[RX_A_Buffer_Place] = data;
-				RX_A_Buffer_Place++;
-			}
+			UART_ProcessCharacter(data);
 		}
 	}
 

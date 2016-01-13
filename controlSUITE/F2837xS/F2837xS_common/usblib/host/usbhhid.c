@@ -108,7 +108,7 @@ struct tHIDInstance
 // The instance data storage for attached hid devices.
 //
 //*****************************************************************************
-static tHIDInstance g_psHIDDevice[MAX_HID_DEVICES] = {{0, 0, 0, 0, 0},{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+static tHIDInstance g_psHIDDevice[MAX_HID_DEVICES];// = {{0, 0, 0, 0, 0},{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
 
 //*****************************************************************************
 //

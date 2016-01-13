@@ -26,6 +26,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "CMD.h"
 #include "INTERRUPTS.h"
 #include "MISC.h"
 #include "SYSTEM.h"
@@ -73,6 +74,7 @@ void InitUART_A(void)
 
 	SciaRegs.SCIFFTX.bit.SCIRST = 1; 	// take transmitter out of reset
     UART_SetParametersA(115200, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
+    UART_SetFIFO(OFF);
     UART_SetFIFO(ON);
     UART_ReceiveInterruptA(ON);         // enable the receive interrupt
     UART_TransmitInterruptA(OFF);       // disable the receive interrupt
@@ -152,12 +154,14 @@ void UART_SetFIFO(unsigned char state)
 		/* TX FIFO */
 		SciaRegs.SCIFFTX.bit.SCIFFENA = 1;  	// SCI FIFO enhancements are enabled
 		SciaRegs.SCIFFTX.bit.TXFIFORESET = 1;  	// Re-enable transmit FIFO operation
-		SciaRegs.SCIFFTX.bit.TXFFIENA = 1;  	// TX FIFO interrupt based on TXFFIL match (less than or equal to) is enabled.
 		SciaRegs.SCIFFTX.bit.TXFFIL = 0;		// Interrupt when there is nothing in the FIFO
+		SciaRegs.SCIFFTX.bit.TXFFIENA = 1;  	// TX FIFO interrupt based on TXFFIL match (less than or equal to) is enabled.
 
 		/* RX FIFO */
 		SciaRegs.SCIFFRX.bit.RXFIFORESET = 1;	// Re-enable receive FIFO operation
 		SciaRegs.SCIFFRX.bit.RXFFIL = 0;		// Interrupt when there is anything in the FIFO
+		SciaRegs.SCIFFRX.bit.RXFFIL = 1;		// Interrupt when there is nothing in the FIFO
+		SciaRegs.SCIFFRX.bit.RXFFIENA = 1;  	// RX FIFO interrupt based on RXFFIL match (less than or equal to) is enabled.
 	}
 	else
 	{
@@ -168,8 +172,8 @@ void UART_SetFIFO(unsigned char state)
 
 		/* RX FIFO */
 		SciaRegs.SCIFFRX.bit.RXFIFORESET = 0;	// Write 0 to reset the FIFO pointer to zero, and hold in reset.
+		SciaRegs.SCIFFRX.bit.RXFFIENA = 0;  	// RX FIFO interrupt based on RXFFIL match (less than or equal to) is disabled.
 	}
-	SciaRegs.SCIFFRX.bit.RXFFIENA = 0;		// RX FIFO interrupt based on RXFFIVL match (less than or equal to) will be enabled
 }
 
 /******************************************************************************/
@@ -315,7 +319,7 @@ unsigned char UART_GetCharA(unsigned char* FramingError, unsigned char* ParityEr
 	data = SciaRegs.SCIRXBUF.all;
 
 	/* check for parity error */
-	if(data & 0x40)
+	if(data & 0x4000)
 	{
 		*ParityError = TRUE;
 	}
@@ -325,7 +329,7 @@ unsigned char UART_GetCharA(unsigned char* FramingError, unsigned char* ParityEr
 	}
 
 	/* check for framing error */
-	if(data & 0x80)
+	if(data & 0x8000)
 	{
 		*FramingError = TRUE;
 	}
@@ -392,6 +396,108 @@ void UART_SendString(unsigned char* data)
         UART_SendChar(*data);
         data++;
     }
+}
+
+/******************************************************************************/
+/* UART_SendStringCRLN
+ *
+ * The function puts a string into the transmit buffer to be sent and then a
+ *  new line.																  */
+/******************************************************************************/
+void UART_SendStringCRLN(unsigned char* data)
+{
+	UART_SendString(data);
+	UART_SendString(CRLN);
+}
+
+/******************************************************************************/
+/* UART_SendBanner
+ *
+ * The function puts the banner into the trnasmit buffer.					  */
+/******************************************************************************/
+void UART_SendBanner(void)
+{
+	UART_SendStringCRLN("");
+	UART_SendStringCRLN("");
+	UART_SendStringCRLN(PROJECT_NAME);
+	UART_SendString("Firmware version: ");
+	UART_SendStringCRLN(FIRMWARE_VERSION);
+	UART_SendStringCRLN(COPYWRITE_MESSAGE);
+	UART_SendStringCRLN("");
+	UART_SendStringCRLN("");
+}
+
+/******************************************************************************/
+/* UART_SendPrompt
+ *
+ * The function prints the prompt.											  */
+/******************************************************************************/
+void UART_SendPrompt(void)
+{
+	UART_SendString("> ");
+}
+
+/******************************************************************************/
+/* UART_ProcessCharacter
+ *
+ * The function processes the received character.							  */
+/******************************************************************************/
+void UART_ProcessCharacter(unsigned char data)
+{
+	if(data == LN)
+	{
+		/* dont do anything with line feeds */
+		NOP();
+	}
+	else if(data == BACKSPACE || data == DELETE)
+	{
+		if(RX_A_Buffer_Place > 0)
+		{
+			UART_SendChar(BACKSPACE);
+			UART_SendChar(SPACE);
+			UART_SendChar(BACKSPACE);
+			RX_A_Buffer_Place--;
+			RX_A_Buffer[RX_A_Buffer_Place] = 0;
+		}
+	}
+	else if(data == CR)
+	{
+		if(RX_A_Buffer_Place > 0)
+		{
+			RX_A_Buffer[RX_A_Buffer_Place] = 0;
+			RX_A_Buffer_Place = 0;
+			UART_SendStringCRLN("");
+			if(RX_A_Buffer_Place <= (LARGEST_COMMAND - 1))
+			{
+				MSC_StringCopy(RX_A_Buffer, CommandString);
+				CMD_SetNewCommandFlag(TRUE);
+			}
+			else
+			{
+				UART_SendStringCRLN(BAD_COMMAND);
+				UART_SendPrompt();
+			}
+		}
+		else
+		{
+			UART_SendStringCRLN("");
+			UART_SendPrompt();
+		}
+	}
+	else if(MSC_IsPrintable(data))
+	{
+		UART_SendChar(data);
+		if(RX_A_Buffer_Place < (UART_A_RECEIVE_SIZE - 1))
+		{
+			RX_A_Buffer[RX_A_Buffer_Place] = data;
+			RX_A_Buffer_Place++;
+		}
+	}
+	else
+	{
+		/* dont do anything with non-printable characters */
+		NOP();
+	}
 }
 
 /*-----------------------------------------------------------------------------/

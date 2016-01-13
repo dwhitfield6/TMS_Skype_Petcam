@@ -55,6 +55,53 @@ void MSC_DelayNOP(unsigned long NOPs)
 }
 
 /******************************************************************************/
+/* MSC_IsPrintable
+ *
+ * The function returns true if the data is printable.						  */
+/******************************************************************************/
+unsigned char MSC_IsPrintable(unsigned char data)
+{
+    if(data >= 0x20 && data <0x7F)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/******************************************************************************/
+/* MSC_StringCopy
+ *
+ * This function copies a string from over to.								  */
+/******************************************************************************/
+void MSC_StringCopy(unsigned char* from,unsigned char* to)
+{
+    while(*from != 0)
+    {
+        *to = *from;
+        from++;
+        to++;
+    }
+    *to = *from;
+}
+
+/******************************************************************************/
+/* MSC_LowercaseChar
+ *
+ * This function turns the character to lowercase.							  */
+/******************************************************************************/
+unsigned char MSC_LowercaseChar(unsigned char Input)
+{
+    if((Input >= 65) && (Input <= 90 ))
+    {
+        return Input + 32;
+    }
+    else
+    {
+        return Input;
+    }
+}
+
+/******************************************************************************/
 /* MSC_Round
  *
  * This function rounds to the nearest whole number.						  */

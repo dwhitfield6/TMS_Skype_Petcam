@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "CMD.h"
 #include "LED.h"
 #include "SYSTEM.h"
 #include "UART.h"
@@ -148,6 +149,7 @@ void Init_Pins(void)
 void Init_Modules(void)
 {
 	IER |= INTERRUPT_GROUP9; // Enable CPU INT for group 9 (UART)
+	InitCMD();
 	InitLEDs();
 	InitUART();
 }

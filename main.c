@@ -23,6 +23,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "CMD.h"
 #include "LED.h"
 #include "MISC.h"
 #include "SYSTEM.h"
@@ -36,7 +37,6 @@
 /******************************************************************************/
 /* Global Variable                                                            */
 /******************************************************************************/
-unsigned char banner[] = "Marley PetCam";
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -67,13 +67,22 @@ int main (void)
 	Init_Modules();
 
 	/* print banner */
-	UART_SendString(banner);
+	UART_SendBanner();
+
+	/* print prompt */
+	UART_SendPrompt();
 
     while(1)
     {
-    	/* print banner */
-    	UART_SendString(banner);
-    	MSC_DelayNOP(500000);
+    	if(CMD_GetNewCommandFlag())
+    	{
+    		if(!CMD_CheckMatch(CommandString, Commands, LARGEST_COMMAND))
+    		{
+    			UART_SendStringCRLN(BAD_COMMAND);
+    		}
+    		CMD_SetNewCommandFlag(FALSE);
+			UART_SendPrompt();
+    	}
     }
 }
 

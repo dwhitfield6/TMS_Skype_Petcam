@@ -40,12 +40,18 @@ typedef enum e_parity
  * This is the number of characters that fit in the UART A receive/transmit
  *  buffer.																	  */
 /******************************************************************************/
-#define UART_A_RECEIVE_SIZE 100
-#define UART_A_TRANSMIT_SIZE 100
+#define UART_A_RECEIVE_SIZE 200
+#define UART_A_TRANSMIT_SIZE 200
 
 /******************************************************************************/
 /* Defines                                                                    */
 /******************************************************************************/
+#define CR 			'\r'
+#define LN 			'\n'
+#define CRLN 		"\r\n"
+#define SPACE		' '
+#define BACKSPACE	0x08
+#define DELETE		0x7F
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -74,5 +80,9 @@ void UART_PutCharA(unsigned char data);
 unsigned char UART_GetCharA(unsigned char* FramingError, unsigned char* ParityError);
 void UART_SendChar(unsigned char data);
 void UART_SendString(unsigned char* data);
+void UART_SendStringCRLN(unsigned char* data);
+void UART_SendBanner(void);
+void UART_SendPrompt(void);
+void UART_ProcessCharacter(unsigned char data);
 
 #endif	/* UART_H */
