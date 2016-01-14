@@ -1,0 +1,13 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DELAY	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	53;"	kind:macro	line:53	language:C	file:
+LoopCount	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	51;"	kind:variable	line:51	language:C
+Xint1Count	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	49;"	kind:variable	line:49	language:C
+Xint2Count	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	50;"	kind:variable	line:50	language:C
+main	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	55;"	kind:function	line:55	language:C	signature:(void)
+xint1_isr	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	198;"	kind:function	line:198	language:C	signature:(void)
+xint2_isr	C:\Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\controlSUITE\F2837xS\F2837xS_examples_Cpu1\external_interrupt\cpu01\ExternalInterrupt.c	207;"	kind:function	line:207	language:C	signature:(void)

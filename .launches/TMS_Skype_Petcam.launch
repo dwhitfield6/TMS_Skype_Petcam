@@ -9,7 +9,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.Texas Instruments XDS100v2 USB Debug Probe_0/C28xx_CPU1" value="TMS_Skype_Petcam"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:TMS_Skype_Petcam}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.Texas Instruments XDS100v2 USB Debug Probe/C28xx_CPU1" value="C:/Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\Debug\TMS_Skype_Petcam.out"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.Texas Instruments XDS100v2 USB Debug Probe_0/C28xx_CPU1" value="C:/Users\dwhitfield\Documents\GitHub\TMS_Skype_Petcam\Debug\TMS_Skype_Petcam.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.Texas Instruments XDS100v2 USB Debug Probe_0/C28xx_CPU1" value="C:/Users\pskkd\Documents\GitHub\TMS_Skype_Petcam\Debug\TMS_Skype_Petcam.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/TMS_Skype_Petcam"/>
 </listAttribute>

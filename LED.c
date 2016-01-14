@@ -49,15 +49,16 @@ void InitLEDs(void)
 	unsigned char i;
 
 	/* flash LEDs for user */
-	for(i=0;i<10;i++)
+	for(i=0;i<5;i++)
 	{
 		LED_RedLED(ON);
 		LED_GreenLED(OFF);
-		MSC_DelayNOP(100000);
+		MSC_DelayNOP(1000000);
 		LED_RedLED(OFF);
 		LED_GreenLED(ON);
-		MSC_DelayNOP(100000);
+		MSC_DelayNOP(1000000);
 	}
+	LED_RedLED(ON);
 	LED_GreenLED(OFF);
 }
 

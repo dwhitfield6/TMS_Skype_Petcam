@@ -247,6 +247,7 @@
 #include "BUTTON.h"
 #include "INTERRUPTS.h"
 #include "LED.h"
+#include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
 #include "UART.h"
@@ -266,7 +267,8 @@
 
 /******************************************************************************/
 /* UART RX interrupt
- *                                                                            */
+ *
+ * Used for UART Terminal.                                                    */
 /******************************************************************************/
 interrupt void ISR_UART_A_RX(void)
 {
@@ -294,40 +296,69 @@ interrupt void ISR_UART_A_RX(void)
     PieCtrlRegs.PIEACK.all |= INTERRUPT_GROUP9;       // Issue PIE ack
 }
 
- /******************************************************************************/
- /* UART TX interrupt
-  *                                                                            */
- /******************************************************************************/
- interrupt void ISR_UART_A_TX(void)
- {
-	 if(TX_A_Buffer_REMOVE_Place != TX_A_Buffer_ADD_Place)
-	 {
-		 while(SciaRegs.SCIFFTX.bit.TXFFST != 0x10)
-		 {
-			 /* Fill the FIFO if we can */
-			 if(TX_A_Buffer_REMOVE_Place != TX_A_Buffer_ADD_Place)
-			 {
-				 UART_PutCharA(TX_A_Buffer[TX_A_Buffer_REMOVE_Place]);
-				 TX_A_Buffer_REMOVE_Place++;
-				 if(TX_A_Buffer_REMOVE_Place >= UART_A_TRANSMIT_SIZE)
-				 {
-					 TX_A_Buffer_REMOVE_Place = 0;
-				 }
-			 }
-			 else
-			 {
-				 break;
-			 }
-		 }
-	 }
-	 else
-	 {
-		 UART_TransmitInterruptA(OFF);
-	 }
+/******************************************************************************/
+/* UART TX interrupt
+ *
+ * Used for UART Terminal.                                                    */
+/******************************************************************************/
+interrupt void ISR_UART_A_TX(void)
+{
+	if(TX_A_Buffer_REMOVE_Place != TX_A_Buffer_ADD_Place)
+	{
+		while(SciaRegs.SCIFFTX.bit.TXFFST != 0x10)
+		{
+			/* Fill the FIFO if we can */
+			if(TX_A_Buffer_REMOVE_Place != TX_A_Buffer_ADD_Place)
+			{
+				UART_PutCharA(TX_A_Buffer[TX_A_Buffer_REMOVE_Place]);
+				TX_A_Buffer_REMOVE_Place++;
+				if(TX_A_Buffer_REMOVE_Place >= UART_A_TRANSMIT_SIZE)
+				{
+					TX_A_Buffer_REMOVE_Place = 0;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		UART_TransmitInterruptA(OFF);
+	}
 
 	SciaRegs.SCIFFTX.bit.TXFFINTCLR = 1;  		// Clear SCI Interrupt flag
 	PieCtrlRegs.PIEACK.all |= INTERRUPT_GROUP9; // Issue PIE ACK
- }
+}
+
+/******************************************************************************/
+/* External Interrupt 1
+ *
+ *	Used for pushbutton.                                                      */
+/******************************************************************************/
+interrupt void ISR_INT1_BUTTON(void)
+{
+	BUT_SetButtonFlag(TRUE);
+	LED_RedLED(OFF);
+	LED_GreenLED(ON);
+
+	/* Acknowledge this interrupt from group 1 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
+}
+
+/******************************************************************************/
+/* External Interrupt 2
+ *
+ *	Used for zero cross detection                                             */
+/******************************************************************************/
+interrupt void ISR_INT2_ZEROCROSS(void)
+{
+	RLY_SolidStateRelay(OFF);
+	/* Acknowledge this interrupt from group 1 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
+}
+
 
 /*-----------------------------------------------------------------------------/
  End of File

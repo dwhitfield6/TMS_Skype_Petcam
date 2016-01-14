@@ -28,7 +28,7 @@
  *
  * This is the resolution in bits of the internal ADC						  */
 /******************************************************************************/
-#define ADC_BITS 10
+//#define ADC_BITS 10
 
 /******************************************************************************/
 /* VREF
@@ -53,5 +53,9 @@
 /* Function prototypes                                                        */
 /******************************************************************************/
 void InitRelay(void);
+void RLY_ZeroCrossInterrupt(unsigned char state);
+void RLY_MechRelay(unsigned char state);
+void RLY_SolidStateRelay(unsigned char state);
+
 
 #endif	/* RELAY_H */

@@ -72,6 +72,7 @@ void InitUART_A(void)
 	PieVectTable.SCIA_TX_INT = &ISR_UART_A_TX;
 	EDIS;   // This is needed to disable write to EALLOW protected registers
 
+	IER |= INTERRUPT_GROUP9; // Enable CPU INT for group 9 (UART)
 	SciaRegs.SCIFFTX.bit.SCIRST = 1; 	// take transmitter out of reset
     UART_SetParametersA(115200, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
     UART_SetFIFO(OFF);

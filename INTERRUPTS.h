@@ -26,5 +26,7 @@
 /******************************************************************************/
 interrupt void ISR_UART_A_RX(void);
 interrupt void ISR_UART_A_TX(void);
+interrupt void ISR_INT1_BUTTON(void);
+interrupt void ISR_INT2_ZEROCROSS(void);
 
 #endif	/* INTERRUPTS_H */

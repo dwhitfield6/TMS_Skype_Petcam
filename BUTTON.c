@@ -24,7 +24,14 @@
 #include <stdbool.h>
 
 #include "BUTTON.h"
+#include "INTERRUPTS.h"
+#include "SYSTEM.h"
 #include "USER.h"
+
+/******************************************************************************/
+/* Private Variable Declaration      	                                      */
+/******************************************************************************/
+static unsigned char ButtonFlag = FALSE;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -45,7 +52,57 @@
 /******************************************************************************/
 void InitButtons(void)
 {
+	EALLOW; 										// This is needed to write to EALLOW protected registers
+	PieVectTable.XINT1_INT = &ISR_INT1_BUTTON;
+	EDIS;   										// This is needed to disable write to EALLOW protected registers
 
+	IER |= INTERRUPT_GROUP1; 						// Enable CPU INT for group 1 (INT1)
+	BUT_ButtonInterrupt(ON);
+
+    EALLOW;
+    InputXbarRegs.INPUT4SELECT = PUSHBUTTON_GPIO;	//Set XINT1 source to GPIO-pin
+    EDIS;
+
+    XintRegs.XINT1CR.bit.POLARITY = 0;    			// Falling edge interrupt
+}
+
+/******************************************************************************/
+/* BUT_ButtonInterrupt
+ *
+ * The function controls button interrupt.									  */
+/******************************************************************************/
+void BUT_ButtonInterrupt(unsigned char state)
+{
+	if (state)
+	{
+		PieCtrlRegs.PIEIER1.bit.INTx4 = 1;   	// Enable PIE Group 1 INT4
+		XintRegs.XINT1CR.bit.ENABLE = 1;        // Enable XINT1
+	}
+	else
+	{
+		PieCtrlRegs.PIEIER1.bit.INTx4 = 0;    	// Enable PIE Group 1 INT4
+		XintRegs.XINT1CR.bit.ENABLE = 0;        // Disable XINT1
+	}
+}
+
+/******************************************************************************/
+/* BUT_SetButtonFlag
+ *
+ * The function sets the button flag.										  */
+/******************************************************************************/
+void BUT_SetButtonFlag(unsigned char status)
+{
+	ButtonFlag = status;
+}
+
+/******************************************************************************/
+/* BUT_GetButtonFlag
+ *
+ * The function gets the button flag.										  */
+/******************************************************************************/
+unsigned char BUT_GetButtonFlag(void)
+{
+	return ButtonFlag;
 }
 
 /*-----------------------------------------------------------------------------/

@@ -24,8 +24,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "BUTTON.h"
 #include "CMD.h"
 #include "LED.h"
+#include "RELAY.h"
 #include "SYSTEM.h"
 #include "UART.h"
 #include "USER.h"
@@ -115,17 +117,19 @@ void Init_Pins(void)
 
     /************* Relays *************/
     /* Connected to the Solid State Relay */
+    RLY_SolidStateRelay(OFF);
     GPIO_SetupPinMux(SS_RELAY_GPIO, GPIO_MUX_CPU1, 0);
     GPIO_SetupPinOptions(SS_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /* Connected to the Mechanical Relay */
+	RLY_MechRelay(OFF);
     GPIO_SetupPinMux(MECH_RELAY_GPIO, GPIO_MUX_CPU1, 0);
     GPIO_SetupPinOptions(MECH_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /************* Pushbutton *************/
     /* Connected to the pushbutton switch */
     GPIO_SetupPinMux(PUSHBUTTON_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(PUSHBUTTON_GPIO, GPIO_INPUT, GPIO_NONE);
+    GPIO_SetupPinOptions(PUSHBUTTON_GPIO, GPIO_INPUT, GPIO_PULLUP);
 
     /************* Audio *************/
     /* Nothing to do for analog pins */
@@ -148,10 +152,11 @@ void Init_Pins(void)
 /******************************************************************************/
 void Init_Modules(void)
 {
-	IER |= INTERRUPT_GROUP9; // Enable CPU INT for group 9 (UART)
 	InitCMD();
 	InitLEDs();
 	InitUART();
+	InitButtons();
+	InitRelay();
 }
 
 /*-----------------------------------------------------------------------------/

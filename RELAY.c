@@ -25,6 +25,9 @@
 #include <stdbool.h>
 
 #include "ADC.h"
+#include "INTERRUPTS.h"
+#include "RELAY.h"
+#include "SYSTEM.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -46,7 +49,72 @@
 /******************************************************************************/
 void InitRelay(void)
 {
+	/* set up zero cross interrupt for solid state relay */
+	EALLOW; 										// This is needed to write to EALLOW protected registers
+	PieVectTable.XINT2_INT = &ISR_INT2_ZEROCROSS;
+	EDIS;   										// This is needed to disable write to EALLOW protected registers
 
+	IER |= INTERRUPT_GROUP1; 						// Enable CPU INT for group 1 (INT2)
+	RLY_ZeroCrossInterrupt(ON);
+
+    EALLOW;
+    InputXbarRegs.INPUT5SELECT = ZEROCROSS_GPIO;	//Set XINT1 source to GPIO-pin
+    EDIS;
+
+    XintRegs.XINT2CR.bit.POLARITY = 0;    			// Falling edge interrupt
+}
+
+/******************************************************************************/
+/* BUT_ButtonInterrupt
+ *
+ * The function controls button interrupt.									  */
+/******************************************************************************/
+void RLY_ZeroCrossInterrupt(unsigned char state)
+{
+	if (state)
+	{
+		PieCtrlRegs.PIEIER1.bit.INTx5 = 1;   	// Enable PIE Group 1 INT5
+		XintRegs.XINT2CR.bit.ENABLE = 1;        // Enable XINT2
+	}
+	else
+	{
+		PieCtrlRegs.PIEIER1.bit.INTx5 = 0;    	// Enable PIE Group 1 INT5
+		XintRegs.XINT2CR.bit.ENABLE = 0;        // Disable XINT2
+	}
+}
+
+/******************************************************************************/
+/* RLY_MechRelay
+ *
+ * The function controls the mechanical relay.								  */
+/******************************************************************************/
+void RLY_MechRelay(unsigned char state)
+{
+	if(state)
+	{
+		GPIO_WritePin(MECH_RELAY_GPIO, ON);
+	}
+	else
+	{
+		GPIO_WritePin(MECH_RELAY_GPIO, OFF);
+	}
+}
+
+/******************************************************************************/
+/* RLY_SolidStateRelay
+ *
+ * The function controls the solid state relay.								  */
+/******************************************************************************/
+void RLY_SolidStateRelay(unsigned char state)
+{
+	if(state)
+	{
+		GPIO_WritePin(SS_RELAY_GPIO, ON);
+	}
+	else
+	{
+		GPIO_WritePin(SS_RELAY_GPIO, OFF);
+	}
 }
 
 /*-----------------------------------------------------------------------------/

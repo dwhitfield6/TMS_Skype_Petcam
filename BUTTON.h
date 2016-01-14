@@ -39,5 +39,8 @@
 /* Function prototypes                                                        */
 /******************************************************************************/
 void InitButtons(void);
+void BUT_ButtonInterrupt(unsigned char state);
+void BUT_SetButtonFlag(unsigned char status);
+unsigned char BUT_GetButtonFlag(void);
 
 #endif	/* BUTTON_H */
