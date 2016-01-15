@@ -49,18 +49,15 @@
 /******************************************************************************/
 void InitRelay(void)
 {
-	/* set up zero cross interrupt for solid state relay */
-	EALLOW; 										// This is needed to write to EALLOW protected registers
+	/* Set INT2 ISRs */
+	SYS_Unlock();
 	PieVectTable.XINT2_INT = &ISR_INT2_ZEROCROSS;
-	EDIS;   										// This is needed to disable write to EALLOW protected registers
-
-	IER |= INTERRUPT_GROUP1; 						// Enable CPU INT for group 1 (INT2)
+	SYS_Lock();
+	SYS_EnableInterruptGroup(INTERRUPT_GROUP1);		// Group for INT2
 	RLY_ZeroCrossInterrupt(ON);
-
-    EALLOW;
+	SYS_Unlock();
     InputXbarRegs.INPUT5SELECT = ZEROCROSS_GPIO;	//Set XINT1 source to GPIO-pin
-    EDIS;
-
+    SYS_Lock();
     XintRegs.XINT2CR.bit.POLARITY = 0;    			// Falling edge interrupt
 }
 

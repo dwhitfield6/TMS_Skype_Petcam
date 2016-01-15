@@ -47,6 +47,7 @@ INTERRUPTS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUI
 INTERRUPTS.obj: ../USER.h
 INTERRUPTS.obj: ../INTERRUPTS.h
 INTERRUPTS.obj: ../LED.h
+INTERRUPTS.obj: ../RELAY.h
 INTERRUPTS.obj: ../SYSTEM.h
 INTERRUPTS.obj: ../TIMERS.h
 INTERRUPTS.obj: ../UART.h
@@ -98,6 +99,7 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 ../USER.h: 
 ../INTERRUPTS.h: 
 ../LED.h: 
+../RELAY.h: 
 ../SYSTEM.h: 
 ../TIMERS.h: 
 ../UART.h: 

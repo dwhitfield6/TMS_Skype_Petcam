@@ -152,6 +152,7 @@
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
+void MSC_DelayUS(unsigned long US);
 void MSC_DelayNOP(unsigned long NOPs);
 unsigned char MSC_IsPrintable(unsigned char data);
 void MSC_StringCopy(unsigned char* from,unsigned char* to);

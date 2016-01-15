@@ -43,8 +43,10 @@ TIMERS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F
 TIMERS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xbar.h
 TIMERS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h
 TIMERS.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
-TIMERS.obj: ../TIMERS.h
+TIMERS.obj: ../INTERRUPTS.h
+TIMERS.obj: ../SYSTEM.h
 TIMERS.obj: ../USER.h
+TIMERS.obj: ../TIMERS.h
 
 ../TIMERS.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -89,5 +91,7 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xbar.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_xint.h: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
-../TIMERS.h: 
+../INTERRUPTS.h: 
+../SYSTEM.h: 
 ../USER.h: 
+../TIMERS.h: 

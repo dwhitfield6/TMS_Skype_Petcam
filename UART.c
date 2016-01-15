@@ -67,12 +67,13 @@ void InitUART(void)
 /******************************************************************************/
 void InitUART_A(void)
 {
-	EALLOW;  // This is needed to write to EALLOW protected registers
+	/* Set UART ISRs */
+	SYS_Unlock();
 	PieVectTable.SCIA_RX_INT = &ISR_UART_A_RX;
 	PieVectTable.SCIA_TX_INT = &ISR_UART_A_TX;
-	EDIS;   // This is needed to disable write to EALLOW protected registers
+	SYS_Lock();
 
-	IER |= INTERRUPT_GROUP9; // Enable CPU INT for group 9 (UART)
+	SYS_EnableInterruptGroup(INTERRUPT_GROUP9);	// Group for UART
 	SciaRegs.SCIFFTX.bit.SCIRST = 1; 	// take transmitter out of reset
     UART_SetParametersA(115200, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
     UART_SetFIFO(OFF);

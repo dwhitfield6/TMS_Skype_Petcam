@@ -359,6 +359,26 @@ interrupt void ISR_INT2_ZEROCROSS(void)
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
 }
 
+/******************************************************************************/
+/* Timer 0 interrupt
+ *
+ * Used for MSC_DelayUS() as a misc. delay.                                   */
+/******************************************************************************/
+interrupt void ISR_TIMER0_DELAY(void)
+{
+
+}
+
+/******************************************************************************/
+/* Timer 1 interrupt
+ *
+ * Used for IR_Receiver timing.				                                  */
+/******************************************************************************/
+interrupt void ISR_TIMER1_IR_RECEIVE(void)
+{
+
+}
+
 
 /*-----------------------------------------------------------------------------/
  End of File

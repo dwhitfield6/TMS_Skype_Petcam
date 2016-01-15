@@ -24,6 +24,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "INTERRUPTS.h"
+#include "SYSTEM.h"
 #include "TIMERS.h"
 #include "USER.h"
 
@@ -46,7 +48,13 @@
 /******************************************************************************/
 void InitTIMERS(void)
 {
-    
+	/* set up timer interrupts */
+	SYS_Unlock();
+	PieVectTable.TIMER0_INT = &ISR_TIMER0_DELAY;
+	PieVectTable.TIMER1_INT = &ISR_TIMER1_IR_RECEIVE;
+	SYS_Lock();
+
+
 }
 
 /*-----------------------------------------------------------------------------/

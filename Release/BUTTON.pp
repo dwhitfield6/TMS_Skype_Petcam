@@ -45,6 +45,8 @@ BUTTON.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F
 BUTTON.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
 BUTTON.obj: ../BUTTON.h
 BUTTON.obj: ../USER.h
+BUTTON.obj: ../INTERRUPTS.h
+BUTTON.obj: ../SYSTEM.h
 
 ../BUTTON.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -91,3 +93,5 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
 ../BUTTON.h: 
 ../USER.h: 
+../INTERRUPTS.h: 
+../SYSTEM.h: 

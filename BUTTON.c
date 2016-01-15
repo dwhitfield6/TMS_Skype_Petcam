@@ -52,17 +52,15 @@ static unsigned char ButtonFlag = FALSE;
 /******************************************************************************/
 void InitButtons(void)
 {
-	EALLOW; 										// This is needed to write to EALLOW protected registers
+	/* Set INT1 ISRs */
+	SYS_Unlock();
 	PieVectTable.XINT1_INT = &ISR_INT1_BUTTON;
-	EDIS;   										// This is needed to disable write to EALLOW protected registers
-
-	IER |= INTERRUPT_GROUP1; 						// Enable CPU INT for group 1 (INT1)
+	SYS_Lock();
+	SYS_EnableInterruptGroup(INTERRUPT_GROUP1);	// Group for INT1
 	BUT_ButtonInterrupt(ON);
-
-    EALLOW;
+	SYS_Unlock();
     InputXbarRegs.INPUT4SELECT = PUSHBUTTON_GPIO;	//Set XINT1 source to GPIO-pin
-    EDIS;
-
+    SYS_Lock();
     XintRegs.XINT1CR.bit.POLARITY = 0;    			// Falling edge interrupt
 }
 

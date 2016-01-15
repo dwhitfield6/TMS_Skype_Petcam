@@ -25,6 +25,24 @@
 #include "USER.h"
 
 /******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
+typedef enum e_interrupt_group
+{
+	INTERRUPT_GROUP1 	= 0x0001,
+	INTERRUPT_GROUP2 	= 0x0002,
+	INTERRUPT_GROUP3 	= 0x0004,
+	INTERRUPT_GROUP4 	= 0x0008,
+	INTERRUPT_GROUP5 	= 0x0010,
+	INTERRUPT_GROUP6 	= 0x0020,
+	INTERRUPT_GROUP7 	= 0x0040,
+	INTERRUPT_GROUP8 	= 0x0080,
+	INTERRUPT_GROUP9 	= 0x0100,
+	INTERRUPT_GROUP10 	= 0x0200,
+	INTERRUPT_GROUP11	= 0x0400,
+}ENUM_INTERRUPT_GROUP;
+
+/******************************************************************************/
 /* Passing values to InitSysPll() & InitAuxPll() to select SYSPLL/AUXPLL
  *  integer multiplier                                                        */
 /******************************************************************************/
@@ -272,21 +290,6 @@
 #define CPU_FRQ_120MHZ 0
 
 /******************************************************************************/
-/* Interrupt groups
- *
- * This is the peripheral group number macro.				                  */
-/******************************************************************************/
-#define INTERRUPT_GROUP1   0x001
-#define INTERRUPT_GROUP2   0x002
-#define INTERRUPT_GROUP3   0x004
-#define INTERRUPT_GROUP4   0x008
-#define INTERRUPT_GROUP5   0x010
-#define INTERRUPT_GROUP6   0x020
-#define INTERRUPT_GROUP7   0x040
-#define INTERRUPT_GROUP8   0x080
-#define INTERRUPT_GROUP9   0x100
-
-/******************************************************************************/
 /* Defines                                                                    */
 /******************************************************************************/
 
@@ -309,5 +312,8 @@ void SYS_DisableWatchdog(void);
 void SYS_Interrupts(unsigned char state);
 void SYS_ClearPIE(void);
 void SYS_PerInterrupts(unsigned char state);
+void SYS_Unlock(void);
+void SYS_Lock(void);
+void SYS_EnableInterruptGroup(ENUM_INTERRUPT_GROUP group);
 
 #endif	/* SYSTEM_H */

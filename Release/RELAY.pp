@@ -45,6 +45,9 @@ RELAY.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2
 RELAY.obj: C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h
 RELAY.obj: ../ADC.h
 RELAY.obj: ../USER.h
+RELAY.obj: ../INTERRUPTS.h
+RELAY.obj: ../RELAY.h
+RELAY.obj: ../SYSTEM.h
 
 ../RELAY.c: 
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_headers/include/F2837xS_device.h: 
@@ -91,3 +94,6 @@ C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837
 C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/controlSUITE/F2837xS/F2837xS_common/include/F2837xS_GlobalPrototypes.h: 
 ../ADC.h: 
 ../USER.h: 
+../INTERRUPTS.h: 
+../RELAY.h: 
+../SYSTEM.h: 
