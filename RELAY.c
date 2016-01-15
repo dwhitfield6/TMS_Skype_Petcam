@@ -89,11 +89,11 @@ void RLY_MechRelay(unsigned char state)
 {
 	if(state)
 	{
-		GPIO_WritePin(MECH_RELAY_GPIO, ON);
+		SYS_WritePin(MECH_RELAY_GPIO, ON);
 	}
 	else
 	{
-		GPIO_WritePin(MECH_RELAY_GPIO, OFF);
+		SYS_WritePin(MECH_RELAY_GPIO, OFF);
 	}
 }
 
@@ -106,11 +106,11 @@ void RLY_SolidStateRelay(unsigned char state)
 {
 	if(state)
 	{
-		GPIO_WritePin(SS_RELAY_GPIO, ON);
+		SYS_WritePin(SS_RELAY_GPIO, ON);
 	}
 	else
 	{
-		GPIO_WritePin(SS_RELAY_GPIO, OFF);
+		SYS_WritePin(SS_RELAY_GPIO, OFF);
 	}
 }
 

@@ -43,7 +43,18 @@ typedef enum e_interrupt_group
 }ENUM_INTERRUPT_GROUP;
 
 /******************************************************************************/
-/* Passing values to InitSysPll() & InitAuxPll() to select SYSPLL/AUXPLL
+/* Clock rate
+ *
+ * Specify the clock rate of the CPU (SYSCLKOUT) in nS.		                  */
+/******************************************************************************/
+#define CPU_FRQ_200MHZ 1
+#define CPU_FRQ_150MHZ 0
+#define CPU_FRQ_120MHZ 0
+
+#define CPU_RATE   5.00L   // 200MHz in nS
+
+/******************************************************************************/
+/* Passing values to SYS_InitSysPll() & SYS_InitAuxPll() to select SYSPLL/AUXPLL
  *  integer multiplier                                                        */
 /******************************************************************************/
 #define   IMULT_0         0
@@ -176,8 +187,8 @@ typedef enum e_interrupt_group
 #define   IMULT_127       127
 
 /******************************************************************************/
-/* Passing values that can be passed to the
-// InitSysPll() & InitAuxPll() to select SYSPLL/AUXPLL fractional multiplier  */
+/* Passing values to SYS_InitSysPll() & SYS_InitAuxPll() to select SYSPLL/AUXPLL
+ *  to select SYSPLL/AUXPLL fractional multiplier  							  */
 /******************************************************************************/
 #define   FMULT_0    	  0
 #define   FMULT_0pt25     1
@@ -185,8 +196,8 @@ typedef enum e_interrupt_group
 #define   FMULT_0pt75     3
 
 /******************************************************************************/
-/* The following are values that can be passed to the
- *  InitSysPll() to select divsel for SYSPLL  						  		  */
+/* Passing values to SYS_InitSysPll() & SYS_InitAuxPll() to select SYSPLL/AUXPLL
+ * to select divsel for SYSPLL  									  		  */
 /******************************************************************************/
 #define   PLLCLK_BY_1      0
 #define   PLLCLK_BY_2      1
@@ -254,8 +265,8 @@ typedef enum e_interrupt_group
 #define   PLLCLK_BY_126    63
 
 /******************************************************************************/
-/* The following are values that can be passed to the InitAuxPll() to select
- *  divsel for AUXPLL 						  		  						  */
+/* Passing values to SYS_InitSysPll() & SYS_InitAuxPll() to select SYSPLL/AUXPLL
+ *  to select divsel for AUXPLL 			  		  						  */
 /******************************************************************************/
 #define   AUXPLLRAWCLK_BY_1    0
 #define   AUXPLLRAWCLK_BY_2    1
@@ -263,31 +274,20 @@ typedef enum e_interrupt_group
 #define   AUXPLLRAWCLK_BY_8    3
 
 /******************************************************************************/
-/* The following are values that can be passed to the IntOsc2Sel() &
- *  XtalOscSel() to select system PLL (or) AUX PLL						      */
-/******************************************************************************/
-#define   SYSTEM_PLL 	(Uint16) 0
-#define   AUX_PLL		(Uint16) 1
-
-/******************************************************************************/
-/* The following are values that can be passed to the InitSysPll() &
- *  InitAuxPll() to select clock source						                  */
+/* Passing values to SYS_InitSysPll() & SYS_InitAuxPll() to select SYSPLL/AUXPLL
+ *  to select clock source 					  		  						  */
 /******************************************************************************/
 #define   INT_OSC2		 0
 #define   XTAL_OSC		 1
 #define   INT_OSC1		 2
 #define   AUXCLKIN		 4
 
-
 /******************************************************************************/
-/* Clock rate
- *
- * Specify the clock rate of the CPU (SYSCLKOUT) in nS.		                  */
+/* The following are values that can be passed to the IntOsc2Sel() &
+ *  XtalOscSel() to select system PLL (or) AUX PLL						      */
 /******************************************************************************/
-#define CPU_RATE   5.00L   // for a 200MHz CPU clock speed (SYSCLKOUT)
-#define CPU_FRQ_200MHZ 1
-#define CPU_FRQ_150MHZ 0
-#define CPU_FRQ_120MHZ 0
+#define   SYSTEM_PLL 	(Uint16) 0
+#define   AUX_PLL		(Uint16) 1
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -308,6 +308,12 @@ extern unsigned long CPU_FREQ;
 /* Function prototypes                                                        */
 /******************************************************************************/
 void SYS_ConfigureOscillator(void);
+void SYS_InitPeripheralClocks(void);
+void SYS_InitSysPll(unsigned short clock_source, unsigned short imult, unsigned short fmult, unsigned short divsel);
+void SYS_InitXtalOscSel(void);
+void SYS_InitOsc2Sel(void);
+void SYS_InitOsc1Sel(void);
+void SYS_InitFlash_Bank0(void);
 void SYS_DisableWatchdog(void);
 void SYS_Interrupts(unsigned char state);
 void SYS_ClearPIE(void);
@@ -315,5 +321,11 @@ void SYS_PerInterrupts(unsigned char state);
 void SYS_Unlock(void);
 void SYS_Lock(void);
 void SYS_EnableInterruptGroup(ENUM_INTERRUPT_GROUP group);
+void SYS_EnableRealTime(void);
+void SYS_SetupPinMux(unsigned short pin, unsigned short cpu, unsigned short peripheral);
+void SYS_SetupPinOptions(unsigned short pin, unsigned short output, unsigned short flags);
+unsigned short SYS_ReadPin(unsigned short pin);
+void SYS_WritePin(unsigned short pin, unsigned short outVal);
+
 
 #endif	/* SYSTEM_H */

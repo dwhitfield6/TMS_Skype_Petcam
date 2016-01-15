@@ -276,7 +276,7 @@ void UART_ModulePinsA(unsigned char state)
 {
 	if(state)
 	{
-		EALLOW;
+		SYS_Unlock();
 		/* TX */
 		GpioCtrlRegs.GPCGMUX2.bit.GPIO84 	= b01; // set to SCITXDA
 		GpioCtrlRegs.GPCMUX2.bit.GPIO84 	= b01; // set to SCITXDA
@@ -284,18 +284,18 @@ void UART_ModulePinsA(unsigned char state)
 		/* RX */
 		GpioCtrlRegs.GPCGMUX2.bit.GPIO85 	= b01; // set to SCIRXDA
 		GpioCtrlRegs.GPCMUX2.bit.GPIO85 	= b01; // set to SCIRXDA
-		EDIS;
+		SYS_Lock();
 	}
 	else
 	{
 	    /* Connected to the input of the FTDI UART */
-		GPIO_WritePin(UART_TX_GPIO, ON);
-	    GPIO_SetupPinMux(UART_TX_GPIO, GPIO_MUX_CPU1, 0);
-		GPIO_SetupPinOptions(UART_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+		SYS_WritePin(UART_TX_GPIO, ON);
+	    SYS_SetupPinMux(UART_TX_GPIO, GPIO_MUX_CPU1, 0);
+		SYS_SetupPinOptions(UART_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
 	    /* Connected to the output of the FTDI UART */
-	    GPIO_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
-	    GPIO_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
+		SYS_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
+		SYS_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
 	}
 }
 

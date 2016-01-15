@@ -54,13 +54,11 @@
 /******************************************************************************/
 void Init_Pins(void)
 {
-    volatile Uint32 *gpioBaseAddr;
+    volatile unsigned long *gpioBaseAddr;
+    unsigned short regOffset;
 
-    /*~~~~~~~~~~~~~~~~~ initialization ~~~~~~~~~~~~~~~~~*/
-    Uint16 regOffset;
-
-    //Disable pin locks
-    EALLOW;
+    /* Disable pin locks */
+    SYS_Unlock();
     GpioCtrlRegs.GPALOCK.all = 0x00000000;
     GpioCtrlRegs.GPBLOCK.all = 0x00000000;
     GpioCtrlRegs.GPCLOCK.all = 0x00000000;
@@ -68,17 +66,23 @@ void Init_Pins(void)
     GpioCtrlRegs.GPELOCK.all = 0x00000000;
     GpioCtrlRegs.GPFLOCK.all = 0x00000000;
 
-    //Fill all registers with zeros. Writing to each register separately
-    //for six GPIO modules would make this function *very* long. Fortunately,
-    //we'd be writing them all with zeros anyway, so this saves a lot of space.
+    /*
+     * Fill all registers with zeros. Writing to each register separately for six
+     *  GPIO modules would make this function *very* long. Fortunately, we'd be
+     *  writing them all with zeros anyway, so this saves a lot of space.
+     */
     gpioBaseAddr = (Uint32 *)&GpioCtrlRegs;
     for (regOffset = 0; regOffset < sizeof(GpioCtrlRegs)/2; regOffset++)
     {
-        //Hack to avoid enabling pull-ups on all pins. GPyPUD is offset
-        //0x0C in each register group of 0x40 words. Since this is a
-        //32-bit pointer, the addresses must be divided by 2.
+        /*
+         * Hack to avoid enabling pull-ups on all pins. GPyPUD is offset 0x0C in
+         *  each register group of 0x40 words. Since this is a 32-bit pointer,
+         *  the addresses must be divided by 2.
+         */
         if (regOffset % (0x40/2) != (0x0C/2))
+        {
             gpioBaseAddr[regOffset] = 0x00000000;
+        }
     }
 
     gpioBaseAddr = (Uint32 *)&GpioDataRegs;
@@ -87,62 +91,62 @@ void Init_Pins(void)
         gpioBaseAddr[regOffset] = 0x00000000;
     }
 
-    EDIS;
+    SYS_Lock();
 
     /*~~~~~~~~~~~~~~~~~~~ Pin setup ~~~~~~~~~~~~~~~~~~~*/
 
     /************* LEDs *************/
     /* Red LED */
-    GPIO_SetupPinMux(RED_LED_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(RED_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    SYS_SetupPinMux(RED_LED_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(RED_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /* Green LED */
-    GPIO_SetupPinMux(GREEN_LED_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(GREEN_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    SYS_SetupPinMux(GREEN_LED_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(GREEN_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /************* Zero_cross Optocoupler *************/
     /* optocoupler */
-    GPIO_SetupPinMux(ZEROCROSS_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(ZEROCROSS_GPIO, GPIO_INPUT, GPIO_NONE);
+    SYS_SetupPinMux(ZEROCROSS_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(ZEROCROSS_GPIO, GPIO_INPUT, GPIO_NONE);
 
     /************* IR Communications *************/
     /* Connected to the MOSFET controllng the IR LED */
     /* optocoupler */
-    GPIO_SetupPinMux(IR_LED_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(IR_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    SYS_SetupPinMux(IR_LED_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(IR_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /* Connected to the output of the IR receiver */
-    GPIO_SetupPinMux(IR_RECEIVER_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(IR_RECEIVER_GPIO, GPIO_INPUT, GPIO_NONE);
+    SYS_SetupPinMux(IR_RECEIVER_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(IR_RECEIVER_GPIO, GPIO_INPUT, GPIO_NONE);
 
     /************* Relays *************/
     /* Connected to the Solid State Relay */
     RLY_SolidStateRelay(OFF);
-    GPIO_SetupPinMux(SS_RELAY_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(SS_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    SYS_SetupPinMux(SS_RELAY_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(SS_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /* Connected to the Mechanical Relay */
 	RLY_MechRelay(OFF);
-    GPIO_SetupPinMux(MECH_RELAY_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(MECH_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+	SYS_SetupPinMux(MECH_RELAY_GPIO, GPIO_MUX_CPU1, 0);
+	SYS_SetupPinOptions(MECH_RELAY_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /************* Pushbutton *************/
     /* Connected to the pushbutton switch */
-    GPIO_SetupPinMux(PUSHBUTTON_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(PUSHBUTTON_GPIO, GPIO_INPUT, GPIO_PULLUP);
+    SYS_SetupPinMux(PUSHBUTTON_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(PUSHBUTTON_GPIO, GPIO_INPUT, GPIO_PULLUP);
 
     /************* Audio *************/
     /* Nothing to do for analog pins */
 
     /************* UART over USB *************/
     /* Connected to the input of the FTDI UART */
-    GPIO_WritePin(UART_TX_GPIO, ON);
-    GPIO_SetupPinMux(UART_TX_GPIO, GPIO_MUX_CPU1, 0);
-	GPIO_SetupPinOptions(UART_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+    SYS_WritePin(UART_TX_GPIO, ON);
+    SYS_SetupPinMux(UART_TX_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(UART_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
     /* Connected to the output of the FTDI UART */
-    GPIO_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
-    GPIO_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
+	SYS_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
+	SYS_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
 }
 
 /******************************************************************************/

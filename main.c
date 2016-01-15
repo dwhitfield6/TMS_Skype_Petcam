@@ -58,7 +58,7 @@ int main (void)
 
 	/* Enable global Interrupts and higher priority real-time debug events */
 	SYS_Interrupts(ON);
-	ERTM;  // Enable Global realtime interrupt DBGM
+	SYS_EnableRealTime();
 
 	/* initialize the GPIO pins */
 	Init_Pins();

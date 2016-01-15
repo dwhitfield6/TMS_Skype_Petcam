@@ -71,11 +71,11 @@ void LED_RedLED(unsigned char state)
 {
 	if(state)
 	{
-		GPIO_WritePin(RED_LED_GPIO, ON);
+		SYS_WritePin(RED_LED_GPIO, ON);
 	}
 	else
 	{
-		GPIO_WritePin(RED_LED_GPIO, OFF);
+		SYS_WritePin(RED_LED_GPIO, OFF);
 	}
 }
 
@@ -88,11 +88,11 @@ void LED_GreenLED(unsigned char state)
 {
 	if(state)
 	{
-		GPIO_WritePin(GREEN_LED_GPIO, ON);
+		SYS_WritePin(GREEN_LED_GPIO, ON);
 	}
 	else
 	{
-		GPIO_WritePin(GREEN_LED_GPIO, OFF);
+		SYS_WritePin(GREEN_LED_GPIO, OFF);
 	}
 }
 
