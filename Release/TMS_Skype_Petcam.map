@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.4.9                      
 ******************************************************************************
->> Linked Fri Jan 15 11:22:38 2016
+>> Linked Fri Jan 15 18:13:24 2016
 
 OUTPUT FILE NAME:   <TMS_Skype_Petcam.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 000829e5
@@ -19,7 +19,7 @@ PAGE 0:
   RAMLS3                00009800   00000800  00000000  00000800  RWIX
   RAMLS4                0000a000   00000800  00000000  00000800  RWIX
   RAMD0                 0000b000   00000800  00000000  00000800  RWIX
-  BEGIN                 00080000   00000002  00000000  00000002  RWIX
+  BEGIN                 00080000   00000002  00000002  00000000  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
   FLASHB                00082000   00002000  00000af3  0000150d  RWIX
   FLASHC                00084000   00002000  00000000  00002000  RWIX
@@ -157,6 +157,12 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
+ramfuncs   0    00008000    00000000     UNINITIALIZED
+
+codestart 
+*          0    00080000    00000002     
+                  00080000    00000002     F2837xS_CodeStartBranch.obj (codestart)
+
 .cinit     0    00082000    000000fb     
                   00082000    000000c2     IR.obj (.cinit)
                   000820c2    0000000f     SYSTEM.obj (.cinit)
@@ -169,8 +175,6 @@ section   page    origin      length       input sections
                   000820f9    00000002     --HOLE-- [fill = 0]
 
 .pinit     0    00082000    00000000     UNINITIALIZED
-
-ramfuncs   0    00008000    00000000     UNINITIALIZED
 
 .stack     1    00000400    00000400     UNINITIALIZED
                   00000400    00000400     --HOLE--
@@ -1105,6 +1109,7 @@ abs   ffffffff  ___text__
 0     00082a9b  _memcpy                  
 abs   ffffffff  binit                    
 0     00082000  cinit                    
+0     00080000  code_start               
 abs   ffffffff  etext                    
 abs   ffffffff  pinit                    
 
@@ -1118,6 +1123,7 @@ page  address   name
 0     00008000  _RamfuncsLoadStart       
 0     00008000  _RamfuncsRunEnd          
 0     00008000  _RamfuncsRunStart        
+0     00080000  code_start               
 0     00082000  ___cinit__               
 0     00082000  cinit                    
 0     000820fc  _SYS_ConfigureOscillator 
@@ -1365,4 +1371,4 @@ abs   ffffffff  binit
 abs   ffffffff  etext                    
 abs   ffffffff  pinit                    
 
-[251 symbols]
+[252 symbols]

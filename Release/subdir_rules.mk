@@ -73,6 +73,13 @@ RELAY.obj: ../RELAY.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+F2837xS_CodeStartBranch.obj: C:/ti/controlSUITE/device_support/F2837xS/v180/F2837xS_common/source/F2837xS_CodeStartBranch.asm $(GEN_OPTS) $(GEN_HDRS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C2000 Compiler'
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/bin/cl2000" -v28 -mt -ml --vcu_support=vcu2 --cla_support=cla1 --tmu_support=tmu0 --float_support=fpu32 --fp_mode=relaxed --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include" --include_path="C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/Library" --advice:performance=all -g --define=DISK0_USB_MSC --define=CPU1 --define=_FLASH --define=ccs_c2k --define=DISK1_USB_MSC --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="START.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 SYSTEM.obj: ../SYSTEM.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C2000 Compiler'

@@ -3,6 +3,9 @@
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
+ASM_SRCS += \
+C:/ti/controlSUITE/device_support/F2837xS/v180/F2837xS_common/source/F2837xS_CodeStartBranch.asm 
+
 C_SRCS += \
 ../ADC.c \
 ../AUDIO.c \
@@ -32,12 +35,16 @@ OBJS += \
 ./LED.obj \
 ./MISC.obj \
 ./RELAY.obj \
+./F2837xS_CodeStartBranch.obj \
 ./SYSTEM.obj \
 ./TIMERS.obj \
 ./TV.obj \
 ./UART.obj \
 ./USER.obj \
 ./main.obj 
+
+ASM_DEPS += \
+./START.pp 
 
 C_DEPS += \
 ./ADC.pp \
@@ -86,12 +93,16 @@ OBJS__QUOTED += \
 "LED.obj" \
 "MISC.obj" \
 "RELAY.obj" \
+"F2837xS_CodeStartBranch.obj" \
 "SYSTEM.obj" \
 "TIMERS.obj" \
 "TV.obj" \
 "UART.obj" \
 "USER.obj" \
 "main.obj" 
+
+ASM_DEPS__QUOTED += \
+"START.pp" 
 
 C_SRCS__QUOTED += \
 "../ADC.c" \
@@ -110,5 +121,8 @@ C_SRCS__QUOTED += \
 "../UART.c" \
 "../USER.c" \
 "../main.c" 
+
+ASM_SRCS__QUOTED += \
+"C:/ti/controlSUITE/device_support/F2837xS/v180/F2837xS_common/source/F2837xS_CodeStartBranch.asm" 
 
 
