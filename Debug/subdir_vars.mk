@@ -4,7 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 ASM_SRCS += \
-C:/ti/controlSUITE/device_support/F2837xS/v180/F2837xS_common/source/F2837xS_CodeStartBranch.asm 
+../START.asm 
 
 C_SRCS += \
 ../ADC.c \
@@ -35,7 +35,7 @@ OBJS += \
 ./LED.obj \
 ./MISC.obj \
 ./RELAY.obj \
-./F2837xS_CodeStartBranch.obj \
+./START.obj \
 ./SYSTEM.obj \
 ./TIMERS.obj \
 ./TV.obj \
@@ -93,7 +93,7 @@ OBJS__QUOTED += \
 "LED.obj" \
 "MISC.obj" \
 "RELAY.obj" \
-"F2837xS_CodeStartBranch.obj" \
+"START.obj" \
 "SYSTEM.obj" \
 "TIMERS.obj" \
 "TV.obj" \
@@ -123,6 +123,6 @@ C_SRCS__QUOTED += \
 "../main.c" 
 
 ASM_SRCS__QUOTED += \
-"C:/ti/controlSUITE/device_support/F2837xS/v180/F2837xS_common/source/F2837xS_CodeStartBranch.asm" 
+"../START.asm" 
 
 
