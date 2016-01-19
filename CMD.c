@@ -23,6 +23,7 @@
 #include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "CMD.h"
 #include "IR.h"
@@ -41,10 +42,13 @@ static unsigned char CommandReady = FALSE;
 const COMMANDTYPE Commands[] =
 {
 	{"?", CMD_Help,"Prints the Help menu"},
+	{"Help", CMD_PrintAllCommands,"Prints all of the commands"},
+	{"IR Sanyo Send~", CMD_SendSanyo,"Sends an IR command to the Sanyo TV"},
 };
 
-unsigned char CommandString[LARGEST_COMMAND];
+unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
 unsigned char NumCommands;
+unsigned char MiscBuffer[MISC_BUFFER_SIZE];
 
 /******************************************************************************/
 /* Inline Functions															  */
@@ -73,7 +77,7 @@ void CMD_Help(void)
 {
 	UART_SendStringCRLN("");
 	UART_SendStringCRLN("Commands Help Menu:");
-	UART_SendStringCRLN("Hit Commands?+enter to display all available commands");
+	UART_SendStringCRLN("Hit 'Help' + enter to display all available commands");
 	UART_SendStringCRLN("");
 }
 
@@ -92,28 +96,37 @@ unsigned char CMD_CheckMatch(unsigned char* received, const COMMANDTYPE* command
         buffer = received;
         for(i=0;i<size;i++)
         {
-            if(MSC_LowercaseChar(*buffer) == commands[j].Command[i] || commands[j].Command[i] == 0 || commands[j].Command[i] == '~')
-            {
-                if(commands[j].Command[i] == 0 || commands[j].Command[i] == '~')
-                {
-                    /* Found a match, now check to make sure that a CR LN follows */
-					if(*buffer == 0 || commands[j].Command[i] == '~')
+        	if(MSC_LowercaseChar(commands[j].Command[i]) != ' ')
+        	{
+        		/* eat spaces in command */
+        		while(MSC_LowercaseChar(*buffer) == ' ')
+        		{
+        			/* eat spaces in receive buffer */
+        			buffer++;
+        		}
+        		if(MSC_LowercaseChar(*buffer) == MSC_LowercaseChar(commands[j].Command[i]) || commands[j].Command[i] == 0 || commands[j].Command[i] == '~')
+				{
+					if(commands[j].Command[i] == 0 || commands[j].Command[i] == '~')
 					{
-						/* we have a match */
-						(*commands[j].Function) ();
-						return PASS;
+						/* Found a match, now check to make sure that a CR LN follows */
+						if(*buffer == 0 || commands[j].Command[i] == '~')
+						{
+							/* we have a match */
+							(*commands[j].Function) ();
+							return PASS;
+						}
+						else
+						{
+							break;
+						}
 					}
-					else
-					{
-						break;
-					}
-                }
-                buffer++;
-            }
-            else
-            {
-                break;
-            }
+					buffer++;
+				}
+				else
+				{
+					break;
+				}
+        	}
         }
     }
     return FAIL;
@@ -138,6 +151,121 @@ unsigned char CMD_GetNewCommandFlag(void)
 {
 	return CommandReady;
 }
+
+/******************************************************************************/
+/* CMD_GetNewCommandFlag
+ *
+ * This function gets the flag set for a new command.						  */
+/******************************************************************************/
+unsigned char CMD_CommandSize(pFunction function)
+{
+	unsigned char i;
+	unsigned char j;
+	unsigned char numcharacters = 0;
+
+	for(i=0;i<NumCommands;i++)
+	{
+		if(Commands[i].Function == function)
+		{
+			break;
+		}
+	}
+	for(j=0;j<LARGEST_COMMAND_WITH_EXTRA;j++)
+	{
+		if(Commands[i].Command[j] == '~' || Commands[i].Command[j] == '0')
+		{
+			break;
+		}
+		numcharacters++;
+	}
+	return numcharacters;
+}
+
+/******************************************************************************/
+/* CMD_PrintCommand
+ *
+ * This function prints a command. 											  */
+/******************************************************************************/
+void CMD_PrintCommand(const COMMANDTYPE* command)
+{
+    unsigned int count = 0;
+    unsigned char i;
+
+    for(i=0;i<LARGEST_COMMAND;i++)
+	{
+    	if(command->Command[i] == 0)
+    	{
+    		break;
+    	}
+    	if(command->Command[i] != '~')
+		{
+    		UART_SendChar(command->Command[i]);
+    		count++;
+		}
+	}
+    while(count < (LARGEST_COMMAND + 1))
+    {
+    	UART_SendChar(' ');
+        count++;
+    }
+    UART_SendStringCRLN(command->Help);
+}
+
+/******************************************************************************/
+/* CMD_PrintCommands
+ *
+ * This function prints all commands (help).								  */
+/******************************************************************************/
+void CMD_PrintAllCommands(void)
+{
+    unsigned char i;
+
+    UART_SendStringCRLN("");
+    UART_SendStringCRLN("Available Commands:");
+    UART_SendStringCRLN("");
+    for(i=0;i<NumCommands;i++)
+    {
+        CMD_PrintCommand(&Commands[i]);
+    }
+    UART_SendStringCRLN("");
+}
+
+/******************************************************************************/
+/* CMD_SendSanyo
+ *
+ * This function sends a Sanyo TV command(IRSanyoSend).						  */
+/******************************************************************************/
+void CMD_SendSanyo(void)
+{
+	unsigned char index = 0;
+	unsigned char i;
+	unsigned char size = CMD_CommandSize(&CMD_SendSanyo);
+
+	if(CommandString[size] == '?')
+	{
+		UART_SendStringCRLN("Available Sanyo codes:");
+		for(i=0;i<NumSanyo;i++)
+		{
+			UART_SendStringCRLN(Sanyo[i].Description);
+		}
+		UART_SendStringCRLN("");
+		UART_SendStringCRLN("For example 'IR Sanyo Send Power'");
+	}
+	else
+	{
+		if(IR_CMDCheckMatch(&CommandString[size], Sanyo, &index))
+		{
+			IR_SendNECWithRepeat(Sanyo[index].NEC);
+			UART_SendStringCRLN("Sanyo Code sent");
+		}
+		else
+		{
+			UART_SendStringCRLN("Sanyo Code not found");
+			UART_SendStringCRLN("Try IR Sanyo Send?");
+		}
+	}
+}
+
 
 /*-----------------------------------------------------------------------------/
  End of File

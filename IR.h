@@ -25,59 +25,37 @@
 #include "USER.h"
 
 /******************************************************************************/
+/* IR_LED_50_50
+ *
+ * This is the duty cyce to twitch the LED when it is "ON".					  */
+/******************************************************************************/
+#define IR_LED_50_50 50
+
+/******************************************************************************/
+/* LARGEST_DESCRIPTION
+ *
+ * This is the largest button description									  */
+/******************************************************************************/
+#define LARGEST_DESCRIPTION 20L
+
+/******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
+typedef struct Type_ir_nec
+{
+    unsigned char Description[LARGEST_DESCRIPTION];     // button description
+    unsigned long NEC;           						// NEC code
+}NECTYPE;
+
+/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-extern unsigned short IR_PWM50;
-extern unsigned char IR_state;
-
-/******************************************************************************/
-/* IR codes                          
- *          
- * This is the NEC codes that we send.
- *                              											  */
-/******************************************************************************/
-extern unsigned long Sanyo_Power;
-extern unsigned long Sanyo_Sleep;
-extern unsigned long Sanyo_Menu;
-extern unsigned long Sanyo_Volume_Up;
-extern unsigned long Sanyo_Volume_Down;
-extern unsigned long Sanyo_Channel_Up;
-extern unsigned long Sanyo_Channel_Down;
-extern unsigned long Sanyo_Mute;
-extern unsigned long Sanyo_Back;
-extern unsigned long Sanyo_1;
-extern unsigned long Sanyo_2;
-extern unsigned long Sanyo_3;
-extern unsigned long Sanyo_4;
-extern unsigned long Sanyo_5;
-extern unsigned long Sanyo_6;
-extern unsigned long Sanyo_7;
-extern unsigned long Sanyo_8;
-extern unsigned long Sanyo_9;
-extern unsigned long Sanyo_0;
-extern unsigned long Sanyo_Enter;
-extern unsigned long Sanyo_Source;
-extern unsigned long Sanyo_Rewind;
-extern unsigned long Sanyo_Play;
-extern unsigned long Sanyo_Forward;
-extern unsigned long Sanyo_Record;
-extern unsigned long Sanyo_Pause;
-extern unsigned long Sanyo_Stop;
-
-/*~~~~~~~~~~~~~~ Vizio TV ~~~~~~~~~~~~~~~~~~~~~~~~*/
-extern unsigned long Vizio_Power;
-extern unsigned long Vizio_Sleep;
-extern unsigned long Vizio_Menu;
-extern unsigned long Vizio_Volume_Up;
-extern unsigned long Vizio_Volume_Down;
-
-/*~~~~~~~~~~~~~~ Idylis AC unit ~~~~~~~~~~~~~~~~~~~~~~~~*/
-extern unsigned long Idylis_Power;
-extern unsigned long Idylis_FanSpeed;
-extern unsigned long Idylis_Mode;
-extern unsigned long Idylis_Plus;
-extern unsigned long Idylis_Minus;
-extern unsigned long Idylis_Timer;
+extern const NECTYPE Sanyo[];
+extern const NECTYPE Visio[];
+extern const NECTYPE Idylis[];
+extern unsigned char NumSanyo;
+extern unsigned char NumVisio;
+extern unsigned char NumIdylis;
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -90,14 +68,16 @@ extern unsigned long Idylis_Timer;
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
-inline unsigned char IR_LEDUse(unsigned char state);
-inline void IR_LEDTest(void);
-void IR_Module(unsigned char state);
 void InitIR(void);
+void InitIRSend(void);
+void InitIRReceive(void);
+void IR_LEDModulePins(unsigned char state);
+void IR_LEDTest(void);
+void IR_LEDPWMTest(void);
+void IR_LED(unsigned char state);
 void IR_SendNECRepeat(void);
-void IR_SendNEC(unsigned long* NEC);
-void IR_SendNEC_Repeat(unsigned long* NEC);
-void IR_SendNEC_Repeat_CMD(void);
-void IR_SendNEC_Repeat_Multiple_CMD(void);
+void IR_SendNEC(unsigned long code);
+void IR_SendNECWithRepeat(unsigned long NEC);
+unsigned char IR_CMDCheckMatch(unsigned char* received, const NECTYPE* codes, unsigned char* match);
 
 #endif	/* IR_H */

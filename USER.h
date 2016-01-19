@@ -51,6 +51,13 @@
 #define NO 0
 #define NONE NO
 
+#define MAX_UCHAR 	255
+#define MAX_CHAR 	128
+#define MAX_UINT 	65535L
+#define MAX_INT 	32767L
+#define MAX_ULONG 	4294967295L
+#define MAX_LONG 	2147483647L
+
 /******************************************************************************/
 /* Analog pins                                                                */
 /******************************************************************************/

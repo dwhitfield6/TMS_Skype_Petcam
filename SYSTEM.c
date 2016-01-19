@@ -30,6 +30,8 @@
 /******************************************************************************/
 /* Global Variable Declaration 		                                          */
 /******************************************************************************/
+unsigned long PLLSYSCLK = 0;
+unsigned long EPWMCLK = 0;
 unsigned long SYSCLK = 0;
 unsigned long LSPCLK = 0;
 
@@ -100,11 +102,17 @@ void SYS_ConfigureOscillator(void)
    	SYS_InitPeripheralClocks();
 
 	/* Calculate Clock variables */
-	SYSCLK = CPU_FREQ;
+   	PLLSYSCLK = CPU_FREQ;
+	SYSCLK = PLLSYSCLK;
 
 	/* Calculate clocks for globals */
+	SYS_Unlock();
 	ClkCfgRegs.LOSPCP.bit.LSPCLKDIV = b010; // SYSCLK / 4
 	LSPCLK = SYSCLK / 4;
+
+	ClkCfgRegs.PERCLKDIVSEL.bit.EPWMCLKDIV = 0; 	// x0 = /1 of PLLSYSCLK
+	EPWMCLK = PLLSYSCLK;
+	SYS_Lock();
 
 }
 
@@ -508,7 +516,7 @@ void SYS_Lock(void)
 /******************************************************************************/
 /* SYS_EnableInterruptGroup
  *
- * Enables IER register for a certain group.		 					 	  */
+ * Enables IER register for a certain group. See page 89 in TRM.		 	  */
 /******************************************************************************/
 void SYS_EnableInterruptGroup(ENUM_INTERRUPT_GROUP group)
 {

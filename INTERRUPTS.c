@@ -246,7 +246,9 @@
 /******************************************************************************/
 #include "BUTTON.h"
 #include "INTERRUPTS.h"
+#include "IR.h"
 #include "LED.h"
+#include "PWM.h"
 #include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
@@ -355,6 +357,7 @@ interrupt void ISR_INT1_BUTTON(void)
 interrupt void ISR_INT2_ZEROCROSS(void)
 {
 	RLY_SolidStateRelay(OFF);
+
 	/* Acknowledge this interrupt from group 1 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
 }
@@ -366,17 +369,38 @@ interrupt void ISR_INT2_ZEROCROSS(void)
 /******************************************************************************/
 interrupt void ISR_TIMER0_DELAY(void)
 {
+	TMR_StartTimer0(FALSE);	// stop timer
+	TMR_Interrupt0(OFF);
+	TMR_SetTimerFlag0();
 
+	/* Acknowledge this interrupt from group 1 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
 }
 
 /******************************************************************************/
 /* Timer 1 interrupt
  *
- * Used for IR_Receiver timing.				                                  */
+ * Used for IR Receiver timing.				                                  */
 /******************************************************************************/
 interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
 
+}
+/******************************************************************************/
+/* ePWM 8
+ *
+ * Used for IR LED.							                                  */
+/******************************************************************************/
+interrupt void ISR_EPWM_8_IRLED(void)
+{
+	//PWM_Interrupt1(OFF);
+	EPwm8Regs.CMPB.bit.CMPB = PWM_GetCMPB();	// update Compare A value
+
+    /* Clear INT flag for this timer */
+    EPwm8Regs.ETCLR.bit.INT = 1;
+
+	/* Acknowledge this interrupt from group 3 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP3;
 }
 
 

@@ -26,9 +26,12 @@
 
 #include "BUTTON.h"
 #include "CMD.h"
+#include "IR.h"
 #include "LED.h"
+#include "PWM.h"
 #include "RELAY.h"
 #include "SYSTEM.h"
+#include "TIMERS.h"
 #include "UART.h"
 #include "USER.h"
 
@@ -112,6 +115,7 @@ void Init_Pins(void)
     /************* IR Communications *************/
     /* Connected to the MOSFET controllng the IR LED */
     /* optocoupler */
+    IR_LED(OFF);
     SYS_SetupPinMux(IR_LED_GPIO, GPIO_MUX_CPU1, 0);
     SYS_SetupPinOptions(IR_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
 
@@ -156,11 +160,14 @@ void Init_Pins(void)
 /******************************************************************************/
 void Init_Modules(void)
 {
+	InitTimers();
 	InitCMD();
 	InitLEDs();
 	InitUART();
 	InitButtons();
 	InitRelay();
+	InitPWM();
+	InitIR();
 }
 
 /*-----------------------------------------------------------------------------/

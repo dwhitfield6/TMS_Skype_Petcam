@@ -30,14 +30,29 @@
  *
  * This is the largest command in characters.								  */
 /******************************************************************************/
-#define LARGEST_COMMAND 10L
+#define LARGEST_COMMAND 16L
+
+/******************************************************************************/
+/* LARGEST_COMMAND_WITH_EXTRA
+ *
+ * This is the largest command in characters with some extra for command
+ *  parameters.																  */
+/******************************************************************************/
+#define LARGEST_COMMAND_WITH_EXTRA 50L
+
+/******************************************************************************/
+/* MISC_BUFFER_SIZE
+ *
+ * This is the size of the misc buffer.										  */
+/******************************************************************************/
+#define MISC_BUFFER_SIZE 50
 
 /******************************************************************************/
 /* LARGEST_HELP
  *
  * This is the largest help string in characters.							  */
 /******************************************************************************/
-#define LARGEST_HELP 70L
+#define LARGEST_HELP 100L
 
 /******************************************************************************/
 /* Structures                                                                 */
@@ -60,8 +75,9 @@ typedef struct Type_command
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 extern const COMMANDTYPE Commands[];
-extern unsigned char CommandString[LARGEST_COMMAND];
+extern unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
 extern unsigned char NumCommands;
+extern unsigned char MiscBuffer[MISC_BUFFER_SIZE];
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -79,5 +95,10 @@ void CMD_Help(void);
 unsigned char CMD_CheckMatch(unsigned char* received, const COMMANDTYPE* commands, unsigned char size);
 void CMD_SetNewCommandFlag(unsigned char status);
 unsigned char CMD_GetNewCommandFlag(void);
+unsigned char CMD_CommandSize(pFunction function);
+void CMD_PrintCommand(const COMMANDTYPE* command);
+void CMD_PrintAllCommands(void);
+void CMD_SendSanyo(void);
+
 
 #endif	/* CMD_H */

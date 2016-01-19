@@ -296,6 +296,8 @@ typedef enum e_interrupt_group
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
+extern unsigned long PLLSYSCLK;
+extern unsigned long EPWMCLK;
 extern unsigned long SYSCLK;
 extern unsigned long LSPCLK;
 extern unsigned long CPU_FREQ;

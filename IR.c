@@ -27,6 +27,7 @@
 #include "CMD.h"
 #include "IR.h"
 #include "MISC.h"
+#include "PWM.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
 #include "USER.h"
@@ -38,125 +39,64 @@
  *                              											  */
 /******************************************************************************/
 /*~~~~~~~~~~~~~~ Sanyo TV ~~~~~~~~~~~~~~~~~~~~~~~~*/
-unsigned long Sanyo_Power         = 0x1CE348B7;
-unsigned long Sanyo_Sleep         = 0x1CE3B04F;
-unsigned long Sanyo_Menu          = 0x1CE3E817;
-unsigned long Sanyo_Volume_Up     = 0x1CE3708F;
-unsigned long Sanyo_Volume_Down   = 0x1CE3F00F;
-unsigned long Sanyo_Channel_Up    = 0x1CE350AF;
-unsigned long Sanyo_Channel_Down  = 0x1CE3D02F;
-unsigned long Sanyo_Mute          = 0x1CE318E7;
-unsigned long Sanyo_Back          = 0x1CE39867;
-unsigned long Sanyo_1             = 0x1CE3807F;
-unsigned long Sanyo_2             = 0x1CE340BF;
-unsigned long Sanyo_3             = 0x1CE3C03F;
-unsigned long Sanyo_4             = 0x1CE320DF;
-unsigned long Sanyo_5             = 0x1CE3A05F;
-unsigned long Sanyo_6             = 0x1CE3609F;
-unsigned long Sanyo_7             = 0x1CE3E01F;
-unsigned long Sanyo_8             = 0x1CE310EF;
-unsigned long Sanyo_9             = 0x1CE3906F;
-unsigned long Sanyo_0             = 0x1CE300FF;
-unsigned long Sanyo_Enter         = 0x1CE32AD5;
-unsigned long Sanyo_Source        = 0x1CE3C837;
-unsigned long Sanyo_Rewind        = 0x1CE3946B;
-unsigned long Sanyo_Play          = 0x1CE324DB;
-unsigned long Sanyo_Forward       = 0x1CE314EB;
-unsigned long Sanyo_Record        = 0xFFFFFFFF;
-unsigned long Sanyo_Pause         = 0x1CE3649B;
-unsigned long Sanyo_Stop          = 0x1CE3A45B;
+const NECTYPE Sanyo[] =
+{
+	{"Power",  			0x1CE348B7},
+	{"Sleep",  			0x1CE3B04F},
+	{"Menu",  			0x1CE3E817},
+	{"Volume Up",  		0x1CE3708F},
+	{"Volume Down", 	0x1CE3F00F},
+	{"Channel Up", 		0x1CE350AF},
+	{"Channel Down",	0x1CE3D02F},
+	{"Mute",  			0x1CE318E7},
+	{"Back",  			0x1CE39867},
+	{"1",  				0x1CE3807F},
+	{"2",  				0x1CE340BF},
+	{"3",  				0x1CE3C03F},
+	{"4",  				0x1CE320DF},
+	{"5",  				0x1CE3A05F},
+	{"6",  				0x1CE3609F},
+	{"7",  				0x1CE3E01F},
+	{"8",  				0x1CE310EF},
+	{"9",  				0x1CE3906F},
+	{"0",  				0x1CE300FF},
+	{"Enter",  			0x1CE32AD5},
+	{"Source",  		0x1CE3C837},
+	{"Rewind",  		0x1CE3946B},
+	{"Play",  			0x1CE324DB},
+	{"Forward",  		0x1CE314EB},
+	{"Record",  		0xFFFFFFFF},
+	{"Pause",  			0x1CE3649B},
+	{"Stop",  			0x1CE3A45B},
+};
 
 /*~~~~~~~~~~~~~~ Vizio TV ~~~~~~~~~~~~~~~~~~~~~~~~*/
-unsigned long Vizio_Power         = 0x20DF10EF;
-unsigned long Vizio_Sleep         = 0x20DF708F;
-unsigned long Vizio_Menu          = 0x20DFF20D;
-unsigned long Vizio_Volume_Up     = 0x20DF40BF;
-unsigned long Vizio_Volume_Down   = 0x20DFC03F;
+const NECTYPE Visio[] =
+{
+	{"Power",  			0x20DF10EF},
+	{"Sleep",  			0x20DF708F},
+	{"Menu",  			0x20DFF20D},
+	{"Volume Up",  		0x20DF40BF},
+	{"Volume Down", 	0x20DFC03F},
+};
 
 /*~~~~~~~~~~~~~~ Idylis AC unit ~~~~~~~~~~~~~~~~~~~~~~~~*/
-unsigned long Idylis_Power        = 0x4FB40BF;
-unsigned long Idylis_FanSpeed     = 0x4FB58A7;
-unsigned long Idylis_Mode         = 0x4FB906F;
-unsigned long Idylis_Plus         = 0x4FB50AF;
-unsigned long Idylis_Minus        = 0x4FB8877;
-unsigned long Idylis_Timer        = 0x4FB9867;
+const NECTYPE Idylis[] =
+{
+	{"Power",  			0x4FB40BF},
+	{"Fan Speed",  		0x4FB58A7},
+	{"Mode",  			0x4FB906F},
+	{"Plus",  			0x4FB50AF},
+	{"Minus", 			0x4FB8877},
+	{"Timer", 			0x4FB9867},
+};
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-unsigned short IR_PWM50;
-unsigned char IR_state = OFF;
-
-/******************************************************************************/
-/* Inline Functions															  */
-/******************************************************************************/
-
-/******************************************************************************/
-/* IR_LEDUse
- *
- * The function sets the IR LED to PWM mode.								  */
-/******************************************************************************/
-inline unsigned char IR_LEDUse(unsigned char state)
-{
-    unsigned char status = FALSE;
-    
-    //if(RPG0R)
-    {
-        status = TRUE;
-    }
-    
-    if(state)
-    {
-        /* Map the remappable pin */ 
-
-   //     RPG0R    = IR_LED1_Module;    // RG0 = OC4 aka IR LED modulation signal
-    }
-    else
-    {
-   //     LATD &= ~IR_LED1;
-   //     RPG0R = 0;
-    }
-
-    return status;
-}
-
-/******************************************************************************/
-/* IR_LEDTest
- *
- * The function tests the IR LED.											  */
-/******************************************************************************/
-inline void IR_LEDTest(void)
-{
-    IR_LEDUse(OFF);
-    while(1)
-    {
-      //  LATG &= ~IR_LED1;
-        //MSC_DelayUS(1000);
-       // LATG |= IR_LED1;
-      //  MSC_DelayUS(1000);
-    }
-}
-
-/******************************************************************************/
-/* IR_Module
- *
- * This function controls the IR PWM module.								  */
-/******************************************************************************/
-void IR_Module(unsigned char state)
-{
-    
-#undef ON
-    
-    if(state)
-    {  
-        //OC4CONbits.ON = TRUE;     // Output Compare peripheral is enabled
-    }
-    else
-    {
-       // OC4CONbits.ON = FALSE;    // Turn off output compare peripheral
-    }
-#define ON 1
-}
+unsigned char NumSanyo = 0;
+unsigned char NumVisio = 0;
+unsigned char NumIdylis = 0;
 
 /******************************************************************************/
 /* Functions																  */
@@ -165,12 +105,101 @@ void IR_Module(unsigned char state)
 /******************************************************************************/
 /* InitIR
  *
- * The function initializes the IR LED transmitter.							  */
+ * The function initializes the IR LED transmitter and receiver.			  */
 /******************************************************************************/
 void InitIR(void)
 {
-  //  InitTIMER3(38000);
-    IR_Module(ON);
+	NumSanyo = sizeof(Sanyo) / sizeof(NECTYPE);
+	NumVisio = sizeof(Visio) / sizeof(NECTYPE);
+	NumIdylis = sizeof(Idylis) / sizeof(NECTYPE);
+	InitIRSend();
+	InitIRReceive();
+}
+
+/******************************************************************************/
+/* InitIRSend
+ *
+ * The function initializes the IR LED transmitter.							  */
+/******************************************************************************/
+void InitIRSend(void)
+{
+	IR_LEDModulePins(FALSE);
+	IR_LED(OFF);
+	PWM_SetDutyCycle(IR_LED_50_50);
+}
+
+/******************************************************************************/
+/* InitIRReceive
+ *
+ * The function initializes the IR receiver.								  */
+/******************************************************************************/
+void InitIRReceive(void)
+{
+
+}
+
+/******************************************************************************/
+/* IR_LEDModulePins
+ *
+ * The function sets the IR LED to PWM mode.								  */
+/******************************************************************************/
+void IR_LEDModulePins(unsigned char state)
+{
+	SYS_Unlock();
+    if(state)
+    {
+        /* Map the remappable pin */ 
+    	GpioCtrlRegs.GPAMUX1.bit.GPIO15 = 0b01;	// Configure GPIO15 as EPWM8B
+    }
+    else
+    {
+    	GpioCtrlRegs.GPAMUX1.bit.GPIO15 = 0b00;	// Configure GPIO15 as gpio
+    }
+	SYS_Lock();
+}
+
+/******************************************************************************/
+/* IR_LEDTest
+ *
+ * The function tests the IR LED.											  */
+/******************************************************************************/
+void IR_LEDTest(void)
+{
+	IR_LEDModulePins(FALSE);
+    while(1)
+    {
+		IR_LED(ON);
+		MSC_DelayUS(1000);
+		IR_LED(OFF);
+		MSC_DelayUS(1000);
+    }
+}
+
+/******************************************************************************/
+/* IR_LEDPWMTest
+ *
+ * The function tests the IR LED in PWM mode.								  */
+/******************************************************************************/
+void IR_LEDPWMTest(void)
+{
+	IR_LEDModulePins(TRUE);
+}
+
+/******************************************************************************/
+/* IR_LED
+ *
+ * The function controls the IR LED when not in PWM mode.					  */
+/******************************************************************************/
+void IR_LED(unsigned char state)
+{
+	if(state)
+	{
+		SYS_WritePin(IR_LED_GPIO, ON);
+	}
+	else
+	{
+		SYS_WritePin(IR_LED_GPIO, OFF);
+	}
 }
 
 /******************************************************************************/
@@ -180,31 +209,19 @@ void InitIR(void)
 /******************************************************************************/
 void IR_SendNECRepeat(void)
 {
-	/*
-    IR_state = OFF;
-    TMR_ResetTimer3();
-    IFS0bits.T3IF = 0; // Clear Timer 2 Interrupt Flag
-    TMR_InterruptTimer3(ON);
-    TMR_EnableTimer3(ON);
-    IR_LEDUse(TRUE);
-    
-    // send repeat
-    IR_state = ON;
+	/* make sure that the first cycle is fresh */
+	PWM_ResetTBClock();
+
+    /* send repeat */
+	IR_LEDModulePins(TRUE);
     MSC_DelayUS(9000);
-    IR_state = OFF;
+    IR_LEDModulePins(FALSE);
     MSC_DelayUS(2250);
     
-    IR_state = ON;
+    IR_LEDModulePins(TRUE);
     MSC_DelayUS(563);
-    IR_state = OFF;
+    IR_LEDModulePins(FALSE);
     MSC_DelayUS(96875);
-            
-    IR_state = OFF;
-    TMR_EnableTimer3(OFF);
-    IR_LEDUse(FALSE);
-    TMR_ResetTimer3();
-    TMR_InterruptTimer3(OFF); 
-    */
 }
 
 /******************************************************************************/
@@ -212,56 +229,47 @@ void IR_SendNECRepeat(void)
  *
  * The function sends the NEC code.											  */
 /******************************************************************************/
-void IR_SendNEC(unsigned long* NEC)
+void IR_SendNEC(unsigned long code)
 {
-//    unsigned char i;
-//    unsigned long code;
-//
-//    code = *NEC;
-//    code = MSC_ReverseLong(code);
-//    IR_state = OFF;
-//    TMR_ResetTimer3();
-//    IFS0bits.T3IF = 0; // Clear Timer 2 Interrupt Flag
-//    TMR_InterruptTimer3(ON);
-//    TMR_EnableTimer3(ON);
-//    IR_LEDUse(TRUE);
-//
-//    /* send header sync pulse */
-//    IR_state = ON;
-//    MSC_DelayUS(9000);
-//    IR_state = OFF;
-//    MSC_DelayUS(4500);
-//    for(i=0; i<32;i++)
-//    {
-//        if(code & 0x00000001)
-//        {
-//            /* send logical 1 */
-//            IR_state = ON;
-//            MSC_DelayUS(563);
-//            IR_state = OFF;
-//            MSC_DelayUS(1686);
-//        }
-//        else
-//        {
-//            /* send logical 0 */
-//            IR_state = ON;
-//            MSC_DelayUS(563);
-//            IR_state = OFF;
-//            MSC_DelayUS(563);
-//        }
-//        code >>= 1;
-//    }
-//    /* final burst */
-//    IR_state = ON;
-//    MSC_DelayUS(563);
-//    IR_state = OFF;
-//    MSC_DelayUS(40500);
-//
-//    IR_state = OFF;
-//    TMR_EnableTimer3(OFF);
-//    IR_LEDUse(FALSE);
-//    TMR_ResetTimer3();
-//    TMR_InterruptTimer3(OFF);
+    unsigned char i;
+
+    /* reverse code for LSB */
+    code = MSC_ReverseLong(code);
+
+	/* make sure that the first cycle is fresh */
+	PWM_ResetTBClock();
+
+    /* send header sync pulse */
+    IR_LEDModulePins(TRUE);
+    MSC_DelayUS(9000);
+    IR_LEDModulePins(FALSE);
+    MSC_DelayUS(4500);
+    for(i=0; i<32;i++)
+    {
+        if(code & 0x00000001)
+        {
+            /* send logical 1 */
+        	IR_LEDModulePins(TRUE);
+            MSC_DelayUS(563);
+            IR_LEDModulePins(FALSE);
+            MSC_DelayUS(1686);
+        }
+        else
+        {
+            /* send logical 0 */
+        	IR_LEDModulePins(TRUE);
+            MSC_DelayUS(563);
+            IR_LEDModulePins(FALSE);
+            MSC_DelayUS(563);
+        }
+        code >>= 1;
+    }
+
+    /* final burst */
+    IR_LEDModulePins(TRUE);
+    MSC_DelayUS(563);
+    IR_LEDModulePins(FALSE);
+    MSC_DelayUS(40500);
 }
 
 /******************************************************************************/
@@ -269,49 +277,77 @@ void IR_SendNEC(unsigned long* NEC)
  *
  * The function sends the NEC code and a repeat.							  */
 /******************************************************************************/
-void IR_SendNEC_Repeat(unsigned long* NEC)
+void IR_SendNECWithRepeat(unsigned long NEC)
 {
     IR_SendNEC(NEC);
     IR_SendNECRepeat();
 }
 
 /******************************************************************************/
-/* IR_SendNEC_Repeat_CMD
+/* IR_CMDCheckMatch
  *
- * The function sends the NEC code and a repeat from the global CommandData.  */
+ * This function checks for a description match and returns the index of the
+ *  IR coded.																  */
 /******************************************************************************/
-void IR_SendNEC_Repeat_CMD(void)
+unsigned char IR_CMDCheckMatch(unsigned char* received, const NECTYPE* codes, unsigned char* match)
 {
-    //IR_SendNEC(CommandDataPointer);
-    IR_SendNECRepeat();
-}
+    unsigned char i,j;
+    unsigned char* buffer;
+    unsigned char numbercodes;
 
-/******************************************************************************/
-/* IR_SendNEC_Repeat_Multiple_CMD
- *
- * The function sends the NEC code and a repeat multiple times from the global
- *  CommandData.															  */
-/******************************************************************************/
-void IR_SendNEC_Repeat_Multiple_CMD(void)
-{
-    unsigned char i;
-    
-//    if(CommandDataPointer == &Sanyo_Volume_Up || CommandDataPointer == &Sanyo_Volume_Down)
-//    {
-//        for(i=0;i<5;i++)
-//        {
-//            IR_SendNEC(CommandDataPointer);
-//            IR_SendNECRepeat();
-//            MSC_DelayUS(10000);
-//        }
-//    }
-//    else
-//    {
-//        IR_SendNEC(CommandDataPointer);
-//        IR_SendNECRepeat();
-//    }
-}
+    if(codes == Sanyo)
+    {
+    	numbercodes = NumSanyo;
+    }
+    else if(codes == Visio)
+    {
+    	numbercodes = NumVisio;
+    }
+    else if(codes == Idylis)
+    {
+    	numbercodes = NumIdylis;
+    }
 
+    for(j=0;j<numbercodes;j++)
+    {
+        buffer = received;
+        for(i=0;i<LARGEST_DESCRIPTION;i++)
+        {
+        	if(MSC_LowercaseChar(codes[j].Description[i]) != ' ')
+        	{
+        		/* eat spaces in command */
+        		while(MSC_LowercaseChar(*buffer) == ' ')
+        		{
+        			/* eat spaces in receive buffer */
+        			buffer++;
+        		}
+        		if((MSC_LowercaseChar(*buffer) == MSC_LowercaseChar(codes[j].Description[i])) || (codes[j].Description[i] == 0))
+				{
+					if(codes[j].Description[i] == 0)
+					{
+						/* Found a match, now check to make sure that a CR LN follows */
+						if(*buffer == 0)
+						{
+							/* we have a match */
+							*match = j;
+							return PASS;
+						}
+						else
+						{
+							break;
+						}
+					}
+					buffer++;
+				}
+				else
+				{
+					break;
+				}
+        	}
+        }
+    }
+    return FAIL;
+}
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/

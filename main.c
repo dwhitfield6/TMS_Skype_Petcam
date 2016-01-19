@@ -6,7 +6,8 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 12/14/15     13.0_DW0a   New project creation.
+ * 01/18/16     13.0_DW0a   New project creation.
+ * 							Added IR send and commands.
  *                                                                            */
 /******************************************************************************/
 
@@ -79,6 +80,10 @@ int main (void)
     		if(!CMD_CheckMatch(CommandString, Commands, LARGEST_COMMAND))
     		{
     			UART_SendStringCRLN(BAD_COMMAND);
+    		}
+    		else
+    		{
+    			UART_SendStringCRLN("");
     		}
     		CMD_SetNewCommandFlag(FALSE);
 			UART_SendPrompt();

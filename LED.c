@@ -53,10 +53,10 @@ void InitLEDs(void)
 	{
 		LED_RedLED(ON);
 		LED_GreenLED(OFF);
-		MSC_DelayNOP(1000000);
+		MSC_DelayUS(100000);
 		LED_RedLED(OFF);
 		LED_GreenLED(ON);
-		MSC_DelayNOP(1000000);
+		MSC_DelayUS(100000);
 	}
 	LED_RedLED(ON);
 	LED_GreenLED(OFF);

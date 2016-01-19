@@ -16,6 +16,7 @@ C_SRCS += \
 ../IR.c \
 ../LED.c \
 ../MISC.c \
+../PWM.c \
 ../RELAY.c \
 ../SYSTEM.c \
 ../TIMERS.c \
@@ -34,6 +35,7 @@ OBJS += \
 ./IR.obj \
 ./LED.obj \
 ./MISC.obj \
+./PWM.obj \
 ./RELAY.obj \
 ./START.obj \
 ./SYSTEM.obj \
@@ -56,6 +58,7 @@ C_DEPS += \
 ./IR.pp \
 ./LED.pp \
 ./MISC.pp \
+./PWM.pp \
 ./RELAY.pp \
 ./SYSTEM.pp \
 ./TIMERS.pp \
@@ -74,6 +77,7 @@ C_DEPS__QUOTED += \
 "IR.pp" \
 "LED.pp" \
 "MISC.pp" \
+"PWM.pp" \
 "RELAY.pp" \
 "SYSTEM.pp" \
 "TIMERS.pp" \
@@ -92,6 +96,7 @@ OBJS__QUOTED += \
 "IR.obj" \
 "LED.obj" \
 "MISC.obj" \
+"PWM.obj" \
 "RELAY.obj" \
 "START.obj" \
 "SYSTEM.obj" \
@@ -114,6 +119,7 @@ C_SRCS__QUOTED += \
 "../IR.c" \
 "../LED.c" \
 "../MISC.c" \
+"../PWM.c" \
 "../RELAY.c" \
 "../SYSTEM.c" \
 "../TIMERS.c" \

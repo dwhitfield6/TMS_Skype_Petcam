@@ -19,6 +19,7 @@ ORDERED_OBJS += \
 "./IR.obj" \
 "./LED.obj" \
 "./MISC.obj" \
+"./PWM.obj" \
 "./RELAY.obj" \
 "./START.obj" \
 "./SYSTEM.obj" \
@@ -159,7 +160,7 @@ all: TMS_Skype_Petcam.out secondary-outputs
 TMS_Skype_Petcam.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C2000 Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/bin/cl2000" -v28 -ml -mt --float_support=fpu32 --tmu_support=tmu0 --cla_support=cla1 --vcu_support=vcu2 --fp_mode=relaxed --advice:performance=all -g --define=DISK0_USB_MSC --define=CPU1 --define=_FLASH --define=ccs_c2k --define=DISK1_USB_MSC --diag_warning=225 --display_error_number --diag_wrap=off -z -m"TMS_Skype_Petcam.map" --stack_size=0x0400 --warn_sections -i"C:/Users/pskkd/Documents/GitHub/TMS_Skype_Petcam/Linker" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include" --reread_libs --display_error_number --diag_wrap=off --xml_link_info="TMS_Skype_Petcam_linkInfo.xml" --rom_model -o "TMS_Skype_Petcam.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/bin/cl2000" -v28 -mt -ml --vcu_support=vcu2 --cla_support=cla1 --tmu_support=tmu0 --float_support=fpu32 --fp_mode=relaxed --advice:performance=all -g --define=CPU1 --define=_FLASH --diag_warning=225 --diag_wrap=off --display_error_number -z -m"TMS_Skype_Petcam.map" --stack_size=0x0400 --warn_sections -i"C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/Linker" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="TMS_Skype_Petcam_linkInfo.xml" --rom_model -o "TMS_Skype_Petcam.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -172,8 +173,8 @@ TMS_Skype_Petcam.txt: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "ADC.pp" "AUDIO.pp" "BUTTON.pp" "CMD.pp" "DMA.pp" "INTERRUPTS.pp" "IR.pp" "LED.pp" "MISC.pp" "RELAY.pp" "SYSTEM.pp" "TIMERS.pp" "TV.pp" "UART.pp" "USER.pp" "main.pp" "Library\F28377S.pp" 
-	-$(RM) "ADC.obj" "AUDIO.obj" "BUTTON.obj" "CMD.obj" "DMA.obj" "INTERRUPTS.obj" "IR.obj" "LED.obj" "MISC.obj" "RELAY.obj" "START.obj" "SYSTEM.obj" "TIMERS.obj" "TV.obj" "UART.obj" "USER.obj" "main.obj" "Library\F28377S.obj" 
+	-$(RM) "ADC.pp" "AUDIO.pp" "BUTTON.pp" "CMD.pp" "DMA.pp" "INTERRUPTS.pp" "IR.pp" "LED.pp" "MISC.pp" "PWM.pp" "RELAY.pp" "SYSTEM.pp" "TIMERS.pp" "TV.pp" "UART.pp" "USER.pp" "main.pp" "Library\F28377S.pp" 
+	-$(RM) "ADC.obj" "AUDIO.obj" "BUTTON.obj" "CMD.obj" "DMA.obj" "INTERRUPTS.obj" "IR.obj" "LED.obj" "MISC.obj" "PWM.obj" "RELAY.obj" "START.obj" "SYSTEM.obj" "TIMERS.obj" "TV.obj" "UART.obj" "USER.obj" "main.obj" "Library\F28377S.obj" 
 	-$(RM) "START.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

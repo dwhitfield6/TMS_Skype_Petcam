@@ -446,7 +446,7 @@ void UART_SendPrompt(void)
 /******************************************************************************/
 void UART_ProcessCharacter(unsigned char data)
 {
-	if(data == LN)
+	if((data == LN))
 	{
 		/* dont do anything with line feeds */
 		NOP();
@@ -469,7 +469,7 @@ void UART_ProcessCharacter(unsigned char data)
 			RX_A_Buffer[RX_A_Buffer_Place] = 0;
 			RX_A_Buffer_Place = 0;
 			UART_SendStringCRLN("");
-			if(RX_A_Buffer_Place <= (LARGEST_COMMAND - 1))
+			if(RX_A_Buffer_Place <= (LARGEST_COMMAND_WITH_EXTRA - 1))
 			{
 				MSC_StringCopy(RX_A_Buffer, CommandString);
 				CMD_SetNewCommandFlag(TRUE);
