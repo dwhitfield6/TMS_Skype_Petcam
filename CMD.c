@@ -44,6 +44,8 @@ const COMMANDTYPE Commands[] =
 	{"?", CMD_Help,"Prints the Help menu"},
 	{"Help", CMD_PrintAllCommands,"Prints all of the commands"},
 	{"IR Sanyo Send~", CMD_SendSanyo,"Sends an IR command to the Sanyo TV"},
+	{"IR Visio Send~", CMD_SendVisio,"Sends an IR command to the Visio TV"},
+	{"IR Idylis Send~", CMD_SendIdylis,"Sends an IR command to the Idylis Air conditioner"},
 };
 
 unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
@@ -266,6 +268,77 @@ void CMD_SendSanyo(void)
 	}
 }
 
+/******************************************************************************/
+/* CMD_SendVisio
+ *
+ * This function sends a Visio TV command(IRVisioSend).						  */
+/******************************************************************************/
+void CMD_SendVisio(void)
+{
+	unsigned char index = 0;
+	unsigned char i;
+	unsigned char size = CMD_CommandSize(&CMD_SendVisio);
+
+	if(CommandString[size] == '?')
+	{
+		UART_SendStringCRLN("Available Visio codes:");
+		for(i=0;i<NumVisio;i++)
+		{
+			UART_SendStringCRLN(Visio[i].Description);
+		}
+		UART_SendStringCRLN("");
+		UART_SendStringCRLN("For example 'IR Visio Send Power'");
+	}
+	else
+	{
+		if(IR_CMDCheckMatch(&CommandString[size], Visio, &index))
+		{
+			IR_SendNECWithRepeat(Visio[index].NEC);
+			UART_SendStringCRLN("Visio Code sent");
+		}
+		else
+		{
+			UART_SendStringCRLN("Visio Code not found");
+			UART_SendStringCRLN("Try IR Visio Send?");
+		}
+	}
+}
+
+/******************************************************************************/
+/* CMD_SendIdylis
+ *
+ * This function sends a Idylis A/C command(IRIdylisSend).					  */
+/******************************************************************************/
+void CMD_SendIdylis(void)
+{
+	unsigned char index = 0;
+	unsigned char i;
+	unsigned char size = CMD_CommandSize(&CMD_SendIdylis);
+
+	if(CommandString[size] == '?')
+	{
+		UART_SendStringCRLN("Available Idylis codes:");
+		for(i=0;i<NumIdylis;i++)
+		{
+			UART_SendStringCRLN(Idylis[i].Description);
+		}
+		UART_SendStringCRLN("");
+		UART_SendStringCRLN("For example 'IR Idylis Send Power'");
+	}
+	else
+	{
+		if(IR_CMDCheckMatch(&CommandString[size], Idylis, &index))
+		{
+			IR_SendNECWithRepeat(Idylis[index].NEC);
+			UART_SendStringCRLN("Idylis Code sent");
+		}
+		else
+		{
+			UART_SendStringCRLN("Idylis Code not found");
+			UART_SendStringCRLN("Try IR Idylis Send?");
+		}
+	}
+}
 
 /*-----------------------------------------------------------------------------/
  End of File

@@ -352,7 +352,7 @@ interrupt void ISR_INT1_BUTTON(void)
 /******************************************************************************/
 /* External Interrupt 2
  *
- *	Used for zero cross detection                                             */
+ *	Used for zero cross detection.                                             */
 /******************************************************************************/
 interrupt void ISR_INT2_ZEROCROSS(void)
 {
@@ -360,6 +360,17 @@ interrupt void ISR_INT2_ZEROCROSS(void)
 
 	/* Acknowledge this interrupt from group 1 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
+}
+
+/******************************************************************************/
+/* External Interrupt 3
+ *
+ *	Used IR receiver timing.	                                              */
+/******************************************************************************/
+interrupt void ISR_INT3_IR_RECEIVE(void)
+{
+	/* Acknowledge this interrupt from group 12 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP12;
 }
 
 /******************************************************************************/
@@ -386,6 +397,17 @@ interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
 
 }
+
+/******************************************************************************/
+/* Timer 2 interrupt
+ *
+ * Used for Solid state relay dimming.		                                  */
+/******************************************************************************/
+interrupt void ISR_TIMER2_SS_Relay(void)
+{
+
+}
+
 /******************************************************************************/
 /* ePWM 8
  *

@@ -40,6 +40,7 @@ typedef enum e_interrupt_group
 	INTERRUPT_GROUP9 	= 0x0100,
 	INTERRUPT_GROUP10 	= 0x0200,
 	INTERRUPT_GROUP11	= 0x0400,
+	INTERRUPT_GROUP12	= 0x0800,
 }ENUM_INTERRUPT_GROUP;
 
 /******************************************************************************/

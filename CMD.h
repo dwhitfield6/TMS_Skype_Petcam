@@ -99,6 +99,7 @@ unsigned char CMD_CommandSize(pFunction function);
 void CMD_PrintCommand(const COMMANDTYPE* command);
 void CMD_PrintAllCommands(void);
 void CMD_SendSanyo(void);
-
+void CMD_SendVisio(void);
+void CMD_SendIdylis(void);
 
 #endif	/* CMD_H */

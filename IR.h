@@ -71,6 +71,7 @@ extern unsigned char NumIdylis;
 void InitIR(void);
 void InitIRSend(void);
 void InitIRReceive(void);
+void IR_ReceiverInterrupt(unsigned char state);
 void IR_LEDModulePins(unsigned char state);
 void IR_LEDTest(void);
 void IR_LEDPWMTest(void);

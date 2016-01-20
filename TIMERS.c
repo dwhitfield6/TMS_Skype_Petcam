@@ -55,6 +55,7 @@ void InitTimers(void)
 {
 	InitTimer0();
 	InitTimer1();
+	InitTimer2();
 }
 
 /******************************************************************************/
@@ -86,16 +87,44 @@ void InitTimer1(void)
 	SYS_Unlock();
 	PieVectTable.TIMER1_INT = &ISR_TIMER1_IR_RECEIVE;
 	SYS_Lock();
+
+	TMR_Interrupt1(ON);
+	TMR_StartTimer1(FALSE);						// Stop the timer
+	CpuTimer1Regs.TPR.bit.TDDR = 15;			// presceler is 16
 }
 
 /******************************************************************************/
-/* TMR_SetTimer0
+/* InitTimer2
  *
- * The function sets the TIM register for the current timer count.			  */
+ * The function initializes timer 2 for the Solid State Relay dimming.		  */
+/******************************************************************************/
+void InitTimer2(void)
+{
+	/* Set Timer 2 ISR */
+	SYS_Unlock();
+	PieVectTable.TIMER2_INT = &ISR_TIMER2_SS_Relay;
+	SYS_Lock();
+}
+
+
+/******************************************************************************/
+/* TMR_SetTimerWithPeriod0
+ *
+ * The function loads the period cont to the timer TIM register.			  */
 /******************************************************************************/
 void TMR_SetTimerWithPeriod0(void)
 {
 	CpuTimer0Regs.TCR.bit.TRB = 1;
+}
+
+/******************************************************************************/
+/* TMR_SetTimerWithPeriod1
+ *
+ * The function loads the period cont to the timer TIM register.			  */
+/******************************************************************************/
+void TMR_SetTimerWithPeriod1(void)
+{
+	CpuTimer1Regs.TCR.bit.TRB = 1;
 }
 
 /******************************************************************************/
@@ -114,9 +143,24 @@ unsigned long TMR_GetTimer0(void)
 }
 
 /******************************************************************************/
-/* TMR_SetTimer0
+/* TMR_GetTimer1
  *
- * The function sets the TIM register for the current timer count.			  */
+ * The function gets the TIM register for the current timer count.			  */
+/******************************************************************************/
+unsigned long TMR_GetTimer1(void)
+{
+	unsigned long timer;
+
+	timer = (unsigned long)CpuTimer1Regs.TIM.bit.MSW << 16;
+	timer += CpuTimer1Regs.TIM.bit.LSW;
+
+	return timer;
+}
+
+/******************************************************************************/
+/* TMR_SetTimerPeriod0
+ *
+ * The function sets the PRD register for the period count.					  */
 /******************************************************************************/
 void TMR_SetTimerPeriod0(unsigned long period)
 {
@@ -125,9 +169,21 @@ void TMR_SetTimerPeriod0(unsigned long period)
 }
 
 /******************************************************************************/
-/* TMR_GetTimer0
+/* TMR_SetTimerPeriod1
  *
- * The function gets the TIM register for the current timer count.			  */
+ * The function sets the PRD register for the period count.					  */
+/******************************************************************************/
+void TMR_SetTimerPeriod1(unsigned long period)
+{
+	CpuTimer1Regs.PRD.bit.MSW = (period >> 16);
+	CpuTimer1Regs.PRD.bit.LSW = period;
+}
+
+
+/******************************************************************************/
+/* TMR_GetTimerPeriod0
+ *
+ * The function gets the PRD register for the period count.					  */
 /******************************************************************************/
 unsigned long TMR_GetTimerPeriod0(void)
 {
@@ -135,6 +191,21 @@ unsigned long TMR_GetTimerPeriod0(void)
 
 	period = (unsigned long)CpuTimer0Regs.PRD.bit.MSW << 16;
 	period += CpuTimer0Regs.PRD.bit.LSW;
+
+	return period;
+}
+
+/******************************************************************************/
+/* TMR_GetTimerPeriod1
+ *
+ * The function gets the PRD register for the period count.					  */
+/******************************************************************************/
+unsigned long TMR_GetTimerPeriod1(void)
+{
+	unsigned long period;
+
+	period = (unsigned long)CpuTimer1Regs.PRD.bit.MSW << 16;
+	period += CpuTimer1Regs.PRD.bit.LSW;
 
 	return period;
 }
@@ -162,6 +233,26 @@ unsigned char TMR_Interrupt0(unsigned char state)
 }
 
 /******************************************************************************/
+/* TMR_Interrupt1
+ *
+ * The function controls the Timer 1 interrupt.								  */
+/******************************************************************************/
+unsigned char TMR_Interrupt1(unsigned char state)
+{
+    unsigned char status = CpuTimer1Regs.TCR.bit.TIE;
+
+    if(state)
+    {
+    	CpuTimer1Regs.TCR.bit.TIE = 1; 			// Enable the Timer interrupt
+    }
+    else
+    {
+    	CpuTimer1Regs.TCR.bit.TIE = 0; 			// Disable the Timer interrupt
+    }
+    return status;
+}
+
+/******************************************************************************/
 /* TMR_StartTimer0
  *
  * The function either starts or stops the timer.							  */
@@ -175,6 +266,23 @@ void TMR_StartTimer0(unsigned char state)
 	else
 	{
 		CpuTimer0Regs.TCR.bit.TSS = 1; // stop the CPU-timer
+	}
+}
+
+/******************************************************************************/
+/* TMR_StartTimer1
+ *
+ * The function either starts or stops the timer.							  */
+/******************************************************************************/
+void TMR_StartTimer1(unsigned char state)
+{
+	if(state)
+	{
+		CpuTimer1Regs.TCR.bit.TSS = 0; // start or restart the CPU-timer
+	}
+	else
+	{
+		CpuTimer1Regs.TCR.bit.TSS = 1; // stop the CPU-timer
 	}
 }
 

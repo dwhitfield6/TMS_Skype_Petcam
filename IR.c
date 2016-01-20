@@ -135,7 +135,35 @@ void InitIRSend(void)
 /******************************************************************************/
 void InitIRReceive(void)
 {
+	/* Set INT1 ISRs */
+	SYS_Unlock();
+	PieVectTable.XINT3_INT = &ISR_INT3_IR_RECEIVE;
+	SYS_Lock();
+	SYS_EnableInterruptGroup(INTERRUPT_GROUP12);	// Group for INT12
+	IR_ReceiverInterrupt(ON);
+	SYS_Unlock();
+    InputXbarRegs.INPUT6SELECT = IR_RECEIVER_GPIO;	//Set XINT3 source to GPIO-pin
+    SYS_Lock();
+    XintRegs.XINT3CR.bit.POLARITY = 0b11;    		// 11: Interrupt is selected as positive or negative edge triggered
+}
 
+/******************************************************************************/
+/* IR_ReceiverInterrupt
+ *
+ * The function controls the IR receiver interrupt.							  */
+/******************************************************************************/
+void IR_ReceiverInterrupt(unsigned char state)
+{
+	if (state)
+	{
+		PieCtrlRegs.PIEIER12.bit.INTx1 = 1;   	// Enable PIE Group 12 INT1
+		XintRegs.XINT3CR.bit.ENABLE = 1;        // Enable XINT3
+	}
+	else
+	{
+		PieCtrlRegs.PIEIER12.bit.INTx1 = 0;   	// Disable PIE Group 12 INT1
+		XintRegs.XINT3CR.bit.ENABLE = 0;        // Disable XINT3
+	}
 }
 
 /******************************************************************************/

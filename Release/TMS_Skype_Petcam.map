@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.4.9                      
 ******************************************************************************
->> Linked Mon Jan 18 17:32:59 2016
+>> Linked Tue Jan 19 18:04:34 2016
 
 OUTPUT FILE NAME:   <TMS_Skype_Petcam.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00082ea8
+ENTRY POINT SYMBOL: "_c_int00"  address: 00082ffe
 
 
 MEMORY CONFIGURATION
@@ -21,11 +21,11 @@ PAGE 0:
   RAMD0                 0000b000   00000800  00000000  00000800  RWIX
   BEGIN                 00080000   00000002  00000002  00000000  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  00000fbb  00001045  RWIX
+  FLASHB                00082000   00002000  00001111  00000eef  RWIX
   FLASHC                00084000   00002000  00000000  00002000  RWIX
   FLASHD                00086000   00002000  00000000  00002000  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
-  FLASHF                00090000   00008000  0000061b  000079e5  RWIX
+  FLASHF                00090000   00008000  000007f3  0000780d  RWIX
   FLASHG                00098000   00008000  00000000  00008000  RWIX
   FLASHH                000a0000   00008000  00000000  00008000  RWIX
   FLASHI                000a8000   00008000  00000000  00008000  RWIX
@@ -184,35 +184,34 @@ codestart
 .reset     0    003fffc0    00000002     DSECT
                   003fffc0    00000002     rts2800_fpu32.lib : boot.obj (.reset)
 
-.text      0    0008205c    00000f60     
+.text      0    0008205c    000010b6     
                   0008205c    00000362     SYSTEM.obj (.text)
                   000823be    00000248     UART.obj (.text)
-                  00082606    0000019a     MISC.obj (.text)
-                  000827a0    0000018c     INTERRUPTS.obj (.text:retain)
-                  0008292c    00000170     CMD.obj (.text)
-                  00082a9c    00000155     IR.obj (.text)
-                  00082bf1    000000d2     PWM.obj (.text)
-                  00082cc3    000000c7     USER.obj (.text)
-                  00082d8a    00000086     TIMERS.obj (.text)
-                  00082e10    00000051     RELAY.obj (.text)
-                  00082e61    00000047     LED.obj (.text)
-                  00082ea8    00000046     rts2800_fpu32.lib : boot.obj (.text)
-                  00082eee    0000003e     BUTTON.obj (.text)
-                  00082f2c    00000037     main.obj (.text)
-                  00082f63    0000001e     rts2800_fpu32.lib : memcpy.obj (.text)
-                  00082f81    00000019                       : args_main.obj (.text)
-                  00082f9a    00000019                       : exit.obj (.text)
-                  00082fb3    00000009                       : _lock.obj (.text)
+                  00082606    00000218     CMD.obj (.text)
+                  0008281e    000001aa     INTERRUPTS.obj (.text:retain)
+                  000829c8    0000019a     MISC.obj (.text)
+                  00082b62    00000188     IR.obj (.text)
+                  00082cea    000000e3     TIMERS.obj (.text)
+                  00082dcd    000000d2     PWM.obj (.text)
+                  00082e9f    000000c7     USER.obj (.text)
+                  00082f66    00000051     RELAY.obj (.text)
+                  00082fb7    00000047     LED.obj (.text)
+                  00082ffe    00000046     rts2800_fpu32.lib : boot.obj (.text)
+                  00083044    0000003e     BUTTON.obj (.text)
+                  00083082    00000037     main.obj (.text)
+                  000830b9    0000001e     rts2800_fpu32.lib : memcpy.obj (.text)
+                  000830d7    00000019                       : args_main.obj (.text)
+                  000830f0    00000019                       : exit.obj (.text)
+                  00083109    00000009                       : _lock.obj (.text)
 
-.econst    0    00090000    0000061b     
+.econst    0    00090000    000007f3     
                   00090000    00000252     IR.obj (.econst:_Sanyo)
-                  00090252    00000162     CMD.obj (.econst:_Commands)
-                  000903b4    000000d3     CMD.obj (.econst:.string)
-                  00090487    00000001     --HOLE-- [fill = 0]
-                  00090488    00000086     UART.obj (.econst:.string)
-                  0009050e    00000084     IR.obj (.econst:_Idylis)
-                  00090592    0000006e     IR.obj (.econst:_Visio)
-                  00090600    0000001b     main.obj (.econst:.string)
+                  00090252    0000024e     CMD.obj (.econst:_Commands)
+                  000904a0    000001c0     CMD.obj (.econst:.string)
+                  00090660    00000086     UART.obj (.econst:.string)
+                  000906e6    00000084     IR.obj (.econst:_Idylis)
+                  0009076a    0000006e     IR.obj (.econst:_Visio)
+                  000907d8    0000001b     main.obj (.econst:.string)
 
 AdcaResultFile 
 *          1    00000b00    00000018     UNINITIALIZED
@@ -775,9 +774,9 @@ address     data page           name
 0000aa10     2a8 (0000aa00)     _LSPCLK
 0000aa12     2a8 (0000aa00)     ___TI_cleanup_ptr
 0000aa14     2a8 (0000aa00)     ___TI_dtors_ptr
-0000aa16     2a8 (0000aa00)     _NumSanyo
-0000aa17     2a8 (0000aa00)     _NumVisio
-0000aa18     2a8 (0000aa00)     _NumIdylis
+0000aa16     2a8 (0000aa00)     _NumVisio
+0000aa17     2a8 (0000aa00)     _NumIdylis
+0000aa18     2a8 (0000aa00)     _NumSanyo
 0000aa19     2a8 (0000aa00)     _Period38kHz
 0000aa1c     2a8 (0000aa00)     __lock
 0000aa1e     2a8 (0000aa00)     __unlock
@@ -835,9 +834,9 @@ address     data page           name
 
 00090252    2409 (00090240)     _Commands
 
-0009050e    2414 (00090500)     _Idylis
+000906e6    241b (000906c0)     _Idylis
 
-00090592    2416 (00090580)     _Visio
+0009076a    241d (00090740)     _Visio
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
@@ -845,7 +844,7 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                     
 ----  -------   ----                     
 abs   ffffffff  .text                    
-0     00082f9a  C$$EXIT                  
+0     000830f0  C$$EXIT                  
 1     0005f4c0  _AccessProtectionRegs    
 1     00007400  _AdcaRegs                
 1     00000b00  _AdcaResultRegs          
@@ -856,17 +855,19 @@ abs   ffffffff  .text
 1     00007580  _AdcdRegs                
 1     00000b60  _AdcdResultRegs          
 1     0005d180  _AnalogSubsysRegs        
-0     00082f0a  _BUT_ButtonInterrupt     
-0     00082f28  _BUT_GetButtonFlag       
-0     00082f21  _BUT_SetButtonFlag       
-0     00082942  _CMD_CheckMatch          
-0     000829c0  _CMD_CommandSize         
-0     000829bc  _CMD_GetNewCommandFlag   
-0     00082931  _CMD_Help                
-0     00082a23  _CMD_PrintAllCommands    
-0     000829f8  _CMD_PrintCommand        
-0     00082a48  _CMD_SendSanyo           
-0     000829b5  _CMD_SetNewCommandFlag   
+0     00083060  _BUT_ButtonInterrupt     
+0     0008307e  _BUT_GetButtonFlag       
+0     00083077  _BUT_SetButtonFlag       
+0     0008261c  _CMD_CheckMatch          
+0     0008269a  _CMD_CommandSize         
+0     00082696  _CMD_GetNewCommandFlag   
+0     0008260b  _CMD_Help                
+0     000826fd  _CMD_PrintAllCommands    
+0     000826d2  _CMD_PrintCommand        
+0     000827ca  _CMD_SendIdylis          
+0     00082722  _CMD_SendSanyo           
+0     00082776  _CMD_SendVisio           
+0     0008268f  _CMD_SetNewCommandFlag   
 1     0000aa0c  _CPU_FREQ                
 1     00001400  _Cla1Regs                
 0     00000ce0  _Cla1SoftIntRegs         
@@ -934,48 +935,52 @@ abs   ffffffff  .text
 1     00007f00  _GpioDataRegs            
 1     00007300  _I2caRegs                
 1     00007340  _I2cbRegs                
-0     00082b76  _IR_CMDCheckMatch        
-0     00082ae2  _IR_LED                  
-0     00082ab4  _IR_LEDModulePins        
-0     00082ade  _IR_LEDPWMTest           
-0     00082aca  _IR_LEDTest              
-0     00082b14  _IR_SendNEC              
-0     00082af1  _IR_SendNECRepeat        
-0     00082b6e  _IR_SendNECWithRepeat    
-0     000828f5  _ISR_EPWM_8_IRLED        
-0     0008284a  _ISR_INT1_BUTTON         
-0     00082881  _ISR_INT2_ZEROCROSS      
-0     000828b2  _ISR_TIMER0_DELAY        
-0     000828e8  _ISR_TIMER1_IR_RECEIVE   
-0     000827a0  _ISR_UART_A_RX           
-0     000827ec  _ISR_UART_A_TX           
-0     0009050e  _Idylis                  
-0     00082eee  _InitButtons             
-0     0008292c  _InitCMD                 
-0     00082a9c  _InitIR                  
-0     00082ab3  _InitIRReceive           
-0     00082aa9  _InitIRSend              
-0     00082e61  _InitLEDs                
-0     00082bf1  _InitPWM                 
-0     00082e10  _InitRelay               
-0     00082d8f  _InitTimer0              
-0     00082da8  _InitTimer1              
-0     00082d8a  _InitTimers              
+0     00082c6f  _IR_CMDCheckMatch        
+0     00082bdb  _IR_LED                  
+0     00082bad  _IR_LEDModulePins        
+0     00082bd7  _IR_LEDPWMTest           
+0     00082bc3  _IR_LEDTest              
+0     00082b96  _IR_ReceiverInterrupt    
+0     00082c0d  _IR_SendNEC              
+0     00082bea  _IR_SendNECRepeat        
+0     00082c67  _IR_SendNECWithRepeat    
+0     00082991  _ISR_EPWM_8_IRLED        
+0     000828c8  _ISR_INT1_BUTTON         
+0     000828ff  _ISR_INT2_ZEROCROSS      
+0     00082930  _ISR_INT3_IR_RECEIVE     
+0     00082941  _ISR_TIMER0_DELAY        
+0     00082977  _ISR_TIMER1_IR_RECEIVE   
+0     00082984  _ISR_TIMER2_SS_Relay     
+0     0008281e  _ISR_UART_A_RX           
+0     0008286a  _ISR_UART_A_TX           
+0     000906e6  _Idylis                  
+0     00083044  _InitButtons             
+0     00082606  _InitCMD                 
+0     00082b62  _InitIR                  
+0     00082b79  _InitIRReceive           
+0     00082b6f  _InitIRSend              
+0     00082fb7  _InitLEDs                
+0     00082dcd  _InitPWM                 
+0     00082f66  _InitRelay               
+0     00082cf1  _InitTimer0              
+0     00082d0a  _InitTimer1              
+0     00082d20  _InitTimer2              
+0     00082cea  _InitTimers              
 0     000823be  _InitUART                
 0     000823c1  _InitUART_A              
-0     00082d79  _Init_Modules            
-0     00082cc3  _Init_Pins               
+0     00082f55  _Init_Modules            
+0     00082e9f  _Init_Pins               
 1     00007900  _InputXbarRegs           
-0     00082e99  _LED_GreenLED            
-0     00082e8a  _LED_RedLED              
+0     00082fef  _LED_GreenLED            
+0     00082fe0  _LED_RedLED              
 1     0000aa10  _LSPCLK                  
-0     00082659  _MSC_DelayNOP            
-0     00082606  _MSC_DelayUS             
-0     0008266c  _MSC_IsPrintable         
-0     00082690  _MSC_LowercaseChar       
-0     000826ab  _MSC_ReverseLong         
-0     0008269c  _MSC_Round               
-0     00082679  _MSC_StringCopy          
+0     00082a1b  _MSC_DelayNOP            
+0     000829c8  _MSC_DelayUS             
+0     00082a2e  _MSC_IsPrintable         
+0     00082a52  _MSC_LowercaseChar       
+0     00082a6d  _MSC_ReverseLong         
+0     00082a5e  _MSC_Round               
+0     00082a3b  _MSC_StringCopy          
 1     00006000  _McbspaRegs              
 1     00006040  _McbspbRegs              
 1     0005f400  _MemCfgRegs              
@@ -983,23 +988,23 @@ abs   ffffffff  .text
 1     0000aa42  _MiscBuffer              
 1     00007060  _NmiIntruptRegs          
 1     0000aa41  _NumCommands             
-1     0000aa18  _NumIdylis               
-1     0000aa16  _NumSanyo                
-1     0000aa17  _NumVisio                
+1     0000aa17  _NumIdylis               
+1     0000aa18  _NumSanyo                
+1     0000aa16  _NumVisio                
 1     00007a80  _OutputXbarRegs          
 1     0000aa0a  _PLLSYSCLK               
-0     00082ca4  _PWM_GetCMPB             
-0     00082cac  _PWM_Interrupt8          
-0     00082ca8  _PWM_ResetTBClock        
-0     00082c9d  _PWM_SetCMPB             
-0     00082c61  _PWM_SetDutyCycle        
-0     00082c43  _PWM_SetFrequency        
+0     00082e80  _PWM_GetCMPB             
+0     00082e88  _PWM_Interrupt8          
+0     00082e84  _PWM_ResetTBClock        
+0     00082e79  _PWM_SetCMPB             
+0     00082e3d  _PWM_SetDutyCycle        
+0     00082e1f  _PWM_SetFrequency        
 1     0000aa19  _Period38kHz             
 1     00000ce0  _PieCtrlRegs             
 1     00000d00  _PieVectTable            
-0     00082e43  _RLY_MechRelay           
-0     00082e52  _RLY_SolidStateRelay     
-0     00082e2c  _RLY_ZeroCrossInterrupt  
+0     00082f99  _RLY_MechRelay           
+0     00082fa8  _RLY_SolidStateRelay     
+0     00082f82  _RLY_ZeroCrossInterrupt  
 1     0000a940  _RX_A_Buffer             
 1     0000a802  _RX_A_Buffer_Place       
 0     00008000  _RamfuncsLoadEnd         
@@ -1041,15 +1046,21 @@ abs   00000000  _RamfuncsRunSize
 1     00006110  _SpibRegs                
 1     00006120  _SpicRegs                
 1     00007940  _SyncSocRegs             
-0     00082e08  _TMR_ClearTimerFlag0     
-0     00082db7  _TMR_GetTimer0           
-0     00082e0c  _TMR_GetTimerFlag0       
-0     00082dcb  _TMR_GetTimerPeriod0     
-0     00082dd6  _TMR_Interrupt0          
-0     00082e03  _TMR_SetTimerFlag0       
-0     00082dc2  _TMR_SetTimerPeriod0     
-0     00082db2  _TMR_SetTimerWithPeriod0 
-0     00082df4  _TMR_StartTimer0         
+0     00082dc5  _TMR_ClearTimerFlag0     
+0     00082d34  _TMR_GetTimer0           
+0     00082d3f  _TMR_GetTimer1           
+0     00082dc9  _TMR_GetTimerFlag0       
+0     00082d5c  _TMR_GetTimerPeriod0     
+0     00082d67  _TMR_GetTimerPeriod1     
+0     00082d72  _TMR_Interrupt0          
+0     00082d90  _TMR_Interrupt1          
+0     00082dc0  _TMR_SetTimerFlag0       
+0     00082d4a  _TMR_SetTimerPeriod0     
+0     00082d53  _TMR_SetTimerPeriod1     
+0     00082d2a  _TMR_SetTimerWithPeriod0 
+0     00082d2f  _TMR_SetTimerWithPeriod1 
+0     00082da2  _TMR_StartTimer0         
+0     00082db1  _TMR_StartTimer1         
 1     0000a840  _TX_A_Buffer             
 1     0000a800  _TX_A_Buffer_ADD_Place   
 1     0000a801  _TX_A_Buffer_REMOVE_Place
@@ -1071,7 +1082,7 @@ abs   00000000  _RamfuncsRunSize
 0     000824ab  _UART_TransmitEnableA    
 0     00082494  _UART_TransmitInterruptA 
 1     00006200  _UppRegs                 
-0     00090592  _Visio                   
+0     0009076a  _Visio                   
 1     00007000  _WdRegs                  
 1     00007920  _XbarRegs                
 1     00007070  _XintRegs                
@@ -1085,18 +1096,18 @@ abs   ffffffff  ___c_args__
 abs   ffffffff  ___etext__               
 abs   ffffffff  ___pinit__               
 abs   ffffffff  ___text__                
-0     00082f81  __args_main              
+0     000830d7  __args_main              
 1     0000aa1c  __lock                   
-0     00082fbb  __nop                    
-0     00082fb7  __register_lock          
-0     00082fb3  __register_unlock        
+0     00083111  __nop                    
+0     0008310d  __register_lock          
+0     00083109  __register_unlock        
 1     00000400  __stack                  
 1     0000aa1e  __unlock                 
-0     00082f9a  _abort                   
-0     00082ea8  _c_int00                 
-0     00082f9c  _exit                    
-0     00082f2c  _main                    
-0     00082f63  _memcpy                  
+0     000830f0  _abort                   
+0     00082ffe  _c_int00                 
+0     000830f2  _exit                    
+0     00083082  _main                    
+0     000830b9  _memcpy                  
 abs   ffffffff  binit                    
 0     00082000  cinit                    
 0     00080000  code_start               
@@ -1154,86 +1165,98 @@ page  address   name
 0     0008257c  _UART_SendBanner         
 0     0008259d  _UART_SendPrompt         
 0     000825a2  _UART_ProcessCharacter   
-0     00082606  _MSC_DelayUS             
-0     00082659  _MSC_DelayNOP            
-0     0008266c  _MSC_IsPrintable         
-0     00082679  _MSC_StringCopy          
-0     00082690  _MSC_LowercaseChar       
-0     0008269c  _MSC_Round               
-0     000826ab  _MSC_ReverseLong         
-0     000827a0  _ISR_UART_A_RX           
-0     000827ec  _ISR_UART_A_TX           
-0     0008284a  _ISR_INT1_BUTTON         
-0     00082881  _ISR_INT2_ZEROCROSS      
-0     000828b2  _ISR_TIMER0_DELAY        
-0     000828e8  _ISR_TIMER1_IR_RECEIVE   
-0     000828f5  _ISR_EPWM_8_IRLED        
-0     0008292c  _InitCMD                 
-0     00082931  _CMD_Help                
-0     00082942  _CMD_CheckMatch          
-0     000829b5  _CMD_SetNewCommandFlag   
-0     000829bc  _CMD_GetNewCommandFlag   
-0     000829c0  _CMD_CommandSize         
-0     000829f8  _CMD_PrintCommand        
-0     00082a23  _CMD_PrintAllCommands    
-0     00082a48  _CMD_SendSanyo           
-0     00082a9c  _InitIR                  
-0     00082aa9  _InitIRSend              
-0     00082ab3  _InitIRReceive           
-0     00082ab4  _IR_LEDModulePins        
-0     00082aca  _IR_LEDTest              
-0     00082ade  _IR_LEDPWMTest           
-0     00082ae2  _IR_LED                  
-0     00082af1  _IR_SendNECRepeat        
-0     00082b14  _IR_SendNEC              
-0     00082b6e  _IR_SendNECWithRepeat    
-0     00082b76  _IR_CMDCheckMatch        
-0     00082bf1  _InitPWM                 
-0     00082c43  _PWM_SetFrequency        
-0     00082c61  _PWM_SetDutyCycle        
-0     00082c9d  _PWM_SetCMPB             
-0     00082ca4  _PWM_GetCMPB             
-0     00082ca8  _PWM_ResetTBClock        
-0     00082cac  _PWM_Interrupt8          
-0     00082cc3  _Init_Pins               
-0     00082d79  _Init_Modules            
-0     00082d8a  _InitTimers              
-0     00082d8f  _InitTimer0              
-0     00082da8  _InitTimer1              
-0     00082db2  _TMR_SetTimerWithPeriod0 
-0     00082db7  _TMR_GetTimer0           
-0     00082dc2  _TMR_SetTimerPeriod0     
-0     00082dcb  _TMR_GetTimerPeriod0     
-0     00082dd6  _TMR_Interrupt0          
-0     00082df4  _TMR_StartTimer0         
-0     00082e03  _TMR_SetTimerFlag0       
-0     00082e08  _TMR_ClearTimerFlag0     
-0     00082e0c  _TMR_GetTimerFlag0       
-0     00082e10  _InitRelay               
-0     00082e2c  _RLY_ZeroCrossInterrupt  
-0     00082e43  _RLY_MechRelay           
-0     00082e52  _RLY_SolidStateRelay     
-0     00082e61  _InitLEDs                
-0     00082e8a  _LED_RedLED              
-0     00082e99  _LED_GreenLED            
-0     00082ea8  _c_int00                 
-0     00082eee  _InitButtons             
-0     00082f0a  _BUT_ButtonInterrupt     
-0     00082f21  _BUT_SetButtonFlag       
-0     00082f28  _BUT_GetButtonFlag       
-0     00082f2c  _main                    
-0     00082f63  _memcpy                  
-0     00082f81  __args_main              
-0     00082f9a  C$$EXIT                  
-0     00082f9a  _abort                   
-0     00082f9c  _exit                    
-0     00082fb3  __register_unlock        
-0     00082fb7  __register_lock          
-0     00082fbb  __nop                    
+0     00082606  _InitCMD                 
+0     0008260b  _CMD_Help                
+0     0008261c  _CMD_CheckMatch          
+0     0008268f  _CMD_SetNewCommandFlag   
+0     00082696  _CMD_GetNewCommandFlag   
+0     0008269a  _CMD_CommandSize         
+0     000826d2  _CMD_PrintCommand        
+0     000826fd  _CMD_PrintAllCommands    
+0     00082722  _CMD_SendSanyo           
+0     00082776  _CMD_SendVisio           
+0     000827ca  _CMD_SendIdylis          
+0     0008281e  _ISR_UART_A_RX           
+0     0008286a  _ISR_UART_A_TX           
+0     000828c8  _ISR_INT1_BUTTON         
+0     000828ff  _ISR_INT2_ZEROCROSS      
+0     00082930  _ISR_INT3_IR_RECEIVE     
+0     00082941  _ISR_TIMER0_DELAY        
+0     00082977  _ISR_TIMER1_IR_RECEIVE   
+0     00082984  _ISR_TIMER2_SS_Relay     
+0     00082991  _ISR_EPWM_8_IRLED        
+0     000829c8  _MSC_DelayUS             
+0     00082a1b  _MSC_DelayNOP            
+0     00082a2e  _MSC_IsPrintable         
+0     00082a3b  _MSC_StringCopy          
+0     00082a52  _MSC_LowercaseChar       
+0     00082a5e  _MSC_Round               
+0     00082a6d  _MSC_ReverseLong         
+0     00082b62  _InitIR                  
+0     00082b6f  _InitIRSend              
+0     00082b79  _InitIRReceive           
+0     00082b96  _IR_ReceiverInterrupt    
+0     00082bad  _IR_LEDModulePins        
+0     00082bc3  _IR_LEDTest              
+0     00082bd7  _IR_LEDPWMTest           
+0     00082bdb  _IR_LED                  
+0     00082bea  _IR_SendNECRepeat        
+0     00082c0d  _IR_SendNEC              
+0     00082c67  _IR_SendNECWithRepeat    
+0     00082c6f  _IR_CMDCheckMatch        
+0     00082cea  _InitTimers              
+0     00082cf1  _InitTimer0              
+0     00082d0a  _InitTimer1              
+0     00082d20  _InitTimer2              
+0     00082d2a  _TMR_SetTimerWithPeriod0 
+0     00082d2f  _TMR_SetTimerWithPeriod1 
+0     00082d34  _TMR_GetTimer0           
+0     00082d3f  _TMR_GetTimer1           
+0     00082d4a  _TMR_SetTimerPeriod0     
+0     00082d53  _TMR_SetTimerPeriod1     
+0     00082d5c  _TMR_GetTimerPeriod0     
+0     00082d67  _TMR_GetTimerPeriod1     
+0     00082d72  _TMR_Interrupt0          
+0     00082d90  _TMR_Interrupt1          
+0     00082da2  _TMR_StartTimer0         
+0     00082db1  _TMR_StartTimer1         
+0     00082dc0  _TMR_SetTimerFlag0       
+0     00082dc5  _TMR_ClearTimerFlag0     
+0     00082dc9  _TMR_GetTimerFlag0       
+0     00082dcd  _InitPWM                 
+0     00082e1f  _PWM_SetFrequency        
+0     00082e3d  _PWM_SetDutyCycle        
+0     00082e79  _PWM_SetCMPB             
+0     00082e80  _PWM_GetCMPB             
+0     00082e84  _PWM_ResetTBClock        
+0     00082e88  _PWM_Interrupt8          
+0     00082e9f  _Init_Pins               
+0     00082f55  _Init_Modules            
+0     00082f66  _InitRelay               
+0     00082f82  _RLY_ZeroCrossInterrupt  
+0     00082f99  _RLY_MechRelay           
+0     00082fa8  _RLY_SolidStateRelay     
+0     00082fb7  _InitLEDs                
+0     00082fe0  _LED_RedLED              
+0     00082fef  _LED_GreenLED            
+0     00082ffe  _c_int00                 
+0     00083044  _InitButtons             
+0     00083060  _BUT_ButtonInterrupt     
+0     00083077  _BUT_SetButtonFlag       
+0     0008307e  _BUT_GetButtonFlag       
+0     00083082  _main                    
+0     000830b9  _memcpy                  
+0     000830d7  __args_main              
+0     000830f0  C$$EXIT                  
+0     000830f0  _abort                   
+0     000830f2  _exit                    
+0     00083109  __register_unlock        
+0     0008310d  __register_lock          
+0     00083111  __nop                    
 0     00090000  _Sanyo                   
 0     00090252  _Commands                
-0     0009050e  _Idylis                  
-0     00090592  _Visio                   
+0     000906e6  _Idylis                  
+0     0009076a  _Visio                   
 1     00000400  __stack                  
 1     00000800  __STACK_END              
 1     00000b00  _AdcaResultRegs          
@@ -1322,9 +1345,9 @@ page  address   name
 1     0000aa10  _LSPCLK                  
 1     0000aa12  ___TI_cleanup_ptr        
 1     0000aa14  ___TI_dtors_ptr          
-1     0000aa16  _NumSanyo                
-1     0000aa17  _NumVisio                
-1     0000aa18  _NumIdylis               
+1     0000aa16  _NumVisio                
+1     0000aa17  _NumIdylis               
+1     0000aa18  _NumSanyo                
 1     0000aa19  _Period38kHz             
 1     0000aa1c  __lock                   
 1     0000aa1e  __unlock                 
@@ -1367,4 +1390,4 @@ abs   ffffffff  binit
 abs   ffffffff  etext                    
 abs   ffffffff  pinit                    
 
-[258 symbols]
+[270 symbols]

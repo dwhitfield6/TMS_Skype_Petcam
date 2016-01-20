@@ -34,13 +34,21 @@
 void InitTimers(void);
 void InitTimer0(void);
 void InitTimer1(void);
+void InitTimer2(void);
 void TMR_SetTimerWithPeriod0(void);
+void TMR_SetTimerWithPeriod1(void);
 unsigned long TMR_GetTimer0(void);
+unsigned long TMR_GetTimer1(void);
 void TMR_SetTimerPeriod0(unsigned long period);
+void TMR_SetTimerPeriod1(unsigned long period);
 unsigned long TMR_GetTimerPeriod0(void);
+unsigned long TMR_GetTimerPeriod1(void);
 unsigned char TMR_Interrupt0(unsigned char state);
+unsigned char TMR_Interrupt1(unsigned char state);
 void TMR_StartTimer0(unsigned char state);
+void TMR_StartTimer1(unsigned char state);
 void TMR_SetTimerFlag0(void);
 void TMR_ClearTimerFlag0(void);
 unsigned char TMR_GetTimerFlag0(void);
+
 #endif	/* TIMERS_H */
