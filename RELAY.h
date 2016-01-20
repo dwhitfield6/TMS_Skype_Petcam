@@ -24,22 +24,25 @@
 #include "USER.h"
 
 /******************************************************************************/
-/* ADC_BITS
+/* SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
  *
- * This is the resolution in bits of the internal ADC						  */
+ * This macro defines the type of solid state relay. When defined it means
+ *  the solid state relay has built in zerocross detection so dimming is
+ *  impossible.																  */
 /******************************************************************************/
-//#define ADC_BITS 10
+#define SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
 
 /******************************************************************************/
-/* VREF
+/* AC_FREQUENCY
  *
- * This is the reference voltage for the a measurements.					  */
+ * This is the frequency of the wall AC.									  */
 /******************************************************************************/
-#define VREF 3.3
+#define AC_FREQUENCY 60.0
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
+extern unsigned char RLY_SSRelayDuty;
 
 /******************************************************************************/
 /* Defines                                                                    */

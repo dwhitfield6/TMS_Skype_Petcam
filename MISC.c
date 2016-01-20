@@ -51,6 +51,11 @@ void MSC_DelayUS(unsigned long US)
     double prescalerD;
     long prescalerL;
 
+    if(US == 0)
+    {
+    	return;
+    }
+
     prescalerD = MSC_Round(((double)SYSCLK * (double) US) / (16.0 * 1000000.0));
     prescalerL = (long) prescalerD;
 

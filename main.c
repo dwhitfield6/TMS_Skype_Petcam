@@ -21,10 +21,12 @@
 /******************************************************************************/
 #include "F2837xS_device.h"     		// TMS320F28377S Include file
 #include "F2837xS_GlobalPrototypes.h"
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 
 #include "CMD.h"
+#include "IR.h"
 #include "LED.h"
 #include "MISC.h"
 #include "SYSTEM.h"
@@ -77,6 +79,7 @@ int main (void)
     {
     	if(CMD_GetNewCommandFlag())
     	{
+    		/* process new command */
     		if(!CMD_CheckMatch(CommandString, Commands, LARGEST_COMMAND))
     		{
     			UART_SendStringCRLN(BAD_COMMAND);
@@ -87,6 +90,17 @@ int main (void)
     		}
     		CMD_SetNewCommandFlag(FALSE);
 			UART_SendPrompt();
+    	}
+    	if(IR_GetReceiveFlag())
+    	{
+    		if(IR_ProcessReceiveNEC(&temp_NEC))
+    		{
+    			NEC = temp_NEC;
+    			sprintf((char*)SPRINTBuffer, "Received IR NEC code: %ld", NEC);
+    			UART_SendStringCRLN(SPRINTBuffer);
+    		}
+    		IR_ReceiverInterrupt(ON);
+    		IR_ClearReceiveFlag();
     	}
     }
 }

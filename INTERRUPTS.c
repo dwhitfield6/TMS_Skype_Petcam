@@ -356,7 +356,27 @@ interrupt void ISR_INT1_BUTTON(void)
 /******************************************************************************/
 interrupt void ISR_INT2_ZEROCROSS(void)
 {
-	RLY_SolidStateRelay(OFF);
+	/* turn off the relay and set the timer to fire */
+
+	if(RLY_SSRelayDuty == 0)
+	{
+		TMR_StartTimer2(OFF);
+		TMR_Interrupt2(OFF);
+		RLY_SolidStateRelay(OFF);
+	}
+	else if(RLY_SSRelayDuty == 100)
+	{
+		TMR_StartTimer2(OFF);
+		TMR_Interrupt2(OFF);
+		RLY_SolidStateRelay(OFF);
+	}
+	else
+	{
+		RLY_SolidStateRelay(OFF);
+		TMR_SetTimerWithPeriod2();
+		TMR_Interrupt2(ON);
+		TMR_StartTimer2(ON);
+	}
 
 	/* Acknowledge this interrupt from group 1 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
@@ -369,6 +389,83 @@ interrupt void ISR_INT2_ZEROCROSS(void)
 /******************************************************************************/
 interrupt void ISR_INT3_IR_RECEIVE(void)
 {
+	unsigned long microseconds;
+	unsigned long counts;
+	unsigned char done = FALSE;
+
+	counts = IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
+	microseconds = TMR_CountsToMicroseconds(counts);
+
+	if(TMR_GetStartTimerStatus1())
+	{
+		/* timer is running */
+		if(!IR_NEC_Start)
+		{
+			if((microseconds >= NEC_HEADER_LOW) && (microseconds <= NEC_HEADER_HIGH))
+			{
+				/* header was seen so this is the start of an NEC code */
+				IR_Receive_Timing_place = 0;
+				NEC_REPEAT = FALSE;
+				IR_NEC_Start = TRUE;
+				IR_Receive_Timing_Counts[IR_Receive_Timing_place] =
+				IR_Receive_Timing_MicroSeconds[IR_Receive_Timing_place] = TMR_CountsToMicroseconds(IR_Receive_Timing_Counts[IR_Receive_Timing_place]);
+				IR_Receive_Timing_place++;
+			}
+		}
+		else
+		{
+			if(IR_Receive_Timing_place == 1)
+			{
+				if((microseconds >= NEC_REPEAT_LOW) && (microseconds <= NEC_REPEAT_HIGH))
+				{
+					NEC_REPEAT = TRUE;
+				}
+				else if((microseconds >= NEC_NONREPEAT_LOW) && (microseconds <= NEC_NONREPEAT_HIGH))
+				{
+					NEC_REPEAT = FALSE;
+				}
+			}
+			if(IR_Receive_Timing_place < MAX_IR_RECEIVE_EVENTS)
+			{
+				IR_Receive_Timing_Counts[IR_Receive_Timing_place] =
+				IR_Receive_Timing_MicroSeconds[IR_Receive_Timing_place] = TMR_CountsToMicroseconds(IR_Receive_Timing_Counts[IR_Receive_Timing_place]);
+				IR_Receive_Timing_place++;
+			}
+			if(NEC_REPEAT)
+			{
+				if(IR_Receive_Timing_place >= NEC_CODE_EDGES_REPEAT)
+				{
+					/* This is the end of a repeat code so turn off the timer and external interrupt and process */
+					IR_ReceiverInterrupt(OFF);
+					IR_SetReceiveFlag();
+					done = TRUE;
+				}
+			}
+			else
+			{
+				if(IR_Receive_Timing_place >= NEC_CODE_EDGES_NONREPEAT)
+				{
+					/* This is the end of a code so turn off the timer and external interrupt and process */
+					IR_ReceiverInterrupt(OFF);
+					IR_SetReceiveFlag();
+					done = TRUE;
+				}
+			}
+		}
+	}
+
+	/* load and start timer */
+	TMR_StartTimer0(FALSE);
+	TMR_SetTimerWithPeriod1();
+	if(done)
+	{
+		IR_NEC_Start = FALSE;
+	}
+	else
+	{
+		TMR_StartTimer0(TRUE);
+	}
+
 	/* Acknowledge this interrupt from group 12 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP12;
 }
@@ -395,7 +492,9 @@ interrupt void ISR_TIMER0_DELAY(void)
 /******************************************************************************/
 interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
-
+	/* IR receiver timout */
+	TMR_StartTimer0(FALSE);
+	TMR_SetTimerWithPeriod1();
 }
 
 /******************************************************************************/
@@ -405,7 +504,9 @@ interrupt void ISR_TIMER1_IR_RECEIVE(void)
 /******************************************************************************/
 interrupt void ISR_TIMER2_SS_Relay(void)
 {
-
+	RLY_SolidStateRelay(ON);
+	TMR_StartTimer2(OFF);
+	TMR_Interrupt2(OFF);
 }
 
 /******************************************************************************/

@@ -28,11 +28,13 @@
 #include "INTERRUPTS.h"
 #include "RELAY.h"
 #include "SYSTEM.h"
+#include "TIMERS.h"
 #include "USER.h"
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
+unsigned char RLY_SSRelayDuty = 0;
 
 /******************************************************************************/
 /* Inline Functions 														  */
@@ -112,6 +114,21 @@ void RLY_SolidStateRelay(unsigned char state)
 	{
 		SYS_WritePin(SS_RELAY_GPIO, OFF);
 	}
+}
+
+/******************************************************************************/
+/* RLY_SSRelayDutyCycle
+ *
+ * The function sets the solid state relay duty cycle.						  */
+/******************************************************************************/
+void RLY_SetSSRelayDutyCycle(unsigned char duty)
+{
+	unsigned long period;
+
+	RLY_SSRelayDuty = duty;
+	period = TMR_DutyToPeriod(duty);
+	TMR_StartTimer2(FALSE);				// stop timer
+	TMR_SetTimerPeriod2(period);
 }
 
 /*-----------------------------------------------------------------------------/

@@ -51,6 +51,7 @@ const COMMANDTYPE Commands[] =
 unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
 unsigned char NumCommands;
 unsigned char MiscBuffer[MISC_BUFFER_SIZE];
+unsigned char SPRINTBuffer[SPRINT_BUFFER_SIZE];
 
 /******************************************************************************/
 /* Inline Functions															  */
@@ -210,7 +211,7 @@ void CMD_PrintCommand(const COMMANDTYPE* command)
     	UART_SendChar(' ');
         count++;
     }
-    UART_SendStringCRLN(command->Help);
+    UART_SendStringCRLN((unsigned char*) command->Help);
 }
 
 /******************************************************************************/
@@ -248,7 +249,7 @@ void CMD_SendSanyo(void)
 		UART_SendStringCRLN("Available Sanyo codes:");
 		for(i=0;i<NumSanyo;i++)
 		{
-			UART_SendStringCRLN(Sanyo[i].Description);
+			UART_SendStringCRLN((unsigned char*) Sanyo[i].Description);
 		}
 		UART_SendStringCRLN("");
 		UART_SendStringCRLN("For example 'IR Sanyo Send Power'");
@@ -284,7 +285,7 @@ void CMD_SendVisio(void)
 		UART_SendStringCRLN("Available Visio codes:");
 		for(i=0;i<NumVisio;i++)
 		{
-			UART_SendStringCRLN(Visio[i].Description);
+			UART_SendStringCRLN((unsigned char*) Visio[i].Description);
 		}
 		UART_SendStringCRLN("");
 		UART_SendStringCRLN("For example 'IR Visio Send Power'");
@@ -320,7 +321,7 @@ void CMD_SendIdylis(void)
 		UART_SendStringCRLN("Available Idylis codes:");
 		for(i=0;i<NumIdylis;i++)
 		{
-			UART_SendStringCRLN(Idylis[i].Description);
+			UART_SendStringCRLN((unsigned char*) Idylis[i].Description);
 		}
 		UART_SendStringCRLN("");
 		UART_SendStringCRLN("For example 'IR Idylis Send Power'");

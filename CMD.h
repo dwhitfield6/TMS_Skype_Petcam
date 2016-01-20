@@ -48,6 +48,13 @@
 #define MISC_BUFFER_SIZE 50
 
 /******************************************************************************/
+/* SPRINT_BUFFER_SIZE
+ *
+ * This is the size of the sprintf buffer.									  */
+/******************************************************************************/
+#define SPRINT_BUFFER_SIZE 200
+
+/******************************************************************************/
 /* LARGEST_HELP
  *
  * This is the largest help string in characters.							  */
@@ -78,6 +85,7 @@ extern const COMMANDTYPE Commands[];
 extern unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
 extern unsigned char NumCommands;
 extern unsigned char MiscBuffer[MISC_BUFFER_SIZE];
+extern unsigned char SPRINTBuffer[SPRINT_BUFFER_SIZE];
 
 /******************************************************************************/
 /* Defines                                                                    */

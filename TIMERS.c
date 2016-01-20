@@ -25,6 +25,9 @@
 #include <stdbool.h>
 
 #include "INTERRUPTS.h"
+#include "IR.h"
+#include "MISC.h"
+#include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
 #include "USER.h"
@@ -88,6 +91,7 @@ void InitTimer1(void)
 	PieVectTable.TIMER1_INT = &ISR_TIMER1_IR_RECEIVE;
 	SYS_Lock();
 
+	TMR_SetTimerPeriod1(IR_RECEIVE_COUNTS_TIMEOUT);
 	TMR_Interrupt1(ON);
 	TMR_StartTimer1(FALSE);						// Stop the timer
 	CpuTimer1Regs.TPR.bit.TDDR = 15;			// presceler is 16
@@ -128,6 +132,16 @@ void TMR_SetTimerWithPeriod1(void)
 }
 
 /******************************************************************************/
+/* TMR_SetTimerWithPeriod2
+ *
+ * The function loads the period cont to the timer TIM register.			  */
+/******************************************************************************/
+void TMR_SetTimerWithPeriod2(void)
+{
+	CpuTimer2Regs.TCR.bit.TRB = 1;
+}
+
+/******************************************************************************/
 /* TMR_GetTimer0
  *
  * The function gets the TIM register for the current timer count.			  */
@@ -158,6 +172,21 @@ unsigned long TMR_GetTimer1(void)
 }
 
 /******************************************************************************/
+/* TMR_GetTimer2
+ *
+ * The function gets the TIM register for the current timer count.			  */
+/******************************************************************************/
+unsigned long TMR_GetTimer2(void)
+{
+	unsigned long timer;
+
+	timer = (unsigned long)CpuTimer2Regs.TIM.bit.MSW << 16;
+	timer += CpuTimer2Regs.TIM.bit.LSW;
+
+	return timer;
+}
+
+/******************************************************************************/
 /* TMR_SetTimerPeriod0
  *
  * The function sets the PRD register for the period count.					  */
@@ -179,6 +208,16 @@ void TMR_SetTimerPeriod1(unsigned long period)
 	CpuTimer1Regs.PRD.bit.LSW = period;
 }
 
+/******************************************************************************/
+/* TMR_SetTimerPeriod2
+ *
+ * The function sets the PRD register for the period count.					  */
+/******************************************************************************/
+void TMR_SetTimerPeriod2(unsigned long period)
+{
+	CpuTimer2Regs.PRD.bit.MSW = (period >> 16);
+	CpuTimer2Regs.PRD.bit.LSW = period;
+}
 
 /******************************************************************************/
 /* TMR_GetTimerPeriod0
@@ -206,6 +245,21 @@ unsigned long TMR_GetTimerPeriod1(void)
 
 	period = (unsigned long)CpuTimer1Regs.PRD.bit.MSW << 16;
 	period += CpuTimer1Regs.PRD.bit.LSW;
+
+	return period;
+}
+
+/******************************************************************************/
+/* TMR_GetTimerPeriod2
+ *
+ * The function gets the PRD register for the period count.					  */
+/******************************************************************************/
+unsigned long TMR_GetTimerPeriod2(void)
+{
+	unsigned long period;
+
+	period = (unsigned long)CpuTimer2Regs.PRD.bit.MSW << 16;
+	period += CpuTimer2Regs.PRD.bit.LSW;
 
 	return period;
 }
@@ -253,6 +307,26 @@ unsigned char TMR_Interrupt1(unsigned char state)
 }
 
 /******************************************************************************/
+/* TMR_Interrupt2
+ *
+ * The function controls the Timer 2 interrupt.								  */
+/******************************************************************************/
+unsigned char TMR_Interrupt2(unsigned char state)
+{
+    unsigned char status = CpuTimer2Regs.TCR.bit.TIE;
+
+    if(state)
+    {
+    	CpuTimer2Regs.TCR.bit.TIE = 1; 			// Enable the Timer interrupt
+    }
+    else
+    {
+    	CpuTimer2Regs.TCR.bit.TIE = 0; 			// Disable the Timer interrupt
+    }
+    return status;
+}
+
+/******************************************************************************/
 /* TMR_StartTimer0
  *
  * The function either starts or stops the timer.							  */
@@ -269,6 +343,7 @@ void TMR_StartTimer0(unsigned char state)
 	}
 }
 
+
 /******************************************************************************/
 /* TMR_StartTimer1
  *
@@ -284,6 +359,65 @@ void TMR_StartTimer1(unsigned char state)
 	{
 		CpuTimer1Regs.TCR.bit.TSS = 1; // stop the CPU-timer
 	}
+}
+
+/******************************************************************************/
+/* TMR_StartTimer2
+ *
+ * The function either starts or stops the timer.							  */
+/******************************************************************************/
+void TMR_StartTimer2(unsigned char state)
+{
+	if(state)
+	{
+		CpuTimer2Regs.TCR.bit.TSS = 0; // start or restart the CPU-timer
+	}
+	else
+	{
+		CpuTimer2Regs.TCR.bit.TSS = 1; // stop the CPU-timer
+	}
+}
+
+/******************************************************************************/
+/* TMR_GetStartTimerStatus0
+ *
+ * The function returns TRUE if the timer is running.						  */
+/******************************************************************************/
+unsigned char TMR_GetStartTimerStatus0(void)
+{
+	if(CpuTimer0Regs.TCR.bit.TSS)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/******************************************************************************/
+/* TMR_GetStartTimerStatus1
+ *
+ * The function returns TRUE if the timer is running.						  */
+/******************************************************************************/
+unsigned char TMR_GetStartTimerStatus1(void)
+{
+	if(CpuTimer1Regs.TCR.bit.TSS)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/******************************************************************************/
+/* TMR_GetStartTimerStatus2
+ *
+ * The function returns TRUE if the timer is running.						  */
+/******************************************************************************/
+unsigned char TMR_GetStartTimerStatus2(void)
+{
+	if(CpuTimer2Regs.TCR.bit.TSS)
+	{
+		return TRUE;
+	}
+	return FALSE;
 }
 
 /******************************************************************************/
@@ -314,6 +448,35 @@ void TMR_ClearTimerFlag0(void)
 unsigned char TMR_GetTimerFlag0(void)
 {
 	return Timer0_Timeout;
+}
+
+/******************************************************************************/
+/* TMR_CountsToMicroseconds
+ *
+ * The function calculates microseconds from counts.						  */
+/******************************************************************************/
+unsigned long TMR_CountsToMicroseconds(unsigned long counts)
+{
+	unsigned long microseconds;
+
+	microseconds = (unsigned long) MSC_Round((16.0 / (double)SYSCLK) * (double) counts);
+	return microseconds;
+}
+
+/******************************************************************************/
+/* TMR_DutyToPeriod
+ *
+ * The function calculates the period from the dutycycle.					  */
+/******************************************************************************/
+unsigned long TMR_DutyToPeriod(unsigned char duty)
+{
+	unsigned long complete_cycle;
+	unsigned long percent_1_cycle;
+
+	complete_cycle = (unsigned long) MSC_Round((2.0 / AC_FREQUENCY) * ((double)SYSCLK / 16.0));
+	percent_1_cycle = (unsigned long) MSC_Round((double) complete_cycle / 100.0);
+
+	return percent_1_cycle * duty;
 }
 
 /*-----------------------------------------------------------------------------/

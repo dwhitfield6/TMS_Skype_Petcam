@@ -113,8 +113,7 @@ void Init_Pins(void)
     SYS_SetupPinOptions(ZEROCROSS_GPIO, GPIO_INPUT, GPIO_NONE);
 
     /************* IR Communications *************/
-    /* Connected to the MOSFET controllng the IR LED */
-    /* optocoupler */
+    /* Connected to the MOSFET controlling the IR LED */
     IR_LED(OFF);
     SYS_SetupPinMux(IR_LED_GPIO, GPIO_MUX_CPU1, 0);
     SYS_SetupPinOptions(IR_LED_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);

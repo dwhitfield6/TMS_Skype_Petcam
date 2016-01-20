@@ -92,11 +92,23 @@ const NECTYPE Idylis[] =
 };
 
 /******************************************************************************/
+/* Private Variable Declaration		                                          */
+/******************************************************************************/
+static unsigned char IR_Receive_Flag = FALSE;
+
+/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 unsigned char NumSanyo = 0;
 unsigned char NumVisio = 0;
 unsigned char NumIdylis = 0;
+unsigned long IR_Receive_Timing_Counts[MAX_IR_RECEIVE_EVENTS];
+unsigned long IR_Receive_Timing_MicroSeconds[MAX_IR_RECEIVE_EVENTS];
+unsigned short IR_Receive_Timing_place = 0;
+unsigned char NEC_REPEAT = FALSE;
+unsigned char IR_NEC_Start = FALSE;
+unsigned long NEC;
+unsigned long temp_NEC;
 
 /******************************************************************************/
 /* Functions																  */
@@ -140,11 +152,12 @@ void InitIRReceive(void)
 	PieVectTable.XINT3_INT = &ISR_INT3_IR_RECEIVE;
 	SYS_Lock();
 	SYS_EnableInterruptGroup(INTERRUPT_GROUP12);	// Group for INT12
-	IR_ReceiverInterrupt(ON);
+	IR_DisableReceive();
 	SYS_Unlock();
     InputXbarRegs.INPUT6SELECT = IR_RECEIVER_GPIO;	//Set XINT3 source to GPIO-pin
     SYS_Lock();
     XintRegs.XINT3CR.bit.POLARITY = 0b11;    		// 11: Interrupt is selected as positive or negative edge triggered
+    IR_EnableReceive();
 }
 
 /******************************************************************************/
@@ -237,6 +250,8 @@ void IR_LED(unsigned char state)
 /******************************************************************************/
 void IR_SendNECRepeat(void)
 {
+	IR_DisableReceive(); // disable the IR receive
+
 	/* make sure that the first cycle is fresh */
 	PWM_ResetTBClock();
 
@@ -250,6 +265,8 @@ void IR_SendNECRepeat(void)
     MSC_DelayUS(563);
     IR_LEDModulePins(FALSE);
     MSC_DelayUS(96875);
+
+    IR_EnableReceive();	// enable the IR receive
 }
 
 /******************************************************************************/
@@ -260,6 +277,8 @@ void IR_SendNECRepeat(void)
 void IR_SendNEC(unsigned long code)
 {
     unsigned char i;
+
+    IR_DisableReceive(); // disable the IR receive
 
     /* reverse code for LSB */
     code = MSC_ReverseLong(code);
@@ -298,6 +317,8 @@ void IR_SendNEC(unsigned long code)
     MSC_DelayUS(563);
     IR_LEDModulePins(FALSE);
     MSC_DelayUS(40500);
+
+    IR_EnableReceive();	// enable the IR receive
 }
 
 /******************************************************************************/
@@ -376,6 +397,154 @@ unsigned char IR_CMDCheckMatch(unsigned char* received, const NECTYPE* codes, un
     }
     return FAIL;
 }
+
+/******************************************************************************/
+/* IR_SetReceiveFlag
+ *
+ * The function sets the IR receiver flag.									  */
+/******************************************************************************/
+void IR_SetReceiveFlag(void)
+{
+	IR_Receive_Flag = TRUE;
+}
+
+/******************************************************************************/
+/* IR_ClearReceiveFlag
+ *
+ * The function clears the IR receiver flag.								  */
+/******************************************************************************/
+void IR_ClearReceiveFlag(void)
+{
+	IR_Receive_Flag = FALSE;
+}
+
+/******************************************************************************/
+/* IR_GetReceiveFlag
+ *
+ * The function gets the IR receiver flag.									  */
+/******************************************************************************/
+unsigned char IR_GetReceiveFlag(void)
+{
+	return IR_Receive_Flag;
+}
+
+/******************************************************************************/
+/* IR_ProcessReceiveNEC
+ *
+ * The function processes an NEC command.									  */
+/******************************************************************************/
+unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
+{
+	unsigned short place = 0;
+	unsigned char shift;
+
+	*NEC = 0;
+
+	if(IR_Receive_Timing_place == NEC_CODE_EDGES_REPEAT)
+	{
+		while(place < IR_Receive_Timing_place)
+		{
+			switch (place)
+			{
+				case 0:
+					if((IR_Receive_Timing_MicroSeconds[place] < NEC_HEADER_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_HEADER_HIGH))
+					{
+						return FAIL;
+					}
+					break;
+				case 1:
+					if((IR_Receive_Timing_MicroSeconds[place] < NEC_REPEAT_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_REPEAT_HIGH))
+					{
+						return FAIL;
+					}
+					break;
+				case 2:
+					if((IR_Receive_Timing_MicroSeconds[place] < NEC_PULSE_BURST_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_PULSE_BURST_HIGH))
+					{
+						return FAIL;
+					}
+					break;
+				case 3:
+					*NEC = 0xFFFFFFFF;
+					return TRUE;
+			}
+			place++;
+		}
+	}
+	else if(IR_Receive_Timing_place == NEC_CODE_EDGES_NONREPEAT)
+	{
+		while(place < IR_Receive_Timing_place)
+		{
+			switch (place)
+			{
+				case 0:
+					if((IR_Receive_Timing_MicroSeconds[place] < NEC_HEADER_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_HEADER_HIGH))
+					{
+						return FAIL;
+					}
+					break;
+				case 1:
+					if((IR_Receive_Timing_MicroSeconds[place] < NEC_NONREPEAT_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_NONREPEAT_HIGH))
+					{
+						return FAIL;
+					}
+					break;
+				default:
+					shift = 31;
+					while(place < IR_Receive_Timing_place)
+					{
+						if((IR_Receive_Timing_MicroSeconds[place] < NEC_PULSE_BURST_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_PULSE_BURST_HIGH))
+						{
+							return FAIL;
+						}
+						place++;
+						if((IR_Receive_Timing_MicroSeconds[place] >= NEC_SPACE_SHORT_LOW) && (IR_Receive_Timing_MicroSeconds[place] <= NEC_SPACE_SHORT_HIGH))
+						{
+							/* code is 0 so do nothing */
+							NOP();
+						}
+						else if((IR_Receive_Timing_MicroSeconds[place] >= NEC_SPACE_LONG_LOW) && (IR_Receive_Timing_MicroSeconds[place] <= NEC_SPACE_LONG_HIGH))
+						{
+							/* code is 1 */
+							*NEC |= 1 << shift;
+						}
+						else
+						{
+							return FAIL;
+						}
+						shift--;
+						place++;
+					}
+					break;
+			}
+			place++;
+		}
+		return TRUE;
+	}
+	return FAIL;
+}
+
+/******************************************************************************/
+/* IR_DisableReceive
+ *
+ * The function disables the IR receive functionality. 						  */
+/******************************************************************************/
+void IR_DisableReceive(void)
+{
+	TMR_StartTimer0(FALSE);
+	IR_ReceiverInterrupt(OFF);
+}
+
+/******************************************************************************/
+/* IR_EnableReceive
+ *
+ * The function enables the IR receive functionality. 						  */
+/******************************************************************************/
+void IR_EnableReceive(void)
+{
+	IR_ReceiverInterrupt(ON);
+}
+
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/
