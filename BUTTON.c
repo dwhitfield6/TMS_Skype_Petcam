@@ -71,6 +71,7 @@ void InitButtons(void)
 /******************************************************************************/
 void BUT_ButtonInterrupt(unsigned char state)
 {
+	SYS_Unlock();
 	if (state)
 	{
 		PieCtrlRegs.PIEIER1.bit.INTx4 = 1;   	// Enable PIE Group 1 INT4
@@ -81,6 +82,7 @@ void BUT_ButtonInterrupt(unsigned char state)
 		PieCtrlRegs.PIEIER1.bit.INTx4 = 0;    	// Enable PIE Group 1 INT4
 		XintRegs.XINT1CR.bit.ENABLE = 0;        // Disable XINT1
 	}
+	SYS_Lock();
 }
 
 /******************************************************************************/

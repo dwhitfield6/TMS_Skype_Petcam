@@ -173,6 +173,7 @@ void PWM_ResetTBClock(void)
 /******************************************************************************/
 void PWM_Interrupt8(unsigned char state)
 {
+	SYS_Unlock();
 	if(state)
 	{
 		EPwm8Regs.ETSEL.bit.INTEN = 1;		// Enable EPWMx_INT generation
@@ -183,6 +184,7 @@ void PWM_Interrupt8(unsigned char state)
 		EPwm8Regs.ETSEL.bit.INTEN = 0;		// Disable EPWMx_INT generation
 		PieCtrlRegs.PIEIER3.bit.INTx8 = 0;	// EPWM1 interrupt disabled
 	}
+	SYS_Lock();
 }
 
 /*-----------------------------------------------------------------------------/

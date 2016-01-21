@@ -24,6 +24,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "ADC.h"
+#include "AUDIO.h"
 #include "BUTTON.h"
 #include "CMD.h"
 #include "IR.h"
@@ -32,6 +34,7 @@
 #include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
+#include "TV.h"
 #include "UART.h"
 #include "USER.h"
 
@@ -167,6 +170,9 @@ void Init_Modules(void)
 	InitRelay();
 	InitPWM();
 	InitIR();
+	InitADC();
+	InitAudio();
+	InitTV();
 }
 
 /*-----------------------------------------------------------------------------/

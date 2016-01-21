@@ -24,8 +24,29 @@
 #include "USER.h"
 
 /******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
+typedef enum e_processing
+{
+	AVERAGE = 0,
+}ENUM_AUDIO_PROCESSING;
+
+/******************************************************************************/
+/* AUDIO_ADC_BUFFER_SIZE
+ *
+ * This is the buffer size for storing raw AADC counts of audio samples.	  */
+/******************************************************************************/
+#define AUDIO_ADC_BUFFER_SIZE 1000
+
+/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
+extern unsigned short Audio_ADC_Counts_Buffer[AUDIO_ADC_BUFFER_SIZE];
+extern unsigned short Audio_ADC_Counts_place;
+extern unsigned short AudioProcessingSample;
+extern double AudioProcess1;
+extern double AudioProcess2;
+extern ENUM_AUDIO_PROCESSING AudioProcessing;
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -38,5 +59,11 @@
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
+void InitAudio(void);
+void AUD_Sampling(unsigned char state);
+void AUD_SetSamplingEnabledFlag(unsigned char state);
+unsigned char AUD_GetSamplingEnabledFlag(void);
+void AUD_Process(unsigned short* buffer, unsigned short AmountInBuffer, ENUM_AUDIO_PROCESSING processing, unsigned short AmountToSample, double* result);
+void AUD_ShiftoutBuffer(unsigned short* buffer, unsigned short* amount, unsigned short shift);
 
 #endif	/* AUDIO_H */

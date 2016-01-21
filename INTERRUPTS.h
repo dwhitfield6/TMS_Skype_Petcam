@@ -33,5 +33,6 @@ interrupt void ISR_TIMER0_DELAY(void);
 interrupt void ISR_TIMER1_IR_RECEIVE(void);
 interrupt void ISR_TIMER2_SS_Relay(void);
 interrupt void ISR_EPWM_8_IRLED(void);
+interrupt void ISR_ADC_AUDIO(void);
 
 #endif	/* INTERRUPTS_H */

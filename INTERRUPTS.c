@@ -244,6 +244,8 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
+#include "ADC.h"
+#include "AUDIO.h"
 #include "BUTTON.h"
 #include "INTERRUPTS.h"
 #include "IR.h"
@@ -526,6 +528,32 @@ interrupt void ISR_EPWM_8_IRLED(void)
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP3;
 }
 
+/******************************************************************************/
+/* ADC A1
+ *
+ * Used for audio sampling.					                                  */
+/******************************************************************************/
+interrupt void ISR_ADC_AUDIO(void)
+{
+	unsigned short ADC_counts;
+
+	ADC_InterruptA(OFF);
+	AUD_Sampling(OFF);
+	ADC_counts = AdcaResultRegs.ADCRESULT0;
+	if(Audio_ADC_Counts_place < AUDIO_ADC_BUFFER_SIZE)
+	{
+		Audio_ADC_Counts_Buffer[Audio_ADC_Counts_place] = ADC_counts;
+		Audio_ADC_Counts_place++;
+	}
+
+	if(AUD_GetSamplingEnabledFlag())
+	{
+		ADC_InterruptA(ON);
+		ADC_ForceSampleA();
+	}
+	AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear INT1 flag
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
+}
 
 /*-----------------------------------------------------------------------------/
  End of File

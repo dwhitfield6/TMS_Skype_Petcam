@@ -150,5 +150,6 @@ unsigned char IR_GetReceiveFlag(void);
 unsigned char IR_ProcessReceiveNEC(unsigned long *NEC);
 void IR_DisableReceive(void);
 void IR_EnableReceive(void);
+unsigned char IR_CheckForNECMatch(unsigned long nec, const NECTYPE* codes, unsigned char* index);
 
 #endif	/* IR_H */

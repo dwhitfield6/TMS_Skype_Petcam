@@ -273,6 +273,7 @@ unsigned char TMR_Interrupt0(unsigned char state)
 {
     unsigned char status = CpuTimer0Regs.TCR.bit.TIE;
 
+    SYS_Unlock();
     if(state)
     {
     	PieCtrlRegs.PIEIER1.bit.INTx7 = 1;  	// PIE Group 1, INT7
@@ -283,6 +284,7 @@ unsigned char TMR_Interrupt0(unsigned char state)
     	PieCtrlRegs.PIEIER1.bit.INTx7 = 0;  	// PIE Group 1, INT7
     	CpuTimer0Regs.TCR.bit.TIE = 0; 			// Disable the Timer interrupt
     }
+    SYS_Lock();
     return status;
 }
 
@@ -295,6 +297,7 @@ unsigned char TMR_Interrupt1(unsigned char state)
 {
     unsigned char status = CpuTimer1Regs.TCR.bit.TIE;
 
+    SYS_Unlock();
     if(state)
     {
     	CpuTimer1Regs.TCR.bit.TIE = 1; 			// Enable the Timer interrupt
@@ -303,6 +306,7 @@ unsigned char TMR_Interrupt1(unsigned char state)
     {
     	CpuTimer1Regs.TCR.bit.TIE = 0; 			// Disable the Timer interrupt
     }
+    SYS_Lock();
     return status;
 }
 
@@ -315,6 +319,7 @@ unsigned char TMR_Interrupt2(unsigned char state)
 {
     unsigned char status = CpuTimer2Regs.TCR.bit.TIE;
 
+    SYS_Unlock();
     if(state)
     {
     	CpuTimer2Regs.TCR.bit.TIE = 1; 			// Enable the Timer interrupt
@@ -323,6 +328,7 @@ unsigned char TMR_Interrupt2(unsigned char state)
     {
     	CpuTimer2Regs.TCR.bit.TIE = 0; 			// Disable the Timer interrupt
     }
+    SYS_Lock();
     return status;
 }
 

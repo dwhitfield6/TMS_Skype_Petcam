@@ -70,6 +70,7 @@ void InitRelay(void)
 /******************************************************************************/
 void RLY_ZeroCrossInterrupt(unsigned char state)
 {
+	SYS_Unlock();
 	if (state)
 	{
 		PieCtrlRegs.PIEIER1.bit.INTx5 = 1;   	// Enable PIE Group 1 INT5
@@ -80,6 +81,7 @@ void RLY_ZeroCrossInterrupt(unsigned char state)
 		PieCtrlRegs.PIEIER1.bit.INTx5 = 0;    	// Enable PIE Group 1 INT5
 		XintRegs.XINT2CR.bit.ENABLE = 0;        // Disable XINT2
 	}
+	SYS_Lock();
 }
 
 /******************************************************************************/

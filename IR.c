@@ -167,6 +167,7 @@ void InitIRReceive(void)
 /******************************************************************************/
 void IR_ReceiverInterrupt(unsigned char state)
 {
+	SYS_Unlock();
 	if (state)
 	{
 		PieCtrlRegs.PIEIER12.bit.INTx1 = 1;   	// Enable PIE Group 12 INT1
@@ -177,6 +178,7 @@ void IR_ReceiverInterrupt(unsigned char state)
 		PieCtrlRegs.PIEIER12.bit.INTx1 = 0;   	// Disable PIE Group 12 INT1
 		XintRegs.XINT3CR.bit.ENABLE = 0;        // Disable XINT3
 	}
+	SYS_Lock();
 }
 
 /******************************************************************************/
@@ -543,6 +545,40 @@ void IR_DisableReceive(void)
 void IR_EnableReceive(void)
 {
 	IR_ReceiverInterrupt(ON);
+}
+
+/******************************************************************************/
+/* IR_CheckForNECMatch
+ *
+ * The function checks the NEC code for a match.	 						  */
+/******************************************************************************/
+unsigned char IR_CheckForNECMatch(unsigned long nec, const NECTYPE* codes, unsigned char* index)
+{
+    unsigned char i;
+    unsigned char numbercodes;
+
+    if(codes == Sanyo)
+    {
+    	numbercodes = NumSanyo;
+    }
+    else if(codes == Visio)
+    {
+    	numbercodes = NumVisio;
+    }
+    else if(codes == Idylis)
+    {
+    	numbercodes = NumIdylis;
+    }
+
+	for(i=0; i<numbercodes; i++)
+	{
+		if(codes[i].NEC == nec)
+		{
+			*index = i;
+			return TRUE;
+		}
+	}
+	return FALSE;
 }
 
 /*-----------------------------------------------------------------------------/

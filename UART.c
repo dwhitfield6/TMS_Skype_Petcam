@@ -202,6 +202,7 @@ void UART_ModuleEnableA(unsigned char state)
 /******************************************************************************/
 void UART_ReceiveInterruptA(unsigned char state)
 {
+	SYS_Unlock();
 	if (state)
 	{
 		PieCtrlRegs.PIEIER9.bit.INTx1=1;  	// PIE Group 9, INT1
@@ -212,6 +213,7 @@ void UART_ReceiveInterruptA(unsigned char state)
 		PieCtrlRegs.PIEIER9.bit.INTx1=0;  	// PIE Group 9, INT1
 		SciaRegs.SCICTL2.bit.RXBKINTENA = 0;
 	}
+	SYS_Lock();
 }
 
 /******************************************************************************/
@@ -221,6 +223,7 @@ void UART_ReceiveInterruptA(unsigned char state)
 /******************************************************************************/
 void UART_TransmitInterruptA(unsigned char state)
 {
+	SYS_Unlock();
 	if (state)
 	{
 		PieCtrlRegs.PIEIER9.bit.INTx2=1;  	// PIE Group 9, INT2
@@ -231,6 +234,7 @@ void UART_TransmitInterruptA(unsigned char state)
 		PieCtrlRegs.PIEIER9.bit.INTx2=0;  	// PIE Group 9, INT2
 		SciaRegs.SCICTL2.bit.TXINTENA = 0;
 	}
+	SYS_Lock();
 }
 
 /******************************************************************************/

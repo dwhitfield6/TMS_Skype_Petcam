@@ -198,6 +198,33 @@ unsigned long MSC_ReverseLong(unsigned long This)
 
     return temp;
 }
+
+/******************************************************************************/
+/* MSC_StringMatch
+ *
+ * This function returns TRUE if the array 'This' matches the array 'That'.   */
+/******************************************************************************/
+unsigned char MSC_StringMatch(unsigned char* This, unsigned char* That)
+{
+    while(*This != 0)
+    {
+       if(*This != *That || *That == 0)
+       {
+           return FALSE;
+       }
+       This++;
+       That++;
+    }
+    if(*That == 0)
+    {
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/
