@@ -28,10 +28,21 @@
 /******************************************************************************/
 typedef enum e_tv_input
 {
-    HDMI1 = 0,
-	HDMI2 = 0,
-	HDMI3 = 0,
+    HDMI1 	= 0,
+	HDMI2 	= 1,
+	HDMI3 	= 2,
+	USB		= 3,
+	CABLE	= 4,
+	VIDEO	= 5,
 }ENUM_TV_INPUT;
+
+/******************************************************************************/
+/* TV_REPEAT_NEC_TIMES
+ *
+ * This is the number of repeat characters we see until we act (the TV is
+ *  slow to react).															  */
+/******************************************************************************/
+#define TV_REPEAT_NEC_TIMES 4
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */

@@ -23,6 +23,7 @@
 #include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "CMD.h"
 #include "IR.h"
@@ -108,7 +109,6 @@ unsigned short IR_Receive_Timing_place = 0;
 unsigned char NEC_REPEAT = FALSE;
 unsigned char IR_NEC_Start = FALSE;
 unsigned long NEC;
-unsigned long temp_NEC;
 
 /******************************************************************************/
 /* Functions																  */
@@ -147,10 +147,14 @@ void InitIRSend(void)
 /******************************************************************************/
 void InitIRReceive(void)
 {
-	/* Set INT1 ISRs */
+	memset(IR_Receive_Timing_Counts, 0, MAX_IR_RECEIVE_EVENTS);
+	memset(IR_Receive_Timing_MicroSeconds, 0, MAX_IR_RECEIVE_EVENTS);
+
+	/* Set INT3 ISRs */
 	SYS_Unlock();
 	PieVectTable.XINT3_INT = &ISR_INT3_IR_RECEIVE;
 	SYS_Lock();
+
 	SYS_EnableInterruptGroup(INTERRUPT_GROUP12);	// Group for INT12
 	IR_DisableReceive();
 	SYS_Unlock();
@@ -444,7 +448,7 @@ unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
 
 	if((IR_Receive_Timing_MicroSeconds[1] >= NEC_REPEAT_LOW) && (IR_Receive_Timing_MicroSeconds[1] <= NEC_REPEAT_HIGH))
 	{
-		while(place < IR_Receive_Timing_place)
+		while(place < NEC_CODE_EDGES_REPEAT)
 		{
 			switch (place)
 			{
@@ -466,12 +470,11 @@ unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
 						return FAIL;
 					}
 					break;
-				case 3:
-					*NEC = 0xFFFFFFFF;
-					return TRUE;
 			}
 			place++;
 		}
+		*NEC = 0xFFFFFFFF;
+		return TRUE;
 	}
 	else if((IR_Receive_Timing_MicroSeconds[1] >= NEC_NONREPEAT_LOW) && (IR_Receive_Timing_MicroSeconds[1] <= NEC_NONREPEAT_HIGH))
 	{
@@ -582,6 +585,23 @@ unsigned char IR_CheckForNECMatch(unsigned long nec, const NECTYPE* codes, unsig
 			*index = i;
 			return TRUE;
 		}
+	}
+	return FALSE;
+}
+
+/******************************************************************************/
+/* IR_CheckForNECMatch
+ *
+ * The function checks the NEC code for a match.	 						  */
+/******************************************************************************/
+unsigned char IR_SendNECWithRepeatASCII(unsigned char* string, const NECTYPE* codes)
+{
+	unsigned char index;
+
+	if(IR_CMDCheckMatch(string, codes, &index))
+	{
+		IR_SendNECWithRepeat(codes[index].NEC);
+		return TRUE;
 	}
 	return FALSE;
 }

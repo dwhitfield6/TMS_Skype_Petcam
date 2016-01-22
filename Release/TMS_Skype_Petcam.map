@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.4.9                      
 ******************************************************************************
->> Linked Thu Jan 21 21:42:30 2016
+>> Linked Fri Jan 22 07:47:58 2016
 
 OUTPUT FILE NAME:   <TMS_Skype_Petcam.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00084684
+ENTRY POINT SYMBOL: "_c_int00"  address: 000846e7
 
 
 MEMORY CONFIGURATION
@@ -22,10 +22,10 @@ PAGE 0:
   BEGIN                 00080000   00000002  00000002  00000000  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
   FLASHB                00082000   00002000  00001ffd  00000003  RWIX
-  FLASHC                00084000   00002000  000009c7  00001639  RWIX
+  FLASHC                00084000   00002000  00000a2a  000015d6  RWIX
   FLASHD                00086000   00002000  00000000  00002000  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
-  FLASHF                00090000   00008000  00000994  0000766c  RWIX
+  FLASHF                00090000   00008000  000009a1  0000765f  RWIX
   FLASHG                00098000   00008000  00000000  00008000  RWIX
   FLASHH                000a0000   00008000  00000000  00008000  RWIX
   FLASHI                000a8000   00008000  00000000  00008000  RWIX
@@ -163,22 +163,21 @@ codestart
 *          0    00080000    00000002     
                   00080000    00000002     START.obj (codestart)
 
-.cinit     0    00082000    0000008d     
+.cinit     0    00082000    00000085     
                   00082000    0000001c     IR.obj (.cinit)
                   0008201c    00000019     SYSTEM.obj (.cinit)
                   00082035    00000012     AUDIO.obj (.cinit)
                   00082047    0000000c     UART.obj (.cinit)
                   00082053    0000000a     rts2800_fpu32.lib : exit.obj (.cinit)
                   0008205d    00000008     PWM.obj (.cinit)
-                  00082065    00000008     TV.obj (.cinit)
-                  0008206d    00000005     rts2800_fpu32.lib : _lock.obj (.cinit:__lock)
-                  00082072    00000005                       : _lock.obj (.cinit:__unlock)
-                  00082077    00000004     BUTTON.obj (.cinit)
-                  0008207b    00000004     CMD.obj (.cinit)
-                  0008207f    00000004     RELAY.obj (.cinit)
-                  00082083    00000004     TIMERS.obj (.cinit)
-                  00082087    00000004     rts2800_fpu32.lib : errno.obj (.cinit)
-                  0008208b    00000002     --HOLE-- [fill = 0]
+                  00082065    00000005     rts2800_fpu32.lib : _lock.obj (.cinit:__lock)
+                  0008206a    00000005                       : _lock.obj (.cinit:__unlock)
+                  0008206f    00000004     BUTTON.obj (.cinit)
+                  00082073    00000004     CMD.obj (.cinit)
+                  00082077    00000004     RELAY.obj (.cinit)
+                  0008207b    00000004     TIMERS.obj (.cinit)
+                  0008207f    00000004     rts2800_fpu32.lib : errno.obj (.cinit)
+                  00082083    00000002     --HOLE-- [fill = 0]
 
 .pinit     0    00082000    00000000     UNINITIALIZED
 
@@ -188,59 +187,59 @@ codestart
 .reset     0    003fffc0    00000002     DSECT
                   003fffc0    00000002     rts2800_fpu32.lib : boot.obj (.reset)
 
-.text.1    0    00082090    00001f70     
-                  00082090    00000c01     rts2800_fpu32.lib : _printfi.obj (.text)
-                  00082c91    00000362     SYSTEM.obj (.text)
-                  00082ff3    00000346     IR.obj (.text)
-                  00083339    00000331     INTERRUPTS.obj (.text:retain)
-                  0008366a    00000250     UART.obj (.text)
-                  000838ba    00000218     CMD.obj (.text)
-                  00083ad2    000001bb     MISC.obj (.text)
-                  00083c8d    000001a7     TIMERS.obj (.text)
-                  00083e34    0000017f     ADC.obj (.text)
-                  00083fb3    00000047     LED.obj (.text)
-                  00083ffa    00000005     rts2800_fpu32.lib : strcpy.obj (.text)
-                  00083fff    00000001     TV.obj (.text)
+.text.1    0    00082088    00001f78     
+                  00082088    00000c01     rts2800_fpu32.lib : _printfi.obj (.text)
+                  00082c89    00000367     IR.obj (.text)
+                  00082ff0    00000362     SYSTEM.obj (.text)
+                  00083352    00000331     INTERRUPTS.obj (.text:retain)
+                  00083683    00000250     UART.obj (.text)
+                  000838d3    00000218     CMD.obj (.text)
+                  00083aeb    000001bb     MISC.obj (.text)
+                  00083ca6    000001a7     TIMERS.obj (.text)
+                  00083e4d    0000017f     ADC.obj (.text)
+                  00083fcc    00000034     rts2800_fpu32.lib : ldexp.obj (.text)
 
-.text.2    0    00084000    000009c7     
-                  00084000    00000145     main.obj (.text)
-                  00084145    00000107     rts2800_fpu32.lib : ll_div.obj (.text)
-                  0008424c    000000d6     PWM.obj (.text)
-                  00084322    000000cd     USER.obj (.text)
-                  000843ef    0000009c     rts2800_fpu32.lib : fd_add.obj (.text)
-                  0008448b    0000008b                       : fd_div.obj (.text)
-                  00084516    00000086     AUDIO.obj (.text)
-                  0008459c    00000083     rts2800_fpu32.lib : fd_mpy.obj (.text)
-                  0008461f    00000065     RELAY.obj (.text)
-                  00084684    00000046     rts2800_fpu32.lib : boot.obj (.text)
-                  000846ca    00000042     BUTTON.obj (.text)
-                  0008470c    00000034     rts2800_fpu32.lib : ldexp.obj (.text)
-                  00084740    00000032                       : sprintf.obj (.text)
-                  00084772    00000031                       : atoi.obj (.text)
-                  000847a3    0000002e                       : ltoa.obj (.text)
-                  000847d1    0000002a                       : fd_cmp.obj (.text)
-                  000847fb    0000002a                       : l_div.obj (.text)
-                  00084825    00000023                       : fd_tofs.obj (.text)
-                  00084848    00000021                       : fd_toi.obj (.text)
-                  00084869    0000001f                       : fd_tol.obj (.text)
-                  00084888    0000001e                       : ll_cmp.obj (.text)
-                  000848a6    0000001e                       : memcpy.obj (.text)
-                  000848c4    0000001d                       : i_tofd.obj (.text)
-                  000848e1    0000001c                       : fs_tofd.obj (.text)
-                  000848fd    0000001c                       : l_tofd.obj (.text)
-                  00084919    00000019                       : args_main.obj (.text)
-                  00084932    00000019                       : exit.obj (.text)
-                  0008494b    00000018                       : ll_aox.obj (.text)
-                  00084963    00000016                       : frexp.obj (.text)
-                  00084979    0000000e                       : fd_sub.obj (.text)
-                  00084987    0000000e                       : memccpy.obj (.text)
-                  00084995    0000000c                       : memset.obj (.text)
-                  000849a1    0000000c                       : strchr.obj (.text)
-                  000849ad    00000009                       : _lock.obj (.text)
-                  000849b6    00000009                       : fd_neg.obj (.text)
-                  000849bf    00000008                       : strlen.obj (.text)
+.text.2    0    00084000    00000a2a     
+                  00084000    00000161     main.obj (.text)
+                  00084161    00000107     rts2800_fpu32.lib : ll_div.obj (.text)
+                  00084268    000000d6     PWM.obj (.text)
+                  0008433e    000000cd     USER.obj (.text)
+                  0008440b    0000009c     rts2800_fpu32.lib : fd_add.obj (.text)
+                  000844a7    0000008b                       : fd_div.obj (.text)
+                  00084532    00000086     AUDIO.obj (.text)
+                  000845b8    00000083     rts2800_fpu32.lib : fd_mpy.obj (.text)
+                  0008463b    00000065     RELAY.obj (.text)
+                  000846a0    00000047     LED.obj (.text)
+                  000846e7    00000046     rts2800_fpu32.lib : boot.obj (.text)
+                  0008472d    00000042     BUTTON.obj (.text)
+                  0008476f    00000032     rts2800_fpu32.lib : sprintf.obj (.text)
+                  000847a1    00000031                       : atoi.obj (.text)
+                  000847d2    0000002f     TV.obj (.text)
+                  00084801    0000002e     rts2800_fpu32.lib : ltoa.obj (.text)
+                  0008482f    0000002a                       : fd_cmp.obj (.text)
+                  00084859    0000002a                       : l_div.obj (.text)
+                  00084883    00000023                       : fd_tofs.obj (.text)
+                  000848a6    00000021                       : fd_toi.obj (.text)
+                  000848c7    0000001f                       : fd_tol.obj (.text)
+                  000848e6    0000001e                       : ll_cmp.obj (.text)
+                  00084904    0000001e                       : memcpy.obj (.text)
+                  00084922    0000001d                       : i_tofd.obj (.text)
+                  0008493f    0000001c                       : fs_tofd.obj (.text)
+                  0008495b    0000001c                       : l_tofd.obj (.text)
+                  00084977    00000019                       : args_main.obj (.text)
+                  00084990    00000019                       : exit.obj (.text)
+                  000849a9    00000018                       : ll_aox.obj (.text)
+                  000849c1    00000016                       : frexp.obj (.text)
+                  000849d7    0000000e                       : fd_sub.obj (.text)
+                  000849e5    0000000e                       : memccpy.obj (.text)
+                  000849f3    0000000c                       : memset.obj (.text)
+                  000849ff    0000000c                       : strchr.obj (.text)
+                  00084a0b    00000009                       : _lock.obj (.text)
+                  00084a14    00000009                       : fd_neg.obj (.text)
+                  00084a1d    00000008                       : strlen.obj (.text)
+                  00084a25    00000005                       : strcpy.obj (.text)
 
-.econst    0    00090000    00000994     
+.econst    0    00090000    000009a1     
                   00090000    00000252     IR.obj (.econst:_Sanyo)
                   00090252    0000024e     CMD.obj (.econst:_Commands)
                   000904a0    000001c0     CMD.obj (.econst:.string)
@@ -253,6 +252,7 @@ codestart
                   000908e4    0000006e     IR.obj (.econst:_Visio)
                   00090952    00000026     rts2800_fpu32.lib : _printfi.obj (.econst:.string)
                   00090978    0000001c                       : _printfi.obj (.econst)
+                  00090994    0000000d     TV.obj (.econst:.string)
 
 AdcaResultFile 
 *          1    00000b00    00000018     UNINITIALIZED
@@ -822,20 +822,19 @@ address     data page           name
 0000ac32     2b0 (0000ac00)     ___TI_cleanup_ptr
 0000ac34     2b0 (0000ac00)     ___TI_dtors_ptr
 0000ac36     2b0 (0000ac00)     _Period38kHz
-0000ac38     2b0 (0000ac00)     _TV_Power
-0000ac39     2b0 (0000ac00)     _TV_inputMode
+0000ac38     2b0 (0000ac00)     _TV_inputMode
+0000ac39     2b0 (0000ac00)     _TV_Power
 0000ac3a     2b0 (0000ac00)     __lock
 0000ac3c     2b0 (0000ac00)     __unlock
 0000ac3f     2b0 (0000ac00)     _RLY_SSRelayDuty
 
-0000ac40     2b1 (0000ac40)     _NumIdylis
-0000ac42     2b1 (0000ac40)     _NumSanyo
-0000ac43     2b1 (0000ac40)     _IR_Receive_Timing_place
-0000ac44     2b1 (0000ac40)     _IR_NEC_Start
-0000ac45     2b1 (0000ac40)     _NEC_REPEAT
-0000ac46     2b1 (0000ac40)     _NumVisio
-0000ac48     2b1 (0000ac40)     _temp_NEC
-0000ac4a     2b1 (0000ac40)     _NEC
+0000ac40     2b1 (0000ac40)     _IR_NEC_Start
+0000ac41     2b1 (0000ac40)     _NumVisio
+0000ac43     2b1 (0000ac40)     _NEC_REPEAT
+0000ac44     2b1 (0000ac40)     _IR_Receive_Timing_place
+0000ac45     2b1 (0000ac40)     _NumSanyo
+0000ac46     2b1 (0000ac40)     _NumIdylis
+0000ac48     2b1 (0000ac40)     _NEC
 
 0000ac80     2b2 (0000ac80)     _IR_Receive_Timing_MicroSeconds
 
@@ -918,45 +917,45 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                           
 ----  -------   ----                           
 abs   ffffffff  .text                          
-0     00084932  C$$EXIT                        
-0     000843ef  FD$$ADD                        
-0     000847d1  FD$$CMP                        
-0     0008448b  FD$$DIV                        
-0     0008459c  FD$$MPY                        
-0     000849b6  FD$$NEG                        
-0     00084979  FD$$SUB                        
-0     00084825  FD$$TOFS                       
-0     00084848  FD$$TOI                        
-0     00084869  FD$$TOL                        
-0     000848e1  FS$$TOFD                       
-0     000848c4  I$$TOFD                        
-0     000847fb  L$$DIV                         
-0     0008480a  L$$MOD                         
-0     000848fd  L$$TOFD                        
-0     0008494b  LL$$AND                        
-0     00084888  LL$$CMP                        
-0     00084145  LL$$DIV                        
-0     00084181  LL$$MOD                        
-0     00084953  LL$$OR                         
-0     0008495b  LL$$XOR                        
-0     00084818  UL$$DIV                        
-0     0008481f  UL$$MOD                        
-0     0008489a  ULL$$CMP                       
-0     000841bb  ULL$$DIV                       
-0     000841ea  ULL$$MOD                       
-0     00083f83  _ADC_BusyA                     
-0     00083fa6  _ADC_ForceSampleA              
-0     00083fab  _ADC_GetStatusA                
-0     00083f8b  _ADC_InterruptA                
-0     00083f11  _ADC_LoadTrim                  
-0     00083e5e  _ADC_ModuleA                   
-0     00083e6d  _ADC_SetMode                   
-0     00083f4f  _ADC_SetupContinuousA          
-0     00084541  _AUD_GetSamplingEnabledFlag    
-0     00084545  _AUD_Process                   
-0     0008451e  _AUD_Sampling                  
-0     00084533  _AUD_SetSamplingEnabledFlag    
-0     0008457b  _AUD_ShiftoutBuffer            
+0     00084990  C$$EXIT                        
+0     0008440b  FD$$ADD                        
+0     0008482f  FD$$CMP                        
+0     000844a7  FD$$DIV                        
+0     000845b8  FD$$MPY                        
+0     00084a14  FD$$NEG                        
+0     000849d7  FD$$SUB                        
+0     00084883  FD$$TOFS                       
+0     000848a6  FD$$TOI                        
+0     000848c7  FD$$TOL                        
+0     0008493f  FS$$TOFD                       
+0     00084922  I$$TOFD                        
+0     00084859  L$$DIV                         
+0     00084868  L$$MOD                         
+0     0008495b  L$$TOFD                        
+0     000849a9  LL$$AND                        
+0     000848e6  LL$$CMP                        
+0     00084161  LL$$DIV                        
+0     0008419d  LL$$MOD                        
+0     000849b1  LL$$OR                         
+0     000849b9  LL$$XOR                        
+0     00084876  UL$$DIV                        
+0     0008487d  UL$$MOD                        
+0     000848f8  ULL$$CMP                       
+0     000841d7  ULL$$DIV                       
+0     00084206  ULL$$MOD                       
+0     00083f9c  _ADC_BusyA                     
+0     00083fbf  _ADC_ForceSampleA              
+0     00083fc4  _ADC_GetStatusA                
+0     00083fa4  _ADC_InterruptA                
+0     00083f2a  _ADC_LoadTrim                  
+0     00083e77  _ADC_ModuleA                   
+0     00083e86  _ADC_SetMode                   
+0     00083f68  _ADC_SetupContinuousA          
+0     0008455d  _AUD_GetSamplingEnabledFlag    
+0     00084561  _AUD_Process                   
+0     0008453a  _AUD_Sampling                  
+0     0008454f  _AUD_SetSamplingEnabledFlag    
+0     00084597  _AUD_ShiftoutBuffer            
 1     0005f4c0  _AccessProtectionRegs          
 1     00007400  _AdcaRegs                      
 1     00000b00  _AdcaResultRegs                
@@ -973,19 +972,19 @@ abs   ffffffff  .text
 1     0000a801  _AudioProcessingSample         
 1     0000a840  _Audio_ADC_Counts_Buffer       
 1     0000a800  _Audio_ADC_Counts_place        
-0     000846e6  _BUT_ButtonInterrupt           
-0     00084708  _BUT_GetButtonFlag             
-0     00084701  _BUT_SetButtonFlag             
-0     000838d0  _CMD_CheckMatch                
-0     0008394e  _CMD_CommandSize               
-0     0008394a  _CMD_GetNewCommandFlag         
-0     000838bf  _CMD_Help                      
-0     000839b1  _CMD_PrintAllCommands          
-0     00083986  _CMD_PrintCommand              
-0     00083a7e  _CMD_SendIdylis                
-0     000839d6  _CMD_SendSanyo                 
-0     00083a2a  _CMD_SendVisio                 
-0     00083943  _CMD_SetNewCommandFlag         
+0     00084749  _BUT_ButtonInterrupt           
+0     0008476b  _BUT_GetButtonFlag             
+0     00084764  _BUT_SetButtonFlag             
+0     000838e9  _CMD_CheckMatch                
+0     00083967  _CMD_CommandSize               
+0     00083963  _CMD_GetNewCommandFlag         
+0     000838d8  _CMD_Help                      
+0     000839ca  _CMD_PrintAllCommands          
+0     0008399f  _CMD_PrintCommand              
+0     00083a97  _CMD_SendIdylis                
+0     000839ef  _CMD_SendSanyo                 
+0     00083a43  _CMD_SendVisio                 
+0     0008395c  _CMD_SetNewCommandFlag         
 1     0000ac2c  _CPU_FREQ                      
 1     00001400  _Cla1Regs                      
 0     00000ce0  _Cla1SoftIntRegs               
@@ -1053,96 +1052,97 @@ abs   ffffffff  .text
 1     00007f00  _GpioDataRegs                  
 1     00007300  _I2caRegs                      
 1     00007340  _I2cbRegs                      
-0     0008310e  _IR_CMDCheckMatch              
-0     00083300  _IR_CheckForNECMatch           
-0     0008318e  _IR_ClearReceiveFlag           
-0     000832f5  _IR_DisableReceive             
-0     000832fc  _IR_EnableReceive              
-0     00083192  _IR_GetReceiveFlag             
-0     00083071  _IR_LED                        
-0     00083043  _IR_LEDModulePins              
-0     0008306d  _IR_LEDPWMTest                 
-0     00083059  _IR_LEDTest                    
-1     0000ac44  _IR_NEC_Start                  
-0     00083196  _IR_ProcessReceiveNEC          
+0     00082dac  _IR_CMDCheckMatch              
+0     00082f9c  _IR_CheckForNECMatch           
+0     00082e2c  _IR_ClearReceiveFlag           
+0     00082f91  _IR_DisableReceive             
+0     00082f98  _IR_EnableReceive              
+0     00082e30  _IR_GetReceiveFlag             
+0     00082d0f  _IR_LED                        
+0     00082ce1  _IR_LEDModulePins              
+0     00082d0b  _IR_LEDPWMTest                 
+0     00082cf7  _IR_LEDTest                    
+1     0000ac40  _IR_NEC_Start                  
+0     00082e34  _IR_ProcessReceiveNEC          
 1     0000ae40  _IR_Receive_Timing_Counts      
 1     0000ac80  _IR_Receive_Timing_MicroSeconds
-1     0000ac43  _IR_Receive_Timing_place       
-0     00083028  _IR_ReceiverInterrupt          
-0     000830a7  _IR_SendNEC                    
-0     00083080  _IR_SendNECRepeat              
-0     00083106  _IR_SendNECWithRepeat          
-0     00083189  _IR_SetReceiveFlag             
-0     00083618  _ISR_ADC_AUDIO                 
-0     000835e1  _ISR_EPWM_8_IRLED              
-0     000833e3  _ISR_INT1_BUTTON               
-0     0008341a  _ISR_INT2_ZEROCROSS            
-0     0008346d  _ISR_INT3_IR_RECEIVE           
-0     00083546  _ISR_TIMER0_DELAY              
-0     0008357c  _ISR_TIMER1_IR_RECEIVE         
-0     000835ae  _ISR_TIMER2_SS_Relay           
-0     00083339  _ISR_UART_A_RX                 
-0     00083385  _ISR_UART_A_TX                 
+1     0000ac44  _IR_Receive_Timing_place       
+0     00082cc6  _IR_ReceiverInterrupt          
+0     00082d45  _IR_SendNEC                    
+0     00082d1e  _IR_SendNECRepeat              
+0     00082da4  _IR_SendNECWithRepeat          
+0     00082fd5  _IR_SendNECWithRepeatASCII     
+0     00082e27  _IR_SetReceiveFlag             
+0     00083631  _ISR_ADC_AUDIO                 
+0     000835fa  _ISR_EPWM_8_IRLED              
+0     000833fc  _ISR_INT1_BUTTON               
+0     00083433  _ISR_INT2_ZEROCROSS            
+0     00083486  _ISR_INT3_IR_RECEIVE           
+0     0008355f  _ISR_TIMER0_DELAY              
+0     00083595  _ISR_TIMER1_IR_RECEIVE         
+0     000835c7  _ISR_TIMER2_SS_Relay           
+0     00083352  _ISR_UART_A_RX                 
+0     0008339e  _ISR_UART_A_TX                 
 0     000907e8  _Idylis                        
-0     00083e34  _InitADC                       
-0     00084516  _InitAudio                     
-0     000846ca  _InitButtons                   
-0     000838ba  _InitCMD                       
-0     00082ff3  _InitIR                        
-0     0008300a  _InitIRReceive                 
-0     00083000  _InitIRSend                    
-0     00083fb3  _InitLEDs                      
-0     0008424c  _InitPWM                       
-0     0008461f  _InitRelay                     
-0     00083fff  _InitTV                        
-0     00083c94  _InitTimer0                    
-0     00083cad  _InitTimer1                    
-0     00083cc7  _InitTimer2                    
-0     00083c8d  _InitTimers                    
-0     0008366a  _InitUART                      
-0     0008366d  _InitUART_A                    
-0     000843d8  _Init_Modules                  
-0     00084322  _Init_Pins                     
+0     00083e4d  _InitADC                       
+0     00084532  _InitAudio                     
+0     0008472d  _InitButtons                   
+0     000838d3  _InitCMD                       
+0     00082c89  _InitIR                        
+0     00082ca0  _InitIRReceive                 
+0     00082c96  _InitIRSend                    
+0     000846a0  _InitLEDs                      
+0     00084268  _InitPWM                       
+0     0008463b  _InitRelay                     
+0     000847d2  _InitTV                        
+0     00083cad  _InitTimer0                    
+0     00083cc6  _InitTimer1                    
+0     00083ce0  _InitTimer2                    
+0     00083ca6  _InitTimers                    
+0     00083683  _InitUART                      
+0     00083686  _InitUART_A                    
+0     000843f4  _Init_Modules                  
+0     0008433e  _Init_Pins                     
 1     00007900  _InputXbarRegs                 
-0     00083feb  _LED_GreenLED                  
-0     00083fdc  _LED_RedLED                    
+0     000846d8  _LED_GreenLED                  
+0     000846c9  _LED_RedLED                    
 1     0000ac30  _LSPCLK                        
-0     00083b27  _MSC_DelayNOP                  
-0     00083ad2  _MSC_DelayUS                   
-0     00083b3a  _MSC_IsPrintable               
-0     00083b5e  _MSC_LowercaseChar             
-0     00083b79  _MSC_ReverseLong               
-0     00083b6a  _MSC_Round                     
-0     00083b47  _MSC_StringCopy                
-0     00083c6e  _MSC_StringMatch               
+0     00083b40  _MSC_DelayNOP                  
+0     00083aeb  _MSC_DelayUS                   
+0     00083b53  _MSC_IsPrintable               
+0     00083b77  _MSC_LowercaseChar             
+0     00083b92  _MSC_ReverseLong               
+0     00083b83  _MSC_Round                     
+0     00083b60  _MSC_StringCopy                
+0     00083c87  _MSC_StringMatch               
 1     00006000  _McbspaRegs                    
 1     00006040  _McbspbRegs                    
 1     0005f400  _MemCfgRegs                    
 1     0005f500  _MemoryErrorRegs               
 1     0000c242  _MiscBuffer                    
-1     0000ac4a  _NEC                           
-1     0000ac45  _NEC_REPEAT                    
+1     0000ac48  _NEC                           
+1     0000ac43  _NEC_REPEAT                    
 1     00007060  _NmiIntruptRegs                
 1     0000c241  _NumCommands                   
-1     0000ac40  _NumIdylis                     
-1     0000ac42  _NumSanyo                      
-1     0000ac46  _NumVisio                      
+1     0000ac46  _NumIdylis                     
+1     0000ac45  _NumSanyo                      
+1     0000ac41  _NumVisio                      
 1     00007a80  _OutputXbarRegs                
 1     0000ac2a  _PLLSYSCLK                     
-0     000842ff  _PWM_GetCMPB                   
-0     00084307  _PWM_Interrupt8                
-0     00084303  _PWM_ResetTBClock              
-0     000842f8  _PWM_SetCMPB                   
-0     000842bc  _PWM_SetDutyCycle              
-0     0008429e  _PWM_SetFrequency              
+0     0008431b  _PWM_GetCMPB                   
+0     00084323  _PWM_Interrupt8                
+0     0008431f  _PWM_ResetTBClock              
+0     00084314  _PWM_SetCMPB                   
+0     000842d8  _PWM_SetDutyCycle              
+0     000842ba  _PWM_SetFrequency              
 1     0000ac36  _Period38kHz                   
 1     00000ce0  _PieCtrlRegs                   
 1     00000d00  _PieVectTable                  
-0     00084656  _RLY_MechRelay                 
+0     00084672  _RLY_MechRelay                 
 1     0000ac3f  _RLY_SSRelayDuty               
-0     00084674  _RLY_SetSSRelayDutyCycle       
-0     00084665  _RLY_SolidStateRelay           
-0     0008463b  _RLY_ZeroCrossInterrupt        
+0     00084690  _RLY_SetSSRelayDutyCycle       
+0     00084681  _RLY_SolidStateRelay           
+0     00084657  _RLY_ZeroCrossInterrupt        
 1     0000c140  _RX_A_Buffer                   
 1     0000c002  _RX_A_Buffer_Place             
 0     00008000  _RamfuncsLoadEnd               
@@ -1155,25 +1155,25 @@ abs   00000000  _RamfuncsRunSize
 1     0005f540  _RomWaitStateRegs              
 1     0000c2c0  _SPRINTBuffer                  
 1     0000ac28  _SYSCLK                        
-0     00082e60  _SYS_ClearPIE                  
-0     00082c91  _SYS_ConfigureOscillator       
-0     00082e47  _SYS_DisableWatchdog           
-0     00082e92  _SYS_EnableInterruptGroup      
-0     00082e99  _SYS_EnableRealTime            
-0     00082e16  _SYS_InitFlash_Bank0           
-0     00082e0b  _SYS_InitOsc1Sel               
-0     00082e00  _SYS_InitOsc2Sel               
-0     00082ce9  _SYS_InitPeripheralClocks      
-0     00082d6e  _SYS_InitSysPll                
-0     00082df3  _SYS_InitXtalOscSel            
-0     00082e56  _SYS_Interrupts                
-0     00082e8f  _SYS_Lock                      
-0     00082e7d  _SYS_PerInterrupts             
-0     00082fbe  _SYS_ReadPin                   
-0     00082e9c  _SYS_SetupPinMux               
-0     00082f2a  _SYS_SetupPinOptions           
-0     00082e8c  _SYS_Unlock                    
-0     00082fd5  _SYS_WritePin                  
+0     000831bf  _SYS_ClearPIE                  
+0     00082ff0  _SYS_ConfigureOscillator       
+0     000831a6  _SYS_DisableWatchdog           
+0     000831f1  _SYS_EnableInterruptGroup      
+0     000831f8  _SYS_EnableRealTime            
+0     00083175  _SYS_InitFlash_Bank0           
+0     0008316a  _SYS_InitOsc1Sel               
+0     0008315f  _SYS_InitOsc2Sel               
+0     00083048  _SYS_InitPeripheralClocks      
+0     000830cd  _SYS_InitSysPll                
+0     00083152  _SYS_InitXtalOscSel            
+0     000831b5  _SYS_Interrupts                
+0     000831ee  _SYS_Lock                      
+0     000831dc  _SYS_PerInterrupts             
+0     0008331d  _SYS_ReadPin                   
+0     000831fb  _SYS_SetupPinMux               
+0     00083289  _SYS_SetupPinOptions           
+0     000831eb  _SYS_Unlock                    
+0     00083334  _SYS_WritePin                  
 0     00090000  _Sanyo                         
 1     00007200  _SciaRegs                      
 1     00007210  _ScibRegs                      
@@ -1185,54 +1185,55 @@ abs   00000000  _RamfuncsRunSize
 1     00006110  _SpibRegs                      
 1     00006120  _SpicRegs                      
 1     00007940  _SyncSocRegs                   
-0     00083ddd  _TMR_ClearTimerFlag0           
-0     00083de5  _TMR_CountsToMicroseconds      
-0     00083e06  _TMR_DutyToPeriod              
-0     00083dc0  _TMR_GetStartTimerStatus0      
-0     00083dc8  _TMR_GetStartTimerStatus1      
-0     00083dd0  _TMR_GetStartTimerStatus2      
-0     00083ce0  _TMR_GetTimer0                 
-0     00083ceb  _TMR_GetTimer1                 
-0     00083cf6  _TMR_GetTimer2                 
-0     00083de1  _TMR_GetTimerFlag0             
-0     00083d1c  _TMR_GetTimerPeriod0           
-0     00083d27  _TMR_GetTimerPeriod1           
-0     00083d32  _TMR_GetTimerPeriod2           
-0     00083d3d  _TMR_Interrupt0                
-0     00083d5f  _TMR_Interrupt1                
-0     00083d79  _TMR_Interrupt2                
-0     00083dd8  _TMR_SetTimerFlag0             
-0     00083d01  _TMR_SetTimerPeriod0           
-0     00083d0a  _TMR_SetTimerPeriod1           
-0     00083d13  _TMR_SetTimerPeriod2           
-0     00083cd1  _TMR_SetTimerWithPeriod0       
-0     00083cd6  _TMR_SetTimerWithPeriod1       
-0     00083cdb  _TMR_SetTimerWithPeriod2       
-0     00083d93  _TMR_StartTimer0               
-0     00083da2  _TMR_StartTimer1               
-0     00083db1  _TMR_StartTimer2               
-1     0000ac38  _TV_Power                      
-1     0000ac39  _TV_inputMode                  
+0     00083df6  _TMR_ClearTimerFlag0           
+0     00083dfe  _TMR_CountsToMicroseconds      
+0     00083e1f  _TMR_DutyToPeriod              
+0     00083dd9  _TMR_GetStartTimerStatus0      
+0     00083de1  _TMR_GetStartTimerStatus1      
+0     00083de9  _TMR_GetStartTimerStatus2      
+0     00083cf9  _TMR_GetTimer0                 
+0     00083d04  _TMR_GetTimer1                 
+0     00083d0f  _TMR_GetTimer2                 
+0     00083dfa  _TMR_GetTimerFlag0             
+0     00083d35  _TMR_GetTimerPeriod0           
+0     00083d40  _TMR_GetTimerPeriod1           
+0     00083d4b  _TMR_GetTimerPeriod2           
+0     00083d56  _TMR_Interrupt0                
+0     00083d78  _TMR_Interrupt1                
+0     00083d92  _TMR_Interrupt2                
+0     00083df1  _TMR_SetTimerFlag0             
+0     00083d1a  _TMR_SetTimerPeriod0           
+0     00083d23  _TMR_SetTimerPeriod1           
+0     00083d2c  _TMR_SetTimerPeriod2           
+0     00083cea  _TMR_SetTimerWithPeriod0       
+0     00083cef  _TMR_SetTimerWithPeriod1       
+0     00083cf4  _TMR_SetTimerWithPeriod2       
+0     00083dac  _TMR_StartTimer0               
+0     00083dbb  _TMR_StartTimer1               
+0     00083dca  _TMR_StartTimer2               
+0     000847d8  _TV_GoToSkypeMode              
+1     0000ac39  _TV_Power                      
+1     0000ac38  _TV_inputMode                  
 1     0000c040  _TX_A_Buffer                   
 1     0000c000  _TX_A_Buffer_ADD_Place         
 1     0000c001  _TX_A_Buffer_REMOVE_Place      
-0     000837bf  _UART_GetCharA                 
-0     000836e8  _UART_GetFIFO                  
-0     0008371a  _UART_ModuleEnableA            
-0     0008377d  _UART_ModulePinsA              
-0     00083856  _UART_ProcessCharacter         
-0     000837b6  _UART_PutCharA                 
-0     0008376e  _UART_ReceiveEnableA           
-0     00083729  _UART_ReceiveInterruptA        
-0     00083830  _UART_SendBanner               
-0     000837d9  _UART_SendChar                 
-0     00083851  _UART_SendPrompt               
-0     00083818  _UART_SendString               
-0     00083826  _UART_SendStringCRLN           
-0     000836f3  _UART_SetFIFO                  
-0     000836a1  _UART_SetParametersA           
-0     0008375f  _UART_TransmitEnableA          
-0     00083744  _UART_TransmitInterruptA       
+0     000837d8  _UART_GetCharA                 
+0     00083701  _UART_GetFIFO                  
+0     00083733  _UART_ModuleEnableA            
+0     00083796  _UART_ModulePinsA              
+0     0008386f  _UART_ProcessCharacter         
+0     000837cf  _UART_PutCharA                 
+0     00083787  _UART_ReceiveEnableA           
+0     00083742  _UART_ReceiveInterruptA        
+0     00083849  _UART_SendBanner               
+0     000837f2  _UART_SendChar                 
+0     0008386a  _UART_SendPrompt               
+0     00083831  _UART_SendString               
+0     0008383f  _UART_SendStringCRLN           
+0     0008370c  _UART_SetFIFO                  
+0     000836ba  _UART_SetParametersA           
+0     00083778  _UART_TransmitEnableA          
+0     0008375d  _UART_TransmitInterruptA       
 1     00006200  _UppRegs                       
 0     000908e4  _Visio                         
 1     00007000  _WdRegs                        
@@ -1242,38 +1243,37 @@ abs   00000000  _RamfuncsRunSize
 abs   00000400  __STACK_SIZE                   
 1     0000ac32  ___TI_cleanup_ptr              
 1     0000ac34  ___TI_dtors_ptr                
-0     00082b8c  ___TI_printfi                  
+0     00082b84  ___TI_printfi                  
 abs   ffffffff  ___binit__                     
 abs   ffffffff  ___c_args__                    
 0     00082000  ___cinit__                     
 abs   ffffffff  ___etext__                     
 abs   ffffffff  ___pinit__                     
 abs   ffffffff  ___text__                      
-0     00084919  __args_main                    
+0     00084977  __args_main                    
 0     00090660  __ctypes_                      
 1     0000ac3a  __lock                         
-0     000849b5  __nop                          
-0     000849b1  __register_lock                
-0     000849ad  __register_unlock              
+0     00084a13  __nop                          
+0     00084a0f  __register_lock                
+0     00084a0b  __register_unlock              
 1     00000400  __stack                        
 1     0000ac3c  __unlock                       
-0     00084932  _abort                         
-0     00084772  _atoi                          
-0     00084684  _c_int00                       
+0     00084990  _abort                         
+0     000847a1  _atoi                          
+0     000846e7  _c_int00                       
 1     0000afd1  _errno                         
-0     00084934  _exit                          
-0     00084963  _frexp                         
-0     0008470c  _ldexp                         
-0     000847a3  _ltoa                          
+0     00084992  _exit                          
+0     000849c1  _frexp                         
+0     00083fcc  _ldexp                         
+0     00084801  _ltoa                          
 0     00084000  _main                          
-0     00084987  _memccpy                       
-0     000848a6  _memcpy                        
-0     00084995  _memset                        
-0     00084740  _sprintf                       
-0     000849a1  _strchr                        
-0     00083ffa  _strcpy                        
-0     000849bf  _strlen                        
-1     0000ac48  _temp_NEC                      
+0     000849e5  _memccpy                       
+0     00084904  _memcpy                        
+0     000849f3  _memset                        
+0     0008476f  _sprintf                       
+0     000849ff  _strchr                        
+0     00084a25  _strcpy                        
+0     00084a1d  _strlen                        
 abs   ffffffff  binit                          
 0     00082000  cinit                          
 0     00080000  code_start                     
@@ -1293,205 +1293,207 @@ page  address   name
 0     00080000  code_start                     
 0     00082000  ___cinit__                     
 0     00082000  cinit                          
-0     00082b8c  ___TI_printfi                  
-0     00082c91  _SYS_ConfigureOscillator       
-0     00082ce9  _SYS_InitPeripheralClocks      
-0     00082d6e  _SYS_InitSysPll                
-0     00082df3  _SYS_InitXtalOscSel            
-0     00082e00  _SYS_InitOsc2Sel               
-0     00082e0b  _SYS_InitOsc1Sel               
-0     00082e16  _SYS_InitFlash_Bank0           
-0     00082e47  _SYS_DisableWatchdog           
-0     00082e56  _SYS_Interrupts                
-0     00082e60  _SYS_ClearPIE                  
-0     00082e7d  _SYS_PerInterrupts             
-0     00082e8c  _SYS_Unlock                    
-0     00082e8f  _SYS_Lock                      
-0     00082e92  _SYS_EnableInterruptGroup      
-0     00082e99  _SYS_EnableRealTime            
-0     00082e9c  _SYS_SetupPinMux               
-0     00082f2a  _SYS_SetupPinOptions           
-0     00082fbe  _SYS_ReadPin                   
-0     00082fd5  _SYS_WritePin                  
-0     00082ff3  _InitIR                        
-0     00083000  _InitIRSend                    
-0     0008300a  _InitIRReceive                 
-0     00083028  _IR_ReceiverInterrupt          
-0     00083043  _IR_LEDModulePins              
-0     00083059  _IR_LEDTest                    
-0     0008306d  _IR_LEDPWMTest                 
-0     00083071  _IR_LED                        
-0     00083080  _IR_SendNECRepeat              
-0     000830a7  _IR_SendNEC                    
-0     00083106  _IR_SendNECWithRepeat          
-0     0008310e  _IR_CMDCheckMatch              
-0     00083189  _IR_SetReceiveFlag             
-0     0008318e  _IR_ClearReceiveFlag           
-0     00083192  _IR_GetReceiveFlag             
-0     00083196  _IR_ProcessReceiveNEC          
-0     000832f5  _IR_DisableReceive             
-0     000832fc  _IR_EnableReceive              
-0     00083300  _IR_CheckForNECMatch           
-0     00083339  _ISR_UART_A_RX                 
-0     00083385  _ISR_UART_A_TX                 
-0     000833e3  _ISR_INT1_BUTTON               
-0     0008341a  _ISR_INT2_ZEROCROSS            
-0     0008346d  _ISR_INT3_IR_RECEIVE           
-0     00083546  _ISR_TIMER0_DELAY              
-0     0008357c  _ISR_TIMER1_IR_RECEIVE         
-0     000835ae  _ISR_TIMER2_SS_Relay           
-0     000835e1  _ISR_EPWM_8_IRLED              
-0     00083618  _ISR_ADC_AUDIO                 
-0     0008366a  _InitUART                      
-0     0008366d  _InitUART_A                    
-0     000836a1  _UART_SetParametersA           
-0     000836e8  _UART_GetFIFO                  
-0     000836f3  _UART_SetFIFO                  
-0     0008371a  _UART_ModuleEnableA            
-0     00083729  _UART_ReceiveInterruptA        
-0     00083744  _UART_TransmitInterruptA       
-0     0008375f  _UART_TransmitEnableA          
-0     0008376e  _UART_ReceiveEnableA           
-0     0008377d  _UART_ModulePinsA              
-0     000837b6  _UART_PutCharA                 
-0     000837bf  _UART_GetCharA                 
-0     000837d9  _UART_SendChar                 
-0     00083818  _UART_SendString               
-0     00083826  _UART_SendStringCRLN           
-0     00083830  _UART_SendBanner               
-0     00083851  _UART_SendPrompt               
-0     00083856  _UART_ProcessCharacter         
-0     000838ba  _InitCMD                       
-0     000838bf  _CMD_Help                      
-0     000838d0  _CMD_CheckMatch                
-0     00083943  _CMD_SetNewCommandFlag         
-0     0008394a  _CMD_GetNewCommandFlag         
-0     0008394e  _CMD_CommandSize               
-0     00083986  _CMD_PrintCommand              
-0     000839b1  _CMD_PrintAllCommands          
-0     000839d6  _CMD_SendSanyo                 
-0     00083a2a  _CMD_SendVisio                 
-0     00083a7e  _CMD_SendIdylis                
-0     00083ad2  _MSC_DelayUS                   
-0     00083b27  _MSC_DelayNOP                  
-0     00083b3a  _MSC_IsPrintable               
-0     00083b47  _MSC_StringCopy                
-0     00083b5e  _MSC_LowercaseChar             
-0     00083b6a  _MSC_Round                     
-0     00083b79  _MSC_ReverseLong               
-0     00083c6e  _MSC_StringMatch               
-0     00083c8d  _InitTimers                    
-0     00083c94  _InitTimer0                    
-0     00083cad  _InitTimer1                    
-0     00083cc7  _InitTimer2                    
-0     00083cd1  _TMR_SetTimerWithPeriod0       
-0     00083cd6  _TMR_SetTimerWithPeriod1       
-0     00083cdb  _TMR_SetTimerWithPeriod2       
-0     00083ce0  _TMR_GetTimer0                 
-0     00083ceb  _TMR_GetTimer1                 
-0     00083cf6  _TMR_GetTimer2                 
-0     00083d01  _TMR_SetTimerPeriod0           
-0     00083d0a  _TMR_SetTimerPeriod1           
-0     00083d13  _TMR_SetTimerPeriod2           
-0     00083d1c  _TMR_GetTimerPeriod0           
-0     00083d27  _TMR_GetTimerPeriod1           
-0     00083d32  _TMR_GetTimerPeriod2           
-0     00083d3d  _TMR_Interrupt0                
-0     00083d5f  _TMR_Interrupt1                
-0     00083d79  _TMR_Interrupt2                
-0     00083d93  _TMR_StartTimer0               
-0     00083da2  _TMR_StartTimer1               
-0     00083db1  _TMR_StartTimer2               
-0     00083dc0  _TMR_GetStartTimerStatus0      
-0     00083dc8  _TMR_GetStartTimerStatus1      
-0     00083dd0  _TMR_GetStartTimerStatus2      
-0     00083dd8  _TMR_SetTimerFlag0             
-0     00083ddd  _TMR_ClearTimerFlag0           
-0     00083de1  _TMR_GetTimerFlag0             
-0     00083de5  _TMR_CountsToMicroseconds      
-0     00083e06  _TMR_DutyToPeriod              
-0     00083e34  _InitADC                       
-0     00083e5e  _ADC_ModuleA                   
-0     00083e6d  _ADC_SetMode                   
-0     00083f11  _ADC_LoadTrim                  
-0     00083f4f  _ADC_SetupContinuousA          
-0     00083f83  _ADC_BusyA                     
-0     00083f8b  _ADC_InterruptA                
-0     00083fa6  _ADC_ForceSampleA              
-0     00083fab  _ADC_GetStatusA                
-0     00083fb3  _InitLEDs                      
-0     00083fdc  _LED_RedLED                    
-0     00083feb  _LED_GreenLED                  
-0     00083ffa  _strcpy                        
-0     00083fff  _InitTV                        
+0     00082b84  ___TI_printfi                  
+0     00082c89  _InitIR                        
+0     00082c96  _InitIRSend                    
+0     00082ca0  _InitIRReceive                 
+0     00082cc6  _IR_ReceiverInterrupt          
+0     00082ce1  _IR_LEDModulePins              
+0     00082cf7  _IR_LEDTest                    
+0     00082d0b  _IR_LEDPWMTest                 
+0     00082d0f  _IR_LED                        
+0     00082d1e  _IR_SendNECRepeat              
+0     00082d45  _IR_SendNEC                    
+0     00082da4  _IR_SendNECWithRepeat          
+0     00082dac  _IR_CMDCheckMatch              
+0     00082e27  _IR_SetReceiveFlag             
+0     00082e2c  _IR_ClearReceiveFlag           
+0     00082e30  _IR_GetReceiveFlag             
+0     00082e34  _IR_ProcessReceiveNEC          
+0     00082f91  _IR_DisableReceive             
+0     00082f98  _IR_EnableReceive              
+0     00082f9c  _IR_CheckForNECMatch           
+0     00082fd5  _IR_SendNECWithRepeatASCII     
+0     00082ff0  _SYS_ConfigureOscillator       
+0     00083048  _SYS_InitPeripheralClocks      
+0     000830cd  _SYS_InitSysPll                
+0     00083152  _SYS_InitXtalOscSel            
+0     0008315f  _SYS_InitOsc2Sel               
+0     0008316a  _SYS_InitOsc1Sel               
+0     00083175  _SYS_InitFlash_Bank0           
+0     000831a6  _SYS_DisableWatchdog           
+0     000831b5  _SYS_Interrupts                
+0     000831bf  _SYS_ClearPIE                  
+0     000831dc  _SYS_PerInterrupts             
+0     000831eb  _SYS_Unlock                    
+0     000831ee  _SYS_Lock                      
+0     000831f1  _SYS_EnableInterruptGroup      
+0     000831f8  _SYS_EnableRealTime            
+0     000831fb  _SYS_SetupPinMux               
+0     00083289  _SYS_SetupPinOptions           
+0     0008331d  _SYS_ReadPin                   
+0     00083334  _SYS_WritePin                  
+0     00083352  _ISR_UART_A_RX                 
+0     0008339e  _ISR_UART_A_TX                 
+0     000833fc  _ISR_INT1_BUTTON               
+0     00083433  _ISR_INT2_ZEROCROSS            
+0     00083486  _ISR_INT3_IR_RECEIVE           
+0     0008355f  _ISR_TIMER0_DELAY              
+0     00083595  _ISR_TIMER1_IR_RECEIVE         
+0     000835c7  _ISR_TIMER2_SS_Relay           
+0     000835fa  _ISR_EPWM_8_IRLED              
+0     00083631  _ISR_ADC_AUDIO                 
+0     00083683  _InitUART                      
+0     00083686  _InitUART_A                    
+0     000836ba  _UART_SetParametersA           
+0     00083701  _UART_GetFIFO                  
+0     0008370c  _UART_SetFIFO                  
+0     00083733  _UART_ModuleEnableA            
+0     00083742  _UART_ReceiveInterruptA        
+0     0008375d  _UART_TransmitInterruptA       
+0     00083778  _UART_TransmitEnableA          
+0     00083787  _UART_ReceiveEnableA           
+0     00083796  _UART_ModulePinsA              
+0     000837cf  _UART_PutCharA                 
+0     000837d8  _UART_GetCharA                 
+0     000837f2  _UART_SendChar                 
+0     00083831  _UART_SendString               
+0     0008383f  _UART_SendStringCRLN           
+0     00083849  _UART_SendBanner               
+0     0008386a  _UART_SendPrompt               
+0     0008386f  _UART_ProcessCharacter         
+0     000838d3  _InitCMD                       
+0     000838d8  _CMD_Help                      
+0     000838e9  _CMD_CheckMatch                
+0     0008395c  _CMD_SetNewCommandFlag         
+0     00083963  _CMD_GetNewCommandFlag         
+0     00083967  _CMD_CommandSize               
+0     0008399f  _CMD_PrintCommand              
+0     000839ca  _CMD_PrintAllCommands          
+0     000839ef  _CMD_SendSanyo                 
+0     00083a43  _CMD_SendVisio                 
+0     00083a97  _CMD_SendIdylis                
+0     00083aeb  _MSC_DelayUS                   
+0     00083b40  _MSC_DelayNOP                  
+0     00083b53  _MSC_IsPrintable               
+0     00083b60  _MSC_StringCopy                
+0     00083b77  _MSC_LowercaseChar             
+0     00083b83  _MSC_Round                     
+0     00083b92  _MSC_ReverseLong               
+0     00083c87  _MSC_StringMatch               
+0     00083ca6  _InitTimers                    
+0     00083cad  _InitTimer0                    
+0     00083cc6  _InitTimer1                    
+0     00083ce0  _InitTimer2                    
+0     00083cea  _TMR_SetTimerWithPeriod0       
+0     00083cef  _TMR_SetTimerWithPeriod1       
+0     00083cf4  _TMR_SetTimerWithPeriod2       
+0     00083cf9  _TMR_GetTimer0                 
+0     00083d04  _TMR_GetTimer1                 
+0     00083d0f  _TMR_GetTimer2                 
+0     00083d1a  _TMR_SetTimerPeriod0           
+0     00083d23  _TMR_SetTimerPeriod1           
+0     00083d2c  _TMR_SetTimerPeriod2           
+0     00083d35  _TMR_GetTimerPeriod0           
+0     00083d40  _TMR_GetTimerPeriod1           
+0     00083d4b  _TMR_GetTimerPeriod2           
+0     00083d56  _TMR_Interrupt0                
+0     00083d78  _TMR_Interrupt1                
+0     00083d92  _TMR_Interrupt2                
+0     00083dac  _TMR_StartTimer0               
+0     00083dbb  _TMR_StartTimer1               
+0     00083dca  _TMR_StartTimer2               
+0     00083dd9  _TMR_GetStartTimerStatus0      
+0     00083de1  _TMR_GetStartTimerStatus1      
+0     00083de9  _TMR_GetStartTimerStatus2      
+0     00083df1  _TMR_SetTimerFlag0             
+0     00083df6  _TMR_ClearTimerFlag0           
+0     00083dfa  _TMR_GetTimerFlag0             
+0     00083dfe  _TMR_CountsToMicroseconds      
+0     00083e1f  _TMR_DutyToPeriod              
+0     00083e4d  _InitADC                       
+0     00083e77  _ADC_ModuleA                   
+0     00083e86  _ADC_SetMode                   
+0     00083f2a  _ADC_LoadTrim                  
+0     00083f68  _ADC_SetupContinuousA          
+0     00083f9c  _ADC_BusyA                     
+0     00083fa4  _ADC_InterruptA                
+0     00083fbf  _ADC_ForceSampleA              
+0     00083fc4  _ADC_GetStatusA                
+0     00083fcc  _ldexp                         
 0     00084000  _main                          
-0     00084145  LL$$DIV                        
-0     00084181  LL$$MOD                        
-0     000841bb  ULL$$DIV                       
-0     000841ea  ULL$$MOD                       
-0     0008424c  _InitPWM                       
-0     0008429e  _PWM_SetFrequency              
-0     000842bc  _PWM_SetDutyCycle              
-0     000842f8  _PWM_SetCMPB                   
-0     000842ff  _PWM_GetCMPB                   
-0     00084303  _PWM_ResetTBClock              
-0     00084307  _PWM_Interrupt8                
-0     00084322  _Init_Pins                     
-0     000843d8  _Init_Modules                  
-0     000843ef  FD$$ADD                        
-0     0008448b  FD$$DIV                        
-0     00084516  _InitAudio                     
-0     0008451e  _AUD_Sampling                  
-0     00084533  _AUD_SetSamplingEnabledFlag    
-0     00084541  _AUD_GetSamplingEnabledFlag    
-0     00084545  _AUD_Process                   
-0     0008457b  _AUD_ShiftoutBuffer            
-0     0008459c  FD$$MPY                        
-0     0008461f  _InitRelay                     
-0     0008463b  _RLY_ZeroCrossInterrupt        
-0     00084656  _RLY_MechRelay                 
-0     00084665  _RLY_SolidStateRelay           
-0     00084674  _RLY_SetSSRelayDutyCycle       
-0     00084684  _c_int00                       
-0     000846ca  _InitButtons                   
-0     000846e6  _BUT_ButtonInterrupt           
-0     00084701  _BUT_SetButtonFlag             
-0     00084708  _BUT_GetButtonFlag             
-0     0008470c  _ldexp                         
-0     00084740  _sprintf                       
-0     00084772  _atoi                          
-0     000847a3  _ltoa                          
-0     000847d1  FD$$CMP                        
-0     000847fb  L$$DIV                         
-0     0008480a  L$$MOD                         
-0     00084818  UL$$DIV                        
-0     0008481f  UL$$MOD                        
-0     00084825  FD$$TOFS                       
-0     00084848  FD$$TOI                        
-0     00084869  FD$$TOL                        
-0     00084888  LL$$CMP                        
-0     0008489a  ULL$$CMP                       
-0     000848a6  _memcpy                        
-0     000848c4  I$$TOFD                        
-0     000848e1  FS$$TOFD                       
-0     000848fd  L$$TOFD                        
-0     00084919  __args_main                    
-0     00084932  C$$EXIT                        
-0     00084932  _abort                         
-0     00084934  _exit                          
-0     0008494b  LL$$AND                        
-0     00084953  LL$$OR                         
-0     0008495b  LL$$XOR                        
-0     00084963  _frexp                         
-0     00084979  FD$$SUB                        
-0     00084987  _memccpy                       
-0     00084995  _memset                        
-0     000849a1  _strchr                        
-0     000849ad  __register_unlock              
-0     000849b1  __register_lock                
-0     000849b5  __nop                          
-0     000849b6  FD$$NEG                        
-0     000849bf  _strlen                        
+0     00084161  LL$$DIV                        
+0     0008419d  LL$$MOD                        
+0     000841d7  ULL$$DIV                       
+0     00084206  ULL$$MOD                       
+0     00084268  _InitPWM                       
+0     000842ba  _PWM_SetFrequency              
+0     000842d8  _PWM_SetDutyCycle              
+0     00084314  _PWM_SetCMPB                   
+0     0008431b  _PWM_GetCMPB                   
+0     0008431f  _PWM_ResetTBClock              
+0     00084323  _PWM_Interrupt8                
+0     0008433e  _Init_Pins                     
+0     000843f4  _Init_Modules                  
+0     0008440b  FD$$ADD                        
+0     000844a7  FD$$DIV                        
+0     00084532  _InitAudio                     
+0     0008453a  _AUD_Sampling                  
+0     0008454f  _AUD_SetSamplingEnabledFlag    
+0     0008455d  _AUD_GetSamplingEnabledFlag    
+0     00084561  _AUD_Process                   
+0     00084597  _AUD_ShiftoutBuffer            
+0     000845b8  FD$$MPY                        
+0     0008463b  _InitRelay                     
+0     00084657  _RLY_ZeroCrossInterrupt        
+0     00084672  _RLY_MechRelay                 
+0     00084681  _RLY_SolidStateRelay           
+0     00084690  _RLY_SetSSRelayDutyCycle       
+0     000846a0  _InitLEDs                      
+0     000846c9  _LED_RedLED                    
+0     000846d8  _LED_GreenLED                  
+0     000846e7  _c_int00                       
+0     0008472d  _InitButtons                   
+0     00084749  _BUT_ButtonInterrupt           
+0     00084764  _BUT_SetButtonFlag             
+0     0008476b  _BUT_GetButtonFlag             
+0     0008476f  _sprintf                       
+0     000847a1  _atoi                          
+0     000847d2  _InitTV                        
+0     000847d8  _TV_GoToSkypeMode              
+0     00084801  _ltoa                          
+0     0008482f  FD$$CMP                        
+0     00084859  L$$DIV                         
+0     00084868  L$$MOD                         
+0     00084876  UL$$DIV                        
+0     0008487d  UL$$MOD                        
+0     00084883  FD$$TOFS                       
+0     000848a6  FD$$TOI                        
+0     000848c7  FD$$TOL                        
+0     000848e6  LL$$CMP                        
+0     000848f8  ULL$$CMP                       
+0     00084904  _memcpy                        
+0     00084922  I$$TOFD                        
+0     0008493f  FS$$TOFD                       
+0     0008495b  L$$TOFD                        
+0     00084977  __args_main                    
+0     00084990  C$$EXIT                        
+0     00084990  _abort                         
+0     00084992  _exit                          
+0     000849a9  LL$$AND                        
+0     000849b1  LL$$OR                         
+0     000849b9  LL$$XOR                        
+0     000849c1  _frexp                         
+0     000849d7  FD$$SUB                        
+0     000849e5  _memccpy                       
+0     000849f3  _memset                        
+0     000849ff  _strchr                        
+0     00084a0b  __register_unlock              
+0     00084a0f  __register_lock                
+0     00084a13  __nop                          
+0     00084a14  FD$$NEG                        
+0     00084a1d  _strlen                        
+0     00084a25  _strcpy                        
 0     00090000  _Sanyo                         
 0     00090252  _Commands                      
 0     00090660  __ctypes_                      
@@ -1587,19 +1589,18 @@ page  address   name
 1     0000ac32  ___TI_cleanup_ptr              
 1     0000ac34  ___TI_dtors_ptr                
 1     0000ac36  _Period38kHz                   
-1     0000ac38  _TV_Power                      
-1     0000ac39  _TV_inputMode                  
+1     0000ac38  _TV_inputMode                  
+1     0000ac39  _TV_Power                      
 1     0000ac3a  __lock                         
 1     0000ac3c  __unlock                       
 1     0000ac3f  _RLY_SSRelayDuty               
-1     0000ac40  _NumIdylis                     
-1     0000ac42  _NumSanyo                      
-1     0000ac43  _IR_Receive_Timing_place       
-1     0000ac44  _IR_NEC_Start                  
-1     0000ac45  _NEC_REPEAT                    
-1     0000ac46  _NumVisio                      
-1     0000ac48  _temp_NEC                      
-1     0000ac4a  _NEC                           
+1     0000ac40  _IR_NEC_Start                  
+1     0000ac41  _NumVisio                      
+1     0000ac43  _NEC_REPEAT                    
+1     0000ac44  _IR_Receive_Timing_place       
+1     0000ac45  _NumSanyo                      
+1     0000ac46  _NumIdylis                     
+1     0000ac48  _NEC                           
 1     0000ac80  _IR_Receive_Timing_MicroSeconds
 1     0000ae40  _IR_Receive_Timing_Counts      
 1     0000afd1  _errno                         
@@ -1648,4 +1649,4 @@ abs   ffffffff  binit
 abs   ffffffff  etext                          
 abs   ffffffff  pinit                          
 
-[362 symbols]
+[363 symbols]

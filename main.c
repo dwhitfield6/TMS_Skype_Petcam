@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "ADC.h"
 #include "AUDIO.h"
@@ -51,6 +52,9 @@
 int main (void)
 {
 	unsigned char index;
+	unsigned char IR_repeat_times;
+	unsigned long temp_NEC = 0;
+	unsigned char IR_process;
 
 	/* initialize pins and clocks */
     SYS_Interrupts(OFF);
@@ -98,55 +102,83 @@ int main (void)
     	}
     	if(IR_GetReceiveFlag())
     	{
+    		IR_process = FALSE;
     		if(IR_ProcessReceiveNEC(&temp_NEC))
     		{
 				if(temp_NEC != 0xFFFFFFFF)
 				{
+					IR_repeat_times = 0;
 					NEC = temp_NEC;
+					IR_process = TRUE;
 				}
-    			sprintf((char*)SPRINTBuffer, "Received IR NEC code: 0x%lx", temp_NEC);
-    			UART_SendStringCRLN(SPRINTBuffer);
+				else
+				{
+					if(IR_repeat_times >= TV_REPEAT_NEC_TIMES)
+					{
+						IR_repeat_times = 0;
+						IR_process = TRUE;
+					}
+					IR_repeat_times++;
+				}
+				sprintf((char*)SPRINTBuffer, "Received IR NEC code: 0x%lx", temp_NEC);
+				UART_SendStringCRLN(SPRINTBuffer);
 
-    			/* check the Known codes */
-				if(IR_CheckForNECMatch(NEC, Sanyo, &index))
+				if(IR_process)
 				{
-					/* Sanyo match */
-					UART_SendString("Sanyo code : ");
-					UART_SendStringCRLN((unsigned char*)Sanyo[index].Description);
-					if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
+					/* check the Known codes */
+					if(IR_CheckForNECMatch(NEC, Sanyo, &index))
 					{
-						TV_inputMode++;
-					}
-					else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Back"))
-					{
-						TV_inputMode--;
-					}
-					else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Power"))
-					{
-						if(TV_Power)
+						/* Sanyo match */
+						UART_SendString("Sanyo code : ");
+						UART_SendStringCRLN((unsigned char*)Sanyo[index].Description);
+						if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
 						{
-							TV_Power = FALSE;
+							TV_inputMode++;
+							if(TV_inputMode > VIDEO)
+							{
+								TV_inputMode = HDMI1;
+							}
 						}
-						else
+						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Back"))
 						{
-							TV_Power = TRUE;
+
+							if(TV_inputMode == HDMI1)
+							{
+								TV_inputMode = VIDEO;
+							}
+							else
+							{
+								TV_inputMode--;
+							}
+						}
+						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Power"))
+						{
+							if(TV_Power)
+							{
+								TV_Power = FALSE;
+							}
+							else
+							{
+								TV_Power = TRUE;
+							}
 						}
 					}
-    			}
-    			else if(IR_CheckForNECMatch(NEC, Visio, &index))
-				{
-    				/* Visio match */
-    				UART_SendString("Visio code : ");
-					UART_SendStringCRLN((unsigned char*)Visio[index].Description);
-				}
-    			else if(IR_CheckForNECMatch(NEC, Idylis, &index))
-				{
-    				/* Idylis match */
-    				UART_SendString("Idylis code : ");
-					UART_SendStringCRLN((unsigned char*)Idylis[index].Description);
+					else if(IR_CheckForNECMatch(NEC, Visio, &index))
+					{
+						/* Visio match */
+						UART_SendString("Visio code : ");
+						UART_SendStringCRLN((unsigned char*)Visio[index].Description);
+					}
+					else if(IR_CheckForNECMatch(NEC, Idylis, &index))
+					{
+						/* Idylis match */
+						UART_SendString("Idylis code : ");
+						UART_SendStringCRLN((unsigned char*)Idylis[index].Description);
+					}
 				}
     		}
-    		MSC_DelayUS(108000);
+    		memset(IR_Receive_Timing_Counts, 0, MAX_IR_RECEIVE_EVENTS);
+    		memset(IR_Receive_Timing_MicroSeconds, 0, MAX_IR_RECEIVE_EVENTS);
     		IR_NEC_Start = FALSE;
     		IR_ReceiverInterrupt(ON);
     		IR_ClearReceiveFlag();

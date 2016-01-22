@@ -23,14 +23,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "IR.h"
+#include "MISC.h"
 #include "TV.h"
 #include "USER.h"
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-ENUM_TV_INPUT TV_inputMode = HDMI2;
-unsigned char TV_Power = OFF;
+ENUM_TV_INPUT TV_inputMode;
+unsigned char TV_Power;
 
 /******************************************************************************/
 /* Inline Functions                                                           */
@@ -47,7 +49,32 @@ unsigned char TV_Power = OFF;
 /******************************************************************************/
 void InitTV(void)
 {
-    
+	TV_inputMode = HDMI2;
+	TV_Power = OFF;
+}
+
+/******************************************************************************/
+/* TV_GoToSkypeMode
+ *
+ * The function puts teh TV input to the mode for skype.					  */
+/******************************************************************************/
+void TV_GoToSkypeMode(void)
+{
+	if(!TV_Power)
+	{
+		IR_SendNECWithRepeatASCII("Power", Sanyo);
+		MSC_DelayUS(1000000);
+	}
+	while(TV_inputMode != HDMI1)
+	{
+		IR_SendNECWithRepeatASCII("Source", Sanyo);
+		MSC_DelayUS(1000000);
+		TV_inputMode++;
+		if(TV_inputMode > VIDEO)
+		{
+			TV_inputMode = HDMI1;
+		}
+	}
 }
 
 /*-----------------------------------------------------------------------------/

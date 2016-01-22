@@ -65,7 +65,7 @@
  *
  * This is the number of edges required for a valid NEC code (repeat).	  */
 /******************************************************************************/
-#define NEC_CODE_EDGES_REPEAT 20
+#define NEC_CODE_EDGES_REPEAT 3
 
 /******************************************************************************/
 /* IR_LED_50_50
@@ -119,7 +119,6 @@ extern unsigned short IR_Receive_Timing_place;
 extern unsigned char NEC_REPEAT;
 extern unsigned char IR_NEC_Start;
 extern unsigned long NEC;
-extern unsigned long temp_NEC;
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -151,5 +150,6 @@ unsigned char IR_ProcessReceiveNEC(unsigned long *NEC);
 void IR_DisableReceive(void);
 void IR_EnableReceive(void);
 unsigned char IR_CheckForNECMatch(unsigned long nec, const NECTYPE* codes, unsigned char* index);
+unsigned char IR_SendNECWithRepeatASCII(unsigned char* string, const NECTYPE* codes);
 
 #endif	/* IR_H */
