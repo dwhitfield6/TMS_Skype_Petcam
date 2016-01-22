@@ -46,19 +46,19 @@
 #define NEC_PULSE_BURST_LOW		300
 
 /************* NEC space short for transmitting 0 *************/
-#define NEC_SPACE_SHORT_HIGH	1300
-#define NEC_SPACE_SHORT_LOW		1000
+#define NEC_SPACE_SHORT_HIGH	800
+#define NEC_SPACE_SHORT_LOW		300
 
 /************* NEC space long for transmitting 1 *************/
-#define NEC_SPACE_LONG_HIGH	2500
-#define NEC_SPACE_LONG_LOW	2000
+#define NEC_SPACE_LONG_HIGH	2000
+#define NEC_SPACE_LONG_LOW	1200
 
 /******************************************************************************/
 /* NEC_CODE_EDGES_NONREPEAT
  *
  * This is the number of edges required for a valid NEC code (non-repeat).	  */
 /******************************************************************************/
-#define NEC_CODE_EDGES_NONREPEAT 128
+#define NEC_CODE_EDGES_NONREPEAT 67
 
 /******************************************************************************/
 /* NEC_CODE_EDGES_REPEAT

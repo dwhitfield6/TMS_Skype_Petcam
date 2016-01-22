@@ -438,11 +438,11 @@ unsigned char IR_GetReceiveFlag(void)
 unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
 {
 	unsigned short place = 0;
-	unsigned char shift;
+	unsigned long shift;
 
 	*NEC = 0;
 
-	if(IR_Receive_Timing_place == NEC_CODE_EDGES_REPEAT)
+	if((IR_Receive_Timing_MicroSeconds[1] >= NEC_REPEAT_LOW) && (IR_Receive_Timing_MicroSeconds[1] <= NEC_REPEAT_HIGH))
 	{
 		while(place < IR_Receive_Timing_place)
 		{
@@ -473,9 +473,9 @@ unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
 			place++;
 		}
 	}
-	else if(IR_Receive_Timing_place == NEC_CODE_EDGES_NONREPEAT)
+	else if((IR_Receive_Timing_MicroSeconds[1] >= NEC_NONREPEAT_LOW) && (IR_Receive_Timing_MicroSeconds[1] <= NEC_NONREPEAT_HIGH))
 	{
-		while(place < IR_Receive_Timing_place)
+		while(place < NEC_CODE_EDGES_NONREPEAT)
 		{
 			switch (place)
 			{
@@ -492,8 +492,8 @@ unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
 					}
 					break;
 				default:
-					shift = 31;
-					while(place < IR_Receive_Timing_place)
+					shift = 0;
+					while(place < (NEC_CODE_EDGES_NONREPEAT - 1))
 					{
 						if((IR_Receive_Timing_MicroSeconds[place] < NEC_PULSE_BURST_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_PULSE_BURST_HIGH))
 						{
@@ -508,14 +508,19 @@ unsigned char IR_ProcessReceiveNEC(unsigned long *NEC)
 						else if((IR_Receive_Timing_MicroSeconds[place] >= NEC_SPACE_LONG_LOW) && (IR_Receive_Timing_MicroSeconds[place] <= NEC_SPACE_LONG_HIGH))
 						{
 							/* code is 1 */
-							*NEC |= 1 << shift;
+							*NEC |= (0x80000000 >> shift);
 						}
 						else
 						{
 							return FAIL;
 						}
-						shift--;
+						shift++;
 						place++;
+					}
+					/* final burst */
+					if((IR_Receive_Timing_MicroSeconds[place] < NEC_PULSE_BURST_LOW) || (IR_Receive_Timing_MicroSeconds[place] > NEC_PULSE_BURST_HIGH))
+					{
+						return FAIL;
 					}
 					break;
 			}

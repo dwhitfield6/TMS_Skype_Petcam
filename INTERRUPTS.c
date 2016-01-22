@@ -409,8 +409,8 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 				IR_Receive_Timing_place = 0;
 				NEC_REPEAT = FALSE;
 				IR_NEC_Start = TRUE;
-				IR_Receive_Timing_Counts[IR_Receive_Timing_place] =
-				IR_Receive_Timing_MicroSeconds[IR_Receive_Timing_place] = TMR_CountsToMicroseconds(IR_Receive_Timing_Counts[IR_Receive_Timing_place]);
+				IR_Receive_Timing_Counts[IR_Receive_Timing_place] = counts;
+				IR_Receive_Timing_MicroSeconds[IR_Receive_Timing_place] = microseconds;
 				IR_Receive_Timing_place++;
 			}
 		}
@@ -429,8 +429,8 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 			}
 			if(IR_Receive_Timing_place < MAX_IR_RECEIVE_EVENTS)
 			{
-				IR_Receive_Timing_Counts[IR_Receive_Timing_place] =
-				IR_Receive_Timing_MicroSeconds[IR_Receive_Timing_place] = TMR_CountsToMicroseconds(IR_Receive_Timing_Counts[IR_Receive_Timing_place]);
+				IR_Receive_Timing_Counts[IR_Receive_Timing_place] = counts;
+				IR_Receive_Timing_MicroSeconds[IR_Receive_Timing_place] = microseconds;
 				IR_Receive_Timing_place++;
 			}
 			if(NEC_REPEAT)
@@ -448,7 +448,6 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 				if(IR_Receive_Timing_place >= NEC_CODE_EDGES_NONREPEAT)
 				{
 					/* This is the end of a code so turn off the timer and external interrupt and process */
-					IR_ReceiverInterrupt(OFF);
 					IR_SetReceiveFlag();
 					done = TRUE;
 				}
@@ -457,15 +456,16 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	}
 
 	/* load and start timer */
-	TMR_StartTimer0(FALSE);
+	TMR_StartTimer1(FALSE);
 	TMR_SetTimerWithPeriod1();
 	if(done)
 	{
+		IR_ReceiverInterrupt(OFF);
 		IR_NEC_Start = FALSE;
 	}
 	else
 	{
-		TMR_StartTimer0(TRUE);
+		TMR_StartTimer1(TRUE);
 	}
 
 	/* Acknowledge this interrupt from group 12 */
@@ -495,7 +495,8 @@ interrupt void ISR_TIMER0_DELAY(void)
 interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
 	/* IR receiver timout */
-	TMR_StartTimer0(FALSE);
+	IR_NEC_Start = FALSE;
+	TMR_StartTimer1(FALSE);
 	TMR_SetTimerWithPeriod1();
 }
 

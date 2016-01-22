@@ -100,14 +100,18 @@ int main (void)
     	{
     		if(IR_ProcessReceiveNEC(&temp_NEC))
     		{
-    			NEC = temp_NEC;
-    			sprintf((char*)SPRINTBuffer, "Received IR NEC code: %ld", NEC);
+				if(temp_NEC != 0xFFFFFFFF)
+				{
+					NEC = temp_NEC;
+				}
+    			sprintf((char*)SPRINTBuffer, "Received IR NEC code: 0x%lx", temp_NEC);
     			UART_SendStringCRLN(SPRINTBuffer);
+
     			/* check the Known codes */
-    			if(IR_CheckForNECMatch(NEC, Sanyo, &index))
-    			{
-    				/* Sanyo match */
-    				UART_SendStringCRLN("Sanyo code :");
+				if(IR_CheckForNECMatch(NEC, Sanyo, &index))
+				{
+					/* Sanyo match */
+					UART_SendString("Sanyo code : ");
 					UART_SendStringCRLN((unsigned char*)Sanyo[index].Description);
 					if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
 					{
@@ -132,16 +136,18 @@ int main (void)
     			else if(IR_CheckForNECMatch(NEC, Visio, &index))
 				{
     				/* Visio match */
-    				UART_SendStringCRLN("Visio code :");
+    				UART_SendString("Visio code : ");
 					UART_SendStringCRLN((unsigned char*)Visio[index].Description);
 				}
     			else if(IR_CheckForNECMatch(NEC, Idylis, &index))
 				{
     				/* Idylis match */
-    				UART_SendStringCRLN("Idylis code :");
+    				UART_SendString("Idylis code : ");
 					UART_SendStringCRLN((unsigned char*)Idylis[index].Description);
 				}
     		}
+    		MSC_DelayUS(108000);
+    		IR_NEC_Start = FALSE;
     		IR_ReceiverInterrupt(ON);
     		IR_ClearReceiveFlag();
     	}

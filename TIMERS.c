@@ -393,9 +393,9 @@ unsigned char TMR_GetStartTimerStatus0(void)
 {
 	if(CpuTimer0Regs.TCR.bit.TSS)
 	{
-		return TRUE;
+		return FALSE;
 	}
-	return FALSE;
+	return TRUE;
 }
 
 /******************************************************************************/
@@ -407,9 +407,9 @@ unsigned char TMR_GetStartTimerStatus1(void)
 {
 	if(CpuTimer1Regs.TCR.bit.TSS)
 	{
-		return TRUE;
+		return FALSE;
 	}
-	return FALSE;
+	return TRUE;
 }
 
 /******************************************************************************/
@@ -421,9 +421,9 @@ unsigned char TMR_GetStartTimerStatus2(void)
 {
 	if(CpuTimer2Regs.TCR.bit.TSS)
 	{
-		return TRUE;
+		return FALSE;
 	}
-	return FALSE;
+	return TRUE;
 }
 
 /******************************************************************************/
@@ -465,7 +465,7 @@ unsigned long TMR_CountsToMicroseconds(unsigned long counts)
 {
 	unsigned long microseconds;
 
-	microseconds = (unsigned long) MSC_Round((16.0 / (double)SYSCLK) * (double) counts);
+	microseconds = (unsigned long) MSC_Round((16.0 / (double)SYSCLK) * (double) counts * 1000000.0);
 	return microseconds;
 }
 
