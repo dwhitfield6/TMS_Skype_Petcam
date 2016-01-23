@@ -31,7 +31,7 @@
 /******************************************************************************/
 /* Private Variable Declaration		                                          */
 /******************************************************************************/
-static unsigned char AudioSamplingFlag = FALSE;
+static unsigned char AudioSampleReadyFlag = FALSE;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -60,6 +60,7 @@ void InitAudio(void)
 {
 	AudioProcessingSample = 20;
 	AUD_Sampling(ON);
+	ADC_ForceSampleA(); 		// take next sample
 }
 
 /******************************************************************************/
@@ -69,13 +70,9 @@ void InitAudio(void)
 /******************************************************************************/
 void AUD_Sampling(unsigned char state)
 {
-	AUD_SetSamplingEnabledFlag(state);
-
 	if(state)
 	{
-		AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear INT1 flag
 		ADC_InterruptA(ON);
-		ADC_ForceSampleA();
 	}
 	else
 	{
@@ -84,30 +81,33 @@ void AUD_Sampling(unsigned char state)
 }
 
 /******************************************************************************/
-/* AUD_GetSamplingEnabledFlag
+/* AUD_SetSampleReadyFlag
  *
- * The function returns flag used for audio sampling.		       			  */
+ * The function returns sets the flag signifying a sample is ready.			  */
 /******************************************************************************/
-void AUD_SetSamplingEnabledFlag(unsigned char state)
+void AUD_SetSampleReadyFlag(void)
 {
-	if(state)
-	{
-		AudioSamplingFlag = TRUE;
-	}
-	else
-	{
-		AudioSamplingFlag = FALSE;
-	}
+	AudioSampleReadyFlag = TRUE;
 }
 
 /******************************************************************************/
-/* AUD_GetSamplingEnabledFlag
+/* AUD_ClearSampleReadyFlag
  *
- * The function returns flag used for audio sampling.		       			  */
+ * The function returns sets the flag signifying a sample is ready.			  */
 /******************************************************************************/
-unsigned char AUD_GetSamplingEnabledFlag(void)
+void AUD_ClearSampleReadyFlag(void)
 {
-	return AudioSamplingFlag;
+	AudioSampleReadyFlag = FALSE;
+}
+
+/******************************************************************************/
+/* AUD_GetSampleReadyFlag
+ *
+ * The function returns gets the flag signifying a sample is ready.			  */
+/******************************************************************************/
+unsigned char AUD_GetSampleReadyFlag(void)
+{
+	return AudioSampleReadyFlag;
 }
 
 /******************************************************************************/

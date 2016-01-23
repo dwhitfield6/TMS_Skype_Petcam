@@ -28,6 +28,7 @@
 
 #include "ADC.h"
 #include "AUDIO.h"
+#include "BUTTON.h"
 #include "CMD.h"
 #include "IR.h"
 #include "LED.h"
@@ -84,6 +85,10 @@ int main (void)
 	/* print prompt */
 	UART_SendPrompt();
 
+	/* start sampling */
+	AUD_Sampling(ON);
+	ADC_ForceSampleA(); 		// take next sample
+
     while(1)
     {
     	if(CMD_GetNewCommandFlag())
@@ -133,33 +138,33 @@ int main (void)
 						UART_SendStringCRLN((unsigned char*)Sanyo[index].Description);
 						if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
 						{
-							TV_inputMode++;
-							if(TV_inputMode > VIDEO)
+							Original_TV_inputMode++;
+							if(Original_TV_inputMode > VIDEO)
 							{
-								TV_inputMode = HDMI1;
+								Original_TV_inputMode = HDMI1;
 							}
 						}
 						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Back"))
 						{
 
-							if(TV_inputMode == HDMI1)
+							if(Original_TV_inputMode == HDMI1)
 							{
-								TV_inputMode = VIDEO;
+								Original_TV_inputMode = VIDEO;
 							}
 							else
 							{
-								TV_inputMode--;
+								Original_TV_inputMode--;
 							}
 						}
 						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Power"))
 						{
-							if(TV_Power)
+							if(Original_TV_Power)
 							{
-								TV_Power = FALSE;
+								Original_TV_Power = FALSE;
 							}
 							else
 							{
-								TV_Power = TRUE;
+								Original_TV_Power = TRUE;
 							}
 						}
 					}
@@ -183,7 +188,7 @@ int main (void)
     		IR_ReceiverInterrupt(ON);
     		IR_ClearReceiveFlag();
     	}
-    	if(AUD_GetSamplingEnabledFlag())
+    	if(AUD_GetSampleReadyFlag())
     	{
     		if(Audio_ADC_Counts_place >= AudioProcessingSample)
     		{
@@ -205,8 +210,24 @@ int main (void)
 					}
 					AUD_ShiftoutBuffer(Audio_ADC_Counts_Buffer, &Audio_ADC_Counts_place, 1);
 				}
-				AUD_Sampling(ON);
     		}
+    		AUD_ClearSampleReadyFlag();
+    		AUD_Sampling(ON);
+    		ADC_ForceSampleA(); 		// take next sample
+    	}
+    	if(BUT_GetButtonFlag())
+    	{
+    		if(TV_GetMode() == SKYPE)
+    		{
+    			TV_GoToOriginalMode();
+    			TV_SetMode(ORIGINAL);
+    		}
+    		else
+    		{
+    			TV_GoToSkypeMode();
+    			TV_SetMode(SKYPE);
+    		}
+    		BUT_SetButtonFlag(FALSE);
     	}
     }
 }

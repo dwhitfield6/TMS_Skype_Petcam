@@ -36,6 +36,12 @@ typedef enum e_tv_input
 	VIDEO	= 5,
 }ENUM_TV_INPUT;
 
+typedef enum e_skype_mode
+{
+    SKYPE 		= 0,
+	ORIGINAL 	= 1,
+}ENUM_SKYPE_MODE;
+
 /******************************************************************************/
 /* TV_REPEAT_NEC_TIMES
  *
@@ -47,12 +53,18 @@ typedef enum e_tv_input
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-extern ENUM_TV_INPUT TV_inputMode;
-extern unsigned char TV_Power;
+extern ENUM_TV_INPUT Original_TV_inputMode;
+extern ENUM_TV_INPUT Current_TV_inputMode;
+extern unsigned char Original_TV_Power;
+extern unsigned char Current_TV_Power;
 
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
 void InitTV(void);
+void TV_GoToSkypeMode(void);
+void TV_GoToOriginalMode(void);
+void TV_SetMode(ENUM_SKYPE_MODE mode);
+ENUM_SKYPE_MODE TV_GetMode(void);
 
 #endif	/* TV_H */

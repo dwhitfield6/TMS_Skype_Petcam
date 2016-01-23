@@ -538,8 +538,8 @@ interrupt void ISR_ADC_AUDIO(void)
 {
 	unsigned short ADC_counts;
 
-	ADC_InterruptA(OFF);
 	AUD_Sampling(OFF);
+
 	ADC_counts = AdcaResultRegs.ADCRESULT0;
 	if(Audio_ADC_Counts_place < AUDIO_ADC_BUFFER_SIZE)
 	{
@@ -547,11 +547,8 @@ interrupt void ISR_ADC_AUDIO(void)
 		Audio_ADC_Counts_place++;
 	}
 
-	if(AUD_GetSamplingEnabledFlag())
-	{
-		ADC_InterruptA(ON);
-		ADC_ForceSampleA();
-	}
+	AUD_SetSampleReadyFlag();
+
 	AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear INT1 flag
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
 }

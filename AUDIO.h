@@ -61,8 +61,9 @@ extern ENUM_AUDIO_PROCESSING AudioProcessing;
 /******************************************************************************/
 void InitAudio(void);
 void AUD_Sampling(unsigned char state);
-void AUD_SetSamplingEnabledFlag(unsigned char state);
-unsigned char AUD_GetSamplingEnabledFlag(void);
+void AUD_SetSampleReadyFlag(void);
+void AUD_ClearSampleReadyFlag(void);
+unsigned char AUD_GetSampleReadyFlag(void);
 void AUD_Process(unsigned short* buffer, unsigned short AmountInBuffer, ENUM_AUDIO_PROCESSING processing, unsigned short AmountToSample, double* result);
 void AUD_ShiftoutBuffer(unsigned short* buffer, unsigned short* amount, unsigned short shift);
 
