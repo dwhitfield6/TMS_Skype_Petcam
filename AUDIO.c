@@ -58,7 +58,7 @@ ENUM_AUDIO_PROCESSING AudioProcessing;
 /******************************************************************************/
 void InitAudio(void)
 {
-	AudioProcessingSample = 20;
+	AudioProcessingSample = 200;
 	AUD_Sampling(ON);
 	ADC_ForceSampleA(); 		// take next sample
 }
@@ -117,12 +117,12 @@ unsigned char AUD_GetSampleReadyFlag(void)
 /******************************************************************************/
 void AUD_Process(unsigned short* buffer, unsigned short AmountInBuffer, ENUM_AUDIO_PROCESSING processing, unsigned short AmountToSample, double* result)
 {
-	double temp1;
+	double temp1 = 0.0;
 	double temp2;
 	unsigned short i;
 
 	/* dont overreach the buffer */
-	if(AmountInBuffer < AmountToSample)
+	if(AmountToSample > AmountInBuffer)
 	{
 		AmountToSample = AmountInBuffer;
 	}

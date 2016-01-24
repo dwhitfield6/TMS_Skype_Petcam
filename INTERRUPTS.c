@@ -343,6 +343,7 @@ interrupt void ISR_UART_A_TX(void)
 /******************************************************************************/
 interrupt void ISR_INT1_BUTTON(void)
 {
+	BUT_ButtonInterrupt(OFF);
 	BUT_SetButtonFlag(TRUE);
 	LED_RedLED(OFF);
 	LED_GreenLED(ON);
@@ -370,7 +371,7 @@ interrupt void ISR_INT2_ZEROCROSS(void)
 	{
 		TMR_StartTimer2(OFF);
 		TMR_Interrupt2(OFF);
-		RLY_SolidStateRelay(OFF);
+		RLY_SolidStateRelay(ON);
 	}
 	else
 	{

@@ -72,6 +72,7 @@ void TV_GoToSkypeMode(void)
 {
 	LED_RedLED(OFF);
 	LED_GreenLED(ON);
+	RLY_MechRelay(ON);
 	TV_SetMode(SKYPE);
 	if(!Current_TV_Power)
 	{
@@ -101,6 +102,7 @@ void TV_GoToOriginalMode(void)
 {
 	LED_RedLED(ON);
 	LED_GreenLED(OFF);
+	RLY_MechRelay(OFF);
 	TV_SetMode(ORIGINAL);
 	if(Original_TV_Power != Current_TV_Power)
 	{

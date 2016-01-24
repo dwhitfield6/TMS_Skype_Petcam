@@ -59,6 +59,6 @@ void InitRelay(void);
 void RLY_ZeroCrossInterrupt(unsigned char state);
 void RLY_MechRelay(unsigned char state);
 void RLY_SolidStateRelay(unsigned char state);
-
+void RLY_SetSSRelayDutyCycle(unsigned char duty);
 
 #endif	/* RELAY_H */

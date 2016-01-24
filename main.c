@@ -33,6 +33,7 @@
 #include "IR.h"
 #include "LED.h"
 #include "MISC.h"
+#include "RELAY.h"
 #include "SYSTEM.h"
 #include "TV.h"
 #include "UART.h"
@@ -88,6 +89,13 @@ int main (void)
 	/* start sampling */
 	AUD_Sampling(ON);
 	ADC_ForceSampleA(); 		// take next sample
+	AUD_Sampling(ON);
+	ADC_ForceSampleA(); 		// take next sample
+	AUD_Sampling(ON);
+	ADC_ForceSampleA(); 		// take next sample
+
+	/* throw away first samples */
+	Audio_ADC_Counts_place = 0;
 
     while(1)
     {
@@ -195,7 +203,7 @@ int main (void)
 				if(AudioProcessing == AVERAGE)
 				{
 					AUD_Process(Audio_ADC_Counts_Buffer, Audio_ADC_Counts_place, AVERAGE, AudioProcessingSample, &AudioProcess1); 	// long average
-					AUD_Process(Audio_ADC_Counts_Buffer, Audio_ADC_Counts_place, AVERAGE, 5, &AudioProcess2);						// short average
+					AUD_Process(Audio_ADC_Counts_Buffer, Audio_ADC_Counts_place, AVERAGE, 20, &AudioProcess2);						// short average
 					if((AudioProcess2 > (AudioProcess1 * 1.1)) || (AudioProcess2 < (AudioProcess1 * 0.9)))
 					{
 						#ifdef SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
@@ -228,6 +236,7 @@ int main (void)
     			TV_SetMode(SKYPE);
     		}
     		BUT_SetButtonFlag(FALSE);
+    		BUT_ButtonInterrupt(ON);
     	}
     }
 }

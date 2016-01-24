@@ -56,11 +56,11 @@ void InitRelay(void)
 	PieVectTable.XINT2_INT = &ISR_INT2_ZEROCROSS;
 	SYS_Lock();
 	SYS_EnableInterruptGroup(INTERRUPT_GROUP1);		// Group for INT2
-	RLY_ZeroCrossInterrupt(ON);
 	SYS_Unlock();
     InputXbarRegs.INPUT5SELECT = ZEROCROSS_GPIO;	//Set XINT1 source to GPIO-pin
     SYS_Lock();
     XintRegs.XINT2CR.bit.POLARITY = 0;    			// Falling edge interrupt
+	RLY_ZeroCrossInterrupt(ON);
 }
 
 /******************************************************************************/

@@ -36,7 +36,7 @@ typedef enum e_processing
  *
  * This is the buffer size for storing raw AADC counts of audio samples.	  */
 /******************************************************************************/
-#define AUDIO_ADC_BUFFER_SIZE 1000
+#define AUDIO_ADC_BUFFER_SIZE 2000
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
