@@ -25,6 +25,15 @@
 #include "USER.h"
 
 /******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
+typedef enum e_timer1_mode
+{
+    IR,
+	AUDIO,
+}ENUM_TIMER1_MODE;
+
+/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 
@@ -61,5 +70,7 @@ void TMR_ClearTimerFlag0(void);
 unsigned char TMR_GetTimerFlag0(void);
 unsigned long TMR_CountsToMicroseconds(unsigned long counts);
 unsigned long TMR_DutyToPeriod(unsigned char duty);
+void TMR_SetTimer1Mode(ENUM_TIMER1_MODE mode);
+ENUM_TIMER1_MODE TMR_GetTimer1Mode(void);
 
 #endif	/* TIMERS_H */

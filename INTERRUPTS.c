@@ -396,6 +396,7 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	unsigned long counts;
 	unsigned char done = FALSE;
 
+	TMR_SetTimer1Mode(IR);
 	counts = IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
 	microseconds = TMR_CountsToMicroseconds(counts);
 
@@ -463,6 +464,7 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	{
 		IR_ReceiverInterrupt(OFF);
 		IR_NEC_Start = FALSE;
+		TMR_SetTimer1Mode(AUDIO);
 	}
 	else
 	{
@@ -537,15 +539,30 @@ interrupt void ISR_EPWM_8_IRLED(void)
 /******************************************************************************/
 interrupt void ISR_ADC_AUDIO(void)
 {
-	unsigned short ADC_counts;
+	unsigned short ADC_counts0;
+	unsigned short ADC_counts1;
 
 	AUD_Sampling(OFF);
 
-	ADC_counts = AdcaResultRegs.ADCRESULT0;
-	if(Audio_ADC_Counts_place < AUDIO_ADC_BUFFER_SIZE)
+	/* ADC unfiltered audio sampling */
+	ADC_counts0 = AdcaResultRegs.ADCRESULT0;
+	if(Audio_ADC_Counts_Unfiltered_place < AUDIO_ADC_BUFFER_SIZE)
 	{
-		Audio_ADC_Counts_Buffer[Audio_ADC_Counts_place] = ADC_counts;
-		Audio_ADC_Counts_place++;
+		Audio_ADC_Counts_Unfiltered_Buffer[Audio_ADC_Counts_Unfiltered_place] = ADC_counts0;
+		Audio_ADC_Counts_Unfiltered_place++;
+	}
+
+	/* ADC low-pass filtered audio sampling */
+	ADC_counts1 = AdcaResultRegs.ADCRESULT1;
+	if(TMR_GetTimer1Mode() == AUDIO)
+	{
+		Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC = ADC_counts1;
+		Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts	= TMR_GetTimer1();
+		Audio_ADC_Counts_LowPass_place++;
+
+		TMR_StartTimer1(FALSE);
+		TMR_SetTimerWithPeriod1();
+		TMR_StartTimer1(TRUE);
 	}
 
 	AUD_SetSampleReadyFlag();

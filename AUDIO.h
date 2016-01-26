@@ -31,22 +31,42 @@ typedef enum e_processing
 	AVERAGE = 0,
 }ENUM_AUDIO_PROCESSING;
 
+typedef struct t_lowpass
+{
+	unsigned long ADC;			// Raw ADC counts
+	unsigned long TimingCounts;	// Raw timer1 difference in counts
+	double MicroSeconds;		// Timer 1 difference in Microseconds
+}TYPE_LOWPASS;
+
 /******************************************************************************/
 /* AUDIO_ADC_BUFFER_SIZE
  *
- * This is the buffer size for storing raw AADC counts of audio samples.	  */
+ * This is the buffer size for storing raw ADC counts of audio samples.	  */
 /******************************************************************************/
-#define AUDIO_ADC_BUFFER_SIZE 2000
+#define AUDIO_ADC_BUFFER_SIZE 1000
+
+/******************************************************************************/
+/* LOWPASS_BUFFER_SIZE
+ *
+ * This is the buffer size for storing raw Low pass ADC counts and timing
+ *  data.																	  */
+/******************************************************************************/
+#define LOWPASS_BUFFER_SIZE 2
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-extern unsigned short Audio_ADC_Counts_Buffer[AUDIO_ADC_BUFFER_SIZE];
-extern unsigned short Audio_ADC_Counts_place;
-extern unsigned short AudioProcessingSample;
+extern unsigned short Audio_ADC_Counts_Unfiltered_Buffer[AUDIO_ADC_BUFFER_SIZE];
+extern unsigned short Audio_ADC_Counts_Unfiltered_place;
+extern unsigned short AudioProcessingSampleLarge;
+extern unsigned short AudioProcessingSampleSmall;
 extern double AudioProcess1;
 extern double AudioProcess2;
 extern ENUM_AUDIO_PROCESSING AudioProcessing;
+extern unsigned int SSRelayOnCount;
+extern unsigned int SSRelayAntiTwitchCount;
+extern TYPE_LOWPASS Audio_ADC_Counts_LowPass_Buffer[LOWPASS_BUFFER_SIZE];
+extern unsigned short Audio_ADC_Counts_LowPass_place;
 
 /******************************************************************************/
 /* Defines                                                                    */

@@ -26,6 +26,7 @@
 #include "IR.h"
 #include "LED.h"
 #include "MISC.h"
+#include "RELAY.h"
 #include "TV.h"
 #include "USER.h"
 

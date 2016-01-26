@@ -36,12 +36,17 @@ static unsigned char AudioSampleReadyFlag = FALSE;
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-unsigned short Audio_ADC_Counts_Buffer[AUDIO_ADC_BUFFER_SIZE];
-unsigned short Audio_ADC_Counts_place = 0;
-unsigned short AudioProcessingSample;
+unsigned short Audio_ADC_Counts_Unfiltered_Buffer[AUDIO_ADC_BUFFER_SIZE];
+unsigned short Audio_ADC_Counts_Unfiltered_place = 0;
+unsigned short AudioProcessingSampleLarge;
+unsigned short AudioProcessingSampleSmall;
 double AudioProcess1 = 0;
 double AudioProcess2 = 0;
 ENUM_AUDIO_PROCESSING AudioProcessing;
+unsigned int SSRelayOnCount;
+unsigned int SSRelayAntiTwitchCount;
+TYPE_LOWPASS Audio_ADC_Counts_LowPass_Buffer[LOWPASS_BUFFER_SIZE];
+unsigned short Audio_ADC_Counts_LowPass_place;
 
 /******************************************************************************/
 /* Inline Functions 														  */
@@ -58,7 +63,9 @@ ENUM_AUDIO_PROCESSING AudioProcessing;
 /******************************************************************************/
 void InitAudio(void)
 {
-	AudioProcessingSample = 200;
+	AudioProcessingSampleLarge 	= 200;
+	AudioProcessingSampleSmall 	= 20;
+	SSRelayAntiTwitchCount		= 20;
 	AUD_Sampling(ON);
 	ADC_ForceSampleA(); 		// take next sample
 }

@@ -95,7 +95,7 @@ int main (void)
 	ADC_ForceSampleA(); 		// take next sample
 
 	/* throw away first samples */
-	Audio_ADC_Counts_place = 0;
+	Audio_ADC_Counts_Unfiltered_place = 0;
 
     while(1)
     {
@@ -198,25 +198,36 @@ int main (void)
     	}
     	if(AUD_GetSampleReadyFlag())
     	{
-    		if(Audio_ADC_Counts_place >= AudioProcessingSample)
+    		if(Audio_ADC_Counts_Unfiltered_place >= AudioProcessingSampleLarge)
     		{
 				if(AudioProcessing == AVERAGE)
 				{
-					AUD_Process(Audio_ADC_Counts_Buffer, Audio_ADC_Counts_place, AVERAGE, AudioProcessingSample, &AudioProcess1); 	// long average
-					AUD_Process(Audio_ADC_Counts_Buffer, Audio_ADC_Counts_place, AVERAGE, 20, &AudioProcess2);						// short average
+					AUD_Process(Audio_ADC_Counts_Unfiltered_Buffer, Audio_ADC_Counts_Unfiltered_place, AVERAGE, AudioProcessingSampleLarge, &AudioProcess1); 	// long average
+					AUD_Process(&Audio_ADC_Counts_Unfiltered_Buffer[AudioProcessingSampleLarge - AudioProcessingSampleSmall - 1], Audio_ADC_Counts_Unfiltered_place, AVERAGE, AudioProcessingSampleSmall, &AudioProcess2);						// short average
 					if((AudioProcess2 > (AudioProcess1 * 1.1)) || (AudioProcess2 < (AudioProcess1 * 0.9)))
 					{
+						SSRelayOnCount = SSRelayAntiTwitchCount;
+					}
+					else
+					{
+						if(SSRelayOnCount > 1)
+						{
+							SSRelayOnCount--;
+						}
+					}
+					if(SSRelayOnCount)
+					{
 						#ifdef SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
-											RLY_SetSSRelayDutyCycle(100);
+							RLY_SetSSRelayDutyCycle(100);
 						#endif
 					}
 					else
 					{
 						#ifdef SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
-											RLY_SetSSRelayDutyCycle(0);
+							RLY_SetSSRelayDutyCycle(0);
 						#endif
 					}
-					AUD_ShiftoutBuffer(Audio_ADC_Counts_Buffer, &Audio_ADC_Counts_place, 1);
+					AUD_ShiftoutBuffer(Audio_ADC_Counts_Unfiltered_Buffer, &Audio_ADC_Counts_Unfiltered_place, 1);
 				}
     		}
     		AUD_ClearSampleReadyFlag();

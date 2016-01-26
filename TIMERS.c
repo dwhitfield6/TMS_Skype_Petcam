@@ -36,6 +36,7 @@
 /* Private Variable Declaration		                                          */
 /******************************************************************************/
 static unsigned char Timer0_Timeout = FALSE;
+static ENUM_TIMER1_MODE TIMER1_Mode = IR;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -483,6 +484,26 @@ unsigned long TMR_DutyToPeriod(unsigned char duty)
 	percent_1_cycle = (unsigned long) MSC_Round((double) complete_cycle / 100.0);
 
 	return percent_1_cycle * duty;
+}
+
+/******************************************************************************/
+/* TMR_SetTimer1Mode
+ *
+ * The sets the timer 1 mode.												  */
+/******************************************************************************/
+void TMR_SetTimer1Mode(ENUM_TIMER1_MODE mode)
+{
+	TIMER1_Mode = mode;
+}
+
+/******************************************************************************/
+/* TMR_GetTimer1Mode
+ *
+ * The gets the timer 1 mode.												  */
+/******************************************************************************/
+ENUM_TIMER1_MODE TMR_GetTimer1Mode(void)
+{
+	return TIMER1_Mode;
 }
 
 /*-----------------------------------------------------------------------------/
