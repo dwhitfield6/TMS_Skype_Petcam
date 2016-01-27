@@ -34,7 +34,9 @@
 /******************************************************************************/
 /* Private Variable Declaration      	                                      */
 /******************************************************************************/
-static unsigned char CommandReady = FALSE;
+static unsigned char CommandReadyA = FALSE;
+static unsigned char CommandReadyC = FALSE;
+static unsigned char ActiveUARTflag = 0;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -48,7 +50,8 @@ const COMMANDTYPE Commands[] =
 	{"IR Idylis Send~", CMD_SendIdylis,"Sends an IR command to the Idylis Air conditioner"},
 };
 
-unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
+unsigned char CommandStringA[LARGEST_COMMAND_WITH_EXTRA];
+unsigned char CommandStringC[LARGEST_COMMAND_WITH_EXTRA];
 unsigned char NumCommands;
 unsigned char MiscBuffer[MISC_BUFFER_SIZE];
 unsigned char SPRINTBuffer[SPRINT_BUFFER_SIZE];
@@ -78,10 +81,20 @@ void InitCMD(void)
 /******************************************	***********************************/
 void CMD_Help(void)
 {
-	UART_SendStringCRLN("");
-	UART_SendStringCRLN("Commands Help Menu:");
-	UART_SendStringCRLN("Hit 'Help' + enter to display all available commands");
-	UART_SendStringCRLN("");
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA("");
+		UART_SendStringCRLNA("Commands Help Menu:");
+		UART_SendStringCRLNA("Hit 'Help' + enter to display all available commands");
+		UART_SendStringCRLNA("");
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC("");
+		UART_SendStringCRLNC("Commands Help Menu:");
+		UART_SendStringCRLNC("Hit 'Help' + enter to display all available commands");
+		UART_SendStringCRLNC("");
+	}
 }
 
 /******************************************************************************/
@@ -136,23 +149,43 @@ unsigned char CMD_CheckMatch(unsigned char* received, const COMMANDTYPE* command
 }
 
 /******************************************************************************/
-/* CMD_SetNewCommandFlag
+/* CMD_SetNewCommandFlagA
  *
- * This function sets the flag for a new command.							  */
+ * This function sets the flag for a new command on UART A.					  */
 /******************************************************************************/
-void CMD_SetNewCommandFlag(unsigned char status)
+void CMD_SetNewCommandFlagA(unsigned char status)
 {
-	CommandReady = status;
+	CommandReadyA = status;
 }
 
 /******************************************************************************/
-/* CMD_GetNewCommandFlag
+/* CMD_SetNewCommandFlagC
  *
- * This function gets the flag set for a new command.						  */
+ * This function sets the flag for a new command on UART C.					  */
 /******************************************************************************/
-unsigned char CMD_GetNewCommandFlag(void)
+void CMD_SetNewCommandFlagC(unsigned char status)
 {
-	return CommandReady;
+	CommandReadyC = status;
+}
+
+/******************************************************************************/
+/* CMD_GetNewCommandFlagA
+ *
+ * This function gets the flag set for a new command on UART A.				  */
+/******************************************************************************/
+unsigned char CMD_GetNewCommandFlagA(void)
+{
+	return CommandReadyA;
+}
+
+/******************************************************************************/
+/* CMD_GetNewCommandFlagC
+ *
+ * This function gets the flag set for a new command on UART C.				  */
+/******************************************************************************/
+unsigned char CMD_GetNewCommandFlagC(void)
+{
+	return CommandReadyC;
 }
 
 /******************************************************************************/
@@ -202,16 +235,37 @@ void CMD_PrintCommand(const COMMANDTYPE* command)
     	}
     	if(command->Command[i] != '~')
 		{
-    		UART_SendChar(command->Command[i]);
+    		if(CMD_GetActiveUART() == 'A')
+    		{
+    			UART_SendCharA(command->Command[i]);
+    		}
+    		else if(CMD_GetActiveUART() == 'C')
+    		{
+    			UART_SendCharC(command->Command[i]);
+    		}
     		count++;
 		}
 	}
     while(count < (LARGEST_COMMAND + 1))
     {
-    	UART_SendChar(' ');
+		if(CMD_GetActiveUART() == ' ')
+		{
+			UART_SendCharA(command->Command[i]);
+		}
+		else if(CMD_GetActiveUART() == ' ')
+		{
+			UART_SendCharC(command->Command[i]);
+		}
         count++;
     }
-    UART_SendStringCRLN((unsigned char*) command->Help);
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA((unsigned char*) command->Help);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC((unsigned char*) command->Help);
+	}
 }
 
 /******************************************************************************/
@@ -223,14 +277,28 @@ void CMD_PrintAllCommands(void)
 {
     unsigned char i;
 
-    UART_SendStringCRLN("");
-    UART_SendStringCRLN("Available Commands:");
-    UART_SendStringCRLN("");
-    for(i=0;i<NumCommands;i++)
-    {
-        CMD_PrintCommand(&Commands[i]);
-    }
-    UART_SendStringCRLN("");
+    if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA("");
+		UART_SendStringCRLNA("Available Commands:");
+		UART_SendStringCRLNA("");
+		for(i=0;i<NumCommands;i++)
+		{
+			CMD_PrintCommand(&Commands[i]);
+		}
+		UART_SendStringCRLNA("");
+	}
+    else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC("");
+		UART_SendStringCRLNC("Available Commands:");
+		UART_SendStringCRLNC("");
+		for(i=0;i<NumCommands;i++)
+		{
+			CMD_PrintCommand(&Commands[i]);
+		}
+		UART_SendStringCRLNC("");
+	}
 }
 
 /******************************************************************************/
@@ -244,27 +312,56 @@ void CMD_SendSanyo(void)
 	unsigned char i;
 	unsigned char size = CMD_CommandSize(&CMD_SendSanyo);
 
-	if(CommandString[size] == '?')
+	if(CMD_GetActiveUART() == 'A')
 	{
-		UART_SendStringCRLN("Available Sanyo codes:");
-		for(i=0;i<NumSanyo;i++)
+		if(CommandStringA[size] == '?')
 		{
-			UART_SendStringCRLN((unsigned char*) Sanyo[i].Description);
-		}
-		UART_SendStringCRLN("");
-		UART_SendStringCRLN("For example 'IR Sanyo Send Power'");
-	}
-	else
-	{
-		if(IR_CMDCheckMatch(&CommandString[size], Sanyo, &index))
-		{
-			IR_SendNECWithRepeat(Sanyo[index].NEC);
-			UART_SendStringCRLN("Sanyo Code sent");
+			UART_SendStringCRLNA("Available Sanyo codes:");
+			for(i=0;i<NumSanyo;i++)
+			{
+				UART_SendStringCRLNA((unsigned char*) Sanyo[i].Description);
+			}
+			UART_SendStringCRLNA("");
+			UART_SendStringCRLNA("For example 'IR Sanyo Send Power'");
 		}
 		else
 		{
-			UART_SendStringCRLN("Sanyo Code not found");
-			UART_SendStringCRLN("Try IR Sanyo Send?");
+			if(IR_CMDCheckMatch(&CommandStringA[size], Sanyo, &index))
+			{
+				IR_SendNECWithRepeat(Sanyo[index].NEC);
+				UART_SendStringCRLNA("Sanyo Code sent");
+			}
+			else
+			{
+				UART_SendStringCRLNA("Sanyo Code not found");
+				UART_SendStringCRLNA("Try IR Sanyo Send?");
+			}
+		}
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		if(CommandStringC[size] == '?')
+		{
+			UART_SendStringCRLNC("Available Sanyo codes:");
+			for(i=0;i<NumSanyo;i++)
+			{
+				UART_SendStringCRLNC((unsigned char*) Sanyo[i].Description);
+			}
+			UART_SendStringCRLNC("");
+			UART_SendStringCRLNC("For example 'IR Sanyo Send Power'");
+		}
+		else
+		{
+			if(IR_CMDCheckMatch(&CommandStringC[size], Sanyo, &index))
+			{
+				IR_SendNECWithRepeat(Sanyo[index].NEC);
+				UART_SendStringCRLNC("Sanyo Code sent");
+			}
+			else
+			{
+				UART_SendStringCRLNC("Sanyo Code not found");
+				UART_SendStringCRLNC("Try IR Sanyo Send?");
+			}
 		}
 	}
 }
@@ -280,27 +377,56 @@ void CMD_SendVisio(void)
 	unsigned char i;
 	unsigned char size = CMD_CommandSize(&CMD_SendVisio);
 
-	if(CommandString[size] == '?')
+	if(CMD_GetActiveUART() == 'A')
 	{
-		UART_SendStringCRLN("Available Visio codes:");
-		for(i=0;i<NumVisio;i++)
+		if(CommandStringA[size] == '?')
 		{
-			UART_SendStringCRLN((unsigned char*) Visio[i].Description);
-		}
-		UART_SendStringCRLN("");
-		UART_SendStringCRLN("For example 'IR Visio Send Power'");
-	}
-	else
-	{
-		if(IR_CMDCheckMatch(&CommandString[size], Visio, &index))
-		{
-			IR_SendNECWithRepeat(Visio[index].NEC);
-			UART_SendStringCRLN("Visio Code sent");
+			UART_SendStringCRLNA("Available Visio codes:");
+			for(i=0;i<NumVisio;i++)
+			{
+				UART_SendStringCRLNA((unsigned char*) Visio[i].Description);
+			}
+			UART_SendStringCRLNA("");
+			UART_SendStringCRLNA("For example 'IR Visio Send Power'");
 		}
 		else
 		{
-			UART_SendStringCRLN("Visio Code not found");
-			UART_SendStringCRLN("Try IR Visio Send?");
+			if(IR_CMDCheckMatch(&CommandStringA[size], Visio, &index))
+			{
+				IR_SendNECWithRepeat(Visio[index].NEC);
+				UART_SendStringCRLNA("Visio Code sent");
+			}
+			else
+			{
+				UART_SendStringCRLNA("Visio Code not found");
+				UART_SendStringCRLNA("Try IR Visio Send?");
+			}
+		}
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		if(CommandStringC[size] == '?')
+		{
+			UART_SendStringCRLNC("Available Visio codes:");
+			for(i=0;i<NumVisio;i++)
+			{
+				UART_SendStringCRLNC((unsigned char*) Visio[i].Description);
+			}
+			UART_SendStringCRLNC("");
+			UART_SendStringCRLNC("For example 'IR Visio Send Power'");
+		}
+		else
+		{
+			if(IR_CMDCheckMatch(&CommandStringC[size], Visio, &index))
+			{
+				IR_SendNECWithRepeat(Visio[index].NEC);
+				UART_SendStringCRLNC("Visio Code sent");
+			}
+			else
+			{
+				UART_SendStringCRLNC("Visio Code not found");
+				UART_SendStringCRLNC("Try IR Visio Send?");
+			}
 		}
 	}
 }
@@ -316,29 +442,79 @@ void CMD_SendIdylis(void)
 	unsigned char i;
 	unsigned char size = CMD_CommandSize(&CMD_SendIdylis);
 
-	if(CommandString[size] == '?')
+	if(CMD_GetActiveUART() == 'A')
 	{
-		UART_SendStringCRLN("Available Idylis codes:");
-		for(i=0;i<NumIdylis;i++)
+		if(CommandStringA[size] == '?')
 		{
-			UART_SendStringCRLN((unsigned char*) Idylis[i].Description);
-		}
-		UART_SendStringCRLN("");
-		UART_SendStringCRLN("For example 'IR Idylis Send Power'");
-	}
-	else
-	{
-		if(IR_CMDCheckMatch(&CommandString[size], Idylis, &index))
-		{
-			IR_SendNECWithRepeat(Idylis[index].NEC);
-			UART_SendStringCRLN("Idylis Code sent");
+			UART_SendStringCRLNA("Available Idylis codes:");
+			for(i=0;i<NumIdylis;i++)
+			{
+				UART_SendStringCRLNA((unsigned char*) Idylis[i].Description);
+			}
+			UART_SendStringCRLNA("");
+			UART_SendStringCRLNA("For example 'IR Idylis Send Power'");
 		}
 		else
 		{
-			UART_SendStringCRLN("Idylis Code not found");
-			UART_SendStringCRLN("Try IR Idylis Send?");
+			if(IR_CMDCheckMatch(&CommandStringA[size], Idylis, &index))
+			{
+				IR_SendNECWithRepeat(Idylis[index].NEC);
+				UART_SendStringCRLNA("Idylis Code sent");
+			}
+			else
+			{
+				UART_SendStringCRLNA("Idylis Code not found");
+				UART_SendStringCRLNA("Try IR Idylis Send?");
+			}
 		}
 	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		if(CommandStringC[size] == '?')
+		{
+			UART_SendStringCRLNC("Available Idylis codes:");
+			for(i=0;i<NumIdylis;i++)
+			{
+				UART_SendStringCRLNC((unsigned char*) Idylis[i].Description);
+			}
+			UART_SendStringCRLNC("");
+			UART_SendStringCRLNC("For example 'IR Idylis Send Power'");
+		}
+		else
+		{
+			if(IR_CMDCheckMatch(&CommandStringC[size], Idylis, &index))
+			{
+				IR_SendNECWithRepeat(Idylis[index].NEC);
+				UART_SendStringCRLNC("Idylis Code sent");
+			}
+			else
+			{
+				UART_SendStringCRLNC("Idylis Code not found");
+				UART_SendStringCRLNC("Try IR Idylis Send?");
+			}
+		}
+	}
+
+}
+
+/******************************************************************************/
+/* CMD_SetActiveUART
+ *
+ * This function sets the active UART (to print to).						  */
+/******************************************************************************/
+void CMD_SetActiveUART(unsigned char state)
+{
+	ActiveUARTflag = state;
+}
+
+/******************************************************************************/
+/* CMD_GetActiveUART
+ *
+ * This function returns the active UART (to print to).						  */
+/******************************************************************************/
+unsigned char CMD_GetActiveUART(void)
+{
+	return ActiveUARTflag;
 }
 
 /*-----------------------------------------------------------------------------/

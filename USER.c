@@ -34,6 +34,7 @@
 #include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
+#include "TOGGLE.h"
 #include "TV.h"
 #include "UART.h"
 #include "USER.h"
@@ -153,6 +154,34 @@ void Init_Pins(void)
     /* Connected to the output of the FTDI UART */
 	SYS_SetupPinMux(UART_RX_GPIO, GPIO_MUX_CPU1, 0);
 	SYS_SetupPinOptions(UART_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
+
+    /************* UART over BLUETOOTH *************/
+    /* Connected to the input of the HC05 IC */
+    SYS_WritePin(BLUETOOTH_TX_GPIO, ON);
+    SYS_SetupPinMux(BLUETOOTH_TX_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(BLUETOOTH_TX_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+    /* Connected to the output of the HC05 IC */
+	SYS_SetupPinMux(BLUETOOTH_RX_GPIO, GPIO_MUX_CPU1, 0);
+	SYS_SetupPinOptions(BLUETOOTH_RX_GPIO, GPIO_INPUT, GPIO_ASYNC);
+
+	/************* LowPass filter IC *************/
+	/* Connected to the shutdown pin of the MAX740x IC */
+    AUD_LOWPASS_Shutdown(TRUE);
+    SYS_SetupPinMux(LOWPASS_SHDN_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(LOWPASS_SHDN_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+	/* Connected to the clock pin of the MAX740x IC */
+    SYS_SetupPinMux(LOWPASS_CLK_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(LOWPASS_CLK_GPIO, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+    /************* LowPass Audio *************/
+    /* Nothing to do for analog pins */
+
+	/************* Toggle *************/
+	/* Connected to the toggle switch */
+    SYS_SetupPinMux(TOGGLE_GPIO, GPIO_MUX_CPU1, 0);
+    SYS_SetupPinOptions(TOGGLE_GPIO, GPIO_INPUT, GPIO_NONE);
 }
 
 /******************************************************************************/
@@ -173,6 +202,7 @@ void Init_Modules(void)
 	InitADC();
 	InitAudio();
 	InitTV();
+	InitToggle();
 }
 
 /*-----------------------------------------------------------------------------/

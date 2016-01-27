@@ -106,7 +106,7 @@ void InitADC(void);
 void ADC_ModuleA(unsigned char state);
 void ADC_SetMode(ENUM_ADC_MODULE adc, ENUM_ADC_RESOLUTION resolution, ENUM_ADC_MODE signalmode);
 void ADC_LoadTrim(ENUM_ADC_MODULE adc);
-void ADC_SetupContinuousA(unsigned short channel);
+void ADC_SetupContinuousA(void);
 unsigned char ADC_BusyA(void);
 void ADC_InterruptA(unsigned char state);
 void ADC_ForceSampleA(void);

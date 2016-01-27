@@ -24,6 +24,7 @@ ORDERED_OBJS += \
 "./START.obj" \
 "./SYSTEM.obj" \
 "./TIMERS.obj" \
+"./TOGGLE.obj" \
 "./TV.obj" \
 "./UART.obj" \
 "./USER.obj" \
@@ -173,8 +174,8 @@ TMS_Skype_Petcam.txt: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "ADC.pp" "AUDIO.pp" "BUTTON.pp" "CMD.pp" "DMA.pp" "INTERRUPTS.pp" "IR.pp" "LED.pp" "MISC.pp" "PWM.pp" "RELAY.pp" "SYSTEM.pp" "TIMERS.pp" "TV.pp" "UART.pp" "USER.pp" "main.pp" "Library\F28377S.pp" 
-	-$(RM) "ADC.obj" "AUDIO.obj" "BUTTON.obj" "CMD.obj" "DMA.obj" "INTERRUPTS.obj" "IR.obj" "LED.obj" "MISC.obj" "PWM.obj" "RELAY.obj" "START.obj" "SYSTEM.obj" "TIMERS.obj" "TV.obj" "UART.obj" "USER.obj" "main.obj" "Library\F28377S.obj" 
+	-$(RM) "ADC.pp" "AUDIO.pp" "BUTTON.pp" "CMD.pp" "DMA.pp" "INTERRUPTS.pp" "IR.pp" "LED.pp" "MISC.pp" "PWM.pp" "RELAY.pp" "SYSTEM.pp" "TIMERS.pp" "TOGGLE.pp" "TV.pp" "UART.pp" "USER.pp" "main.pp" "Library\F28377S.pp" 
+	-$(RM) "ADC.obj" "AUDIO.obj" "BUTTON.obj" "CMD.obj" "DMA.obj" "INTERRUPTS.obj" "IR.obj" "LED.obj" "MISC.obj" "PWM.obj" "RELAY.obj" "START.obj" "SYSTEM.obj" "TIMERS.obj" "TOGGLE.obj" "TV.obj" "UART.obj" "USER.obj" "main.obj" "Library\F28377S.obj" 
 	-$(RM) "START.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

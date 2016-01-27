@@ -62,7 +62,9 @@
 /* Analog pins                                                                */
 /******************************************************************************/
 #define ADCINA0 0
+#define ADCINA1 1
 #define ADCINB0 0
+#define ADCINB1 1
 
 /******************************************************************************/
 /* Macro functions                                                            */
@@ -86,7 +88,7 @@
 #define ZEROCROSS_GPIO 12 // GPIO12
 
 /************* IR Communications *************/
-/* Connected to the MOSFET controllng the IR LED */
+/* Connected to the MOSFET controlling the IR LED */
 #define IR_LED_GPIO 15 // GPIO15
 
 /* Connected to the output of the IR receiver */
@@ -101,14 +103,14 @@
 
 /************* Pushbutton *************/
 /* Connected to the pushbutton switch */
-#define PUSHBUTTON_GPIO 20 // GPIO20
+#define PUSHBUTTON_GPIO 21 // GPIO21
 
 /************* Audio *************/
 /* Connected to the output of the audio driver */
-#define ADC_AUDIO_1_GPIO ADCINB0 // ADCINB0
+#define ADC_AUDIO_1_GPIO ADCINA0 // ADCINA0
 
 /* Connected to the output of the audio driver */
-#define ADC_AUDIO_2_GPIO ADCINA0 // ADCINA0
+#define ADC_AUDIO_2_GPIO ADCINB0 // ADCINB0
 
 /************* UART over USB *************/
 /* Connected to the input of the FTDI UART */
@@ -116,6 +118,30 @@
 
 /* Connected to the output of the FTDI UART */
 #define UART_RX_GPIO 85 // GPIO85 used as SCITXDA
+
+/************* UART over BLUETOOTH *************/
+/* Connected to the input of the HC05 IC */
+#define BLUETOOTH_TX_GPIO 89 // GPIO89 used as SCITXDC
+
+/* Connected to the output of the HC05 IC */
+#define BLUETOOTH_RX_GPIO 90 // GPIO90 used as SCITXDC
+
+/************* LowPass filter IC *************/
+/* Connected to the shutdown pin of the MAX740x IC */
+#define LOWPASS_SHDN_GPIO 41 // GPI041
+
+/* Connected to the clock pin of the MAX740x IC */
+#define LOWPASS_CLK_GPIO 20 // GPIO20
+
+/* Connected to the output of the lowpass filter */
+#define ADC_AUDIO_3_GPIO ADCINA1 // ADCINA1
+
+/* Connected to the output of the lowpass filter */
+#define ADC_AUDIO_4_GPIO ADCINB1 // ADCINB1
+
+/************* Toggle *************/
+/* Connected to the toggle switch */
+#define TOGGLE_GPIO 61 // GPIO61
 
 /******************************************************************************/
 /* Version variables                                                          */

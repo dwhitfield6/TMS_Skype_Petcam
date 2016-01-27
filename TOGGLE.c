@@ -6,12 +6,12 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 12/15/15     13.0_DW0a   First coding.
+ * 01/27/16     13.0_DW0a   First coding.
  *                                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
-/* Contains functions for the pushbutton switch.
+/* Contains functions for the toggle switch.
  *																			  */
 /******************************************************************************/
 
@@ -23,15 +23,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "BUTTON.h"
 #include "INTERRUPTS.h"
 #include "SYSTEM.h"
+#include "TOGGLE.h"
 #include "USER.h"
 
 /******************************************************************************/
 /* Private Variable Declaration      	                                      */
 /******************************************************************************/
-static unsigned char ButtonFlag = FALSE;
+static ENUM_TOGGLE ToggleFlag = NO_TOGGLE;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -50,59 +50,59 @@ static unsigned char ButtonFlag = FALSE;
  *
  * The function initializes the push buttons.								  */
 /******************************************************************************/
-void InitButtons(void)
+void InitToggle(void)
 {
-	/* Set INT1 ISRs */
+	/* Set INT4 ISRs */
 	SYS_Unlock();
-	PieVectTable.XINT1_INT = &ISR_INT1_BUTTON;
+	PieVectTable.XINT4_INT = &ISR_INT4_TOGGLE;
 	SYS_Lock();
-	SYS_EnableInterruptGroup(INTERRUPT_GROUP1);	// Group for INT1
-	BUT_ButtonInterrupt(ON);
+	SYS_EnableInterruptGroup(INTERRUPT_GROUP12);	// Group for INT12
+	TOG_ToggleInterrupt(ON);
 	SYS_Unlock();
-    InputXbarRegs.INPUT4SELECT = PUSHBUTTON_GPIO;	//Set XINT1 source to GPIO-pin
+    InputXbarRegs.INPUT13SELECT = TOGGLE_GPIO;		//Set XINT4 source to GPIO-pin
     SYS_Lock();
-    XintRegs.XINT1CR.bit.POLARITY = 0;    			// Falling edge interrupt
+    XintRegs.XINT4CR.bit.POLARITY = 0b11;   		// Falling and rising edge interrupt
 }
 
 /******************************************************************************/
-/* BUT_ButtonInterrupt
+/* TOG_ToggleInterrupt
  *
- * The function controls button interrupt.									  */
+ * The function controls toggle switch interrupt.							  */
 /******************************************************************************/
-void BUT_ButtonInterrupt(unsigned char state)
+void TOG_ToggleInterrupt(unsigned char state)
 {
 	SYS_Unlock();
 	if (state)
 	{
-		PieCtrlRegs.PIEIER1.bit.INTx4 = 1;   	// Enable PIE Group 1 INT4
-		XintRegs.XINT1CR.bit.ENABLE = 1;        // Enable XINT1
+		PieCtrlRegs.PIEIER12.bit.INTx2 = 1;   	// Enable PIE Group 12 INT2
+		XintRegs.XINT4CR.bit.ENABLE = 1;        // Enable XINT4
 	}
 	else
 	{
-		PieCtrlRegs.PIEIER1.bit.INTx4 = 0;    	// Enable PIE Group 1 INT4
-		XintRegs.XINT1CR.bit.ENABLE = 0;        // Disable XINT1
+		PieCtrlRegs.PIEIER12.bit.INTx2 = 0;   	// Disable PIE Group 12 INT2
+		XintRegs.XINT4CR.bit.ENABLE = 0;        // Disable XINT4
 	}
 	SYS_Lock();
 }
 
 /******************************************************************************/
-/* BUT_SetButtonFlag
+/* TOG_SetToggleFlag
  *
- * The function sets the button flag.										  */
+ * The function sets the toggle flag.										  */
 /******************************************************************************/
-void BUT_SetButtonFlag(unsigned char status)
+void TOG_SetToggleFlag(ENUM_TOGGLE status)
 {
-	ButtonFlag = status;
+	ToggleFlag = status;
 }
 
 /******************************************************************************/
-/* BUT_GetButtonFlag
+/* TOG_GetToggleFlag
  *
- * The function gets the button flag.										  */
+ * The function gets the toggle flag.										  */
 /******************************************************************************/
-unsigned char BUT_GetButtonFlag(void)
+ENUM_TOGGLE TOG_GetToggleFlag(void)
 {
-	return ButtonFlag;
+	return ToggleFlag;
 }
 
 /*-----------------------------------------------------------------------------/

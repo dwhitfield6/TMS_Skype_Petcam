@@ -101,6 +101,13 @@ TIMERS.obj: ../TIMERS.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+TOGGLE.obj: ../TOGGLE.c $(GEN_OPTS) $(GEN_HDRS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C2000 Compiler'
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/bin/cl2000" -v28 -mt -ml --vcu_support=vcu2 --cla_support=cla1 --tmu_support=tmu0 --float_support=fpu32 --fp_mode=relaxed --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_6.4.9/include" --include_path="C:/Users/dwhitfield/Documents/GitHub/TMS_Skype_Petcam/Library" --advice:performance=all -g --define=CPU1 --define=_FLASH --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="TOGGLE.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 TV.obj: ../TV.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C2000 Compiler'

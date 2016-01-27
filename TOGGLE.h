@@ -6,47 +6,51 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 01/18/16     13.0_DW0a   Created.
+ * 12/15/15     13.0_DW0a   First coding.
  *                                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#ifndef PWM_H
-#define	PWM_H
+#ifndef TOGGLE_H
+#define	TOGGLE_H
 
 #include "F2837xS_device.h"     		// TMS320F28377S Include file
 #include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "INTERRUPTS.h"
 #include "USER.h"
+
+/******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
+typedef enum e_toggle
+{
+	NO_TOGGLE = 0,	// no toggle switch movement
+	TOGGLE_ON = 1,  // toggled on
+	TOGGLE_OFF= 2	// toggled off
+}ENUM_TOGGLE;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-extern unsigned short Period38kHz;
-extern unsigned short PeriodLowpass;
+
+/******************************************************************************/
+/* Defines                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Macro Functions                                                            */
+/******************************************************************************/
 
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
-void InitPWM(void);
-void InitPWM_IR(void);
-void InitPWM_AudioLowpass(void);
-unsigned short PWM_SetFrequency(double frequency);
-void PWM_SetDutyCycle8B(unsigned char duty);
-void PWM_SetDutyCycle11A(unsigned char duty);
-void PWM_SetCMP8B(unsigned short compare);
-void PWM_SetCMP11A(unsigned short compare);
-unsigned short PWM_GetCMP8B(void);
-unsigned short PWM_GetCMP11A(void);
-void PWM_ResetTBClock8(void);
-void PWM_ResetTBClock11(void);
-void PWM_Interrupt8(unsigned char state);
-void PWM_Interrupt11(unsigned char state);
+void InitToggle(void);
+void TOG_ToggleInterrupt(unsigned char state);
+void TOG_SetToggleFlag(ENUM_TOGGLE status);
+ENUM_TOGGLE TOG_GetToggleFlag(void);
 
-
-#endif	/* PWM_H */
+#endif	/* TOGGLE_H */

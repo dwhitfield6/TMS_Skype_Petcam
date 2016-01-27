@@ -254,6 +254,7 @@
 #include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
+#include "TOGGLE.h"
 #include "TV.h"
 #include "UART.h"
 #include "USER.h"
@@ -271,9 +272,9 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* UART RX interrupt
+/* UART RX interrupt A
  *
- * Used for UART Terminal.                                                    */
+ * Used for UART Terminal over USB.                                           */
 /******************************************************************************/
 interrupt void ISR_UART_A_RX(void)
 {
@@ -291,7 +292,7 @@ interrupt void ISR_UART_A_RX(void)
 		}
 		else
 		{
-			UART_ProcessCharacter(data);
+			UART_ProcessCharacterA(data);
 		}
 	}
 
@@ -301,11 +302,42 @@ interrupt void ISR_UART_A_RX(void)
     PieCtrlRegs.PIEACK.all |= INTERRUPT_GROUP9;       // Issue PIE ack
 }
 
-/******************************************************************************/
-/* UART TX interrupt
- *
- * Used for UART Terminal.                                                    */
-/******************************************************************************/
+ /******************************************************************************/
+ /* UART RX interrupt C
+  *
+  * Used for UART Terminal over BLUETOOTH.                                     */
+ /******************************************************************************/
+ interrupt void ISR_UART_C_RX(void)
+ {
+ 	unsigned char Framing_Error;
+ 	unsigned char Parity_Error;
+ 	unsigned char data;
+
+ 	while(ScicRegs.SCIFFRX.bit.RXFFST)
+ 	{
+ 		/* get all of the data out of the FIFO */
+ 		data = UART_GetCharC(&Framing_Error, &Parity_Error);
+ 		if(Framing_Error || Parity_Error)
+ 		{
+ 			/* error occured */
+ 		}
+ 		else
+ 		{
+ 			UART_ProcessCharacterC(data);
+ 		}
+ 	}
+
+     ScicRegs.SCIFFRX.bit.RXFFOVRCLR = 1;   // Clear Overflow flag
+     ScicRegs.SCIFFRX.bit.RXFFINTCLR = 1;   // Clear Interrupt flag
+
+     PieCtrlRegs.PIEACK.all |= INTERRUPT_GROUP8;       // Issue PIE ack
+ }
+
+ /******************************************************************************/
+ /* UART TX interrupt A
+  *
+  * Used for UART Terminal over USB.                                           */
+ /******************************************************************************/
 interrupt void ISR_UART_A_TX(void)
 {
 	if(TX_A_Buffer_REMOVE_Place != TX_A_Buffer_ADD_Place)
@@ -335,6 +367,42 @@ interrupt void ISR_UART_A_TX(void)
 
 	SciaRegs.SCIFFTX.bit.TXFFINTCLR = 1;  		// Clear SCI Interrupt flag
 	PieCtrlRegs.PIEACK.all |= INTERRUPT_GROUP9; // Issue PIE ACK
+}
+
+/******************************************************************************/
+/* UART TX interrupt C
+ *
+ * Used for UART Terminal over BLUETOOTH.                                     */
+/******************************************************************************/
+interrupt void ISR_UART_C_TX(void)
+{
+	if(TX_C_Buffer_REMOVE_Place != TX_C_Buffer_ADD_Place)
+	{
+		while(ScicRegs.SCIFFTX.bit.TXFFST != 0x10)
+		{
+			/* Fill the FIFO if we can */
+			if(TX_C_Buffer_REMOVE_Place != TX_C_Buffer_ADD_Place)
+			{
+				UART_PutCharC(TX_C_Buffer[TX_C_Buffer_REMOVE_Place]);
+				TX_C_Buffer_REMOVE_Place++;
+				if(TX_C_Buffer_REMOVE_Place >= UART_C_TRANSMIT_SIZE)
+				{
+					TX_C_Buffer_REMOVE_Place = 0;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		UART_TransmitInterruptC(OFF);
+	}
+
+	ScicRegs.SCIFFTX.bit.TXFFINTCLR = 1;  		// Clear SCI Interrupt flag
+	PieCtrlRegs.PIEACK.all |= INTERRUPT_GROUP8; // Issue PIE ACK
 }
 
 /******************************************************************************/
@@ -475,6 +543,27 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 }
 
 /******************************************************************************/
+/* External Interrupt 4
+ *
+ *	Used for toggle switch.                                                   */
+/******************************************************************************/
+interrupt void ISR_INT4_TOGGLE(void)
+{
+	TOG_ToggleInterrupt(OFF);
+	if(SYS_ReadPin(TOGGLE_GPIO))
+	{
+		TOG_SetToggleFlag(TOGGLE_OFF);
+	}
+	else
+	{
+		TOG_SetToggleFlag(TOGGLE_ON);
+	}
+
+	/* Acknowledge this interrupt from group 12 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP12;
+}
+
+/******************************************************************************/
 /* Timer 0 interrupt
  *
  * Used for MSC_DelayUS() as a misc. delay.                                   */
@@ -529,11 +618,28 @@ interrupt void ISR_TIMER2_SS_Relay(void)
 /******************************************************************************/
 interrupt void ISR_EPWM_8_IRLED(void)
 {
-	//PWM_Interrupt1(OFF);
-	EPwm8Regs.CMPB.bit.CMPB = PWM_GetCMPB();	// update Compare A value
+	PWM_Interrupt8(OFF);
+	EPwm8Regs.CMPB.bit.CMPB = PWM_GetCMP8B();	// update Compare 8B value
 
     /* Clear INT flag for this timer */
     EPwm8Regs.ETCLR.bit.INT = 1;
+
+	/* Acknowledge this interrupt from group 3 */
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP3;
+}
+
+/******************************************************************************/
+/* ePWM 11
+ *
+ * Used for Lowpass filter clock.			                                  */
+/******************************************************************************/
+interrupt void ISR_EPWM_11_LOWPASS(void)
+{
+	PWM_Interrupt11(OFF);
+	EPwm11Regs.CMPA.bit.CMPA = PWM_GetCMP11A();	// update Compare 11A value
+
+    /* Clear INT flag for this timer */
+	EPwm11Regs.ETCLR.bit.INT = 1;
 
 	/* Acknowledge this interrupt from group 3 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP3;
@@ -606,8 +712,8 @@ interrupt void ISR_ADC_AUDIO(void)
 
 	AUD_SetSampleReadyFlag();
 
-	AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //clear INT1 flag
-	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
+	AdcaRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; //clear INT2 flag
+	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP10;
 }
 
 /*-----------------------------------------------------------------------------/

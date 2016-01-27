@@ -35,6 +35,7 @@
 #include "MISC.h"
 #include "RELAY.h"
 #include "SYSTEM.h"
+#include "TOGGLE.h"
 #include "TV.h"
 #include "UART.h"
 #include "USER.h"
@@ -81,10 +82,12 @@ int main (void)
 	Init_Modules();
 
 	/* print banner */
-	UART_SendBanner();
+	UART_SendBannerA();
+	UART_SendBannerC();
 
 	/* print prompt */
-	UART_SendPrompt();
+	UART_SendPromptA();
+	UART_SendPromptC();
 
 	/* start sampling */
 	AUD_Sampling(ON);
@@ -100,19 +103,41 @@ int main (void)
     while(1)
     {
     	/* check for a new entered UART command */
-    	if(CMD_GetNewCommandFlag())
+    	if(CMD_GetNewCommandFlagA() || CMD_GetNewCommandFlagC())
     	{
-    		/* process new command */
-    		if(!CMD_CheckMatch(CommandString, Commands, LARGEST_COMMAND))
+    		/* check for command over USB UART */
+    		if(CMD_GetNewCommandFlagA())
     		{
-    			UART_SendStringCRLN(BAD_COMMAND);
+        		/* process new command */
+    			CMD_SetActiveUART('A');
+        		if(!CMD_CheckMatch(CommandStringA, Commands, LARGEST_COMMAND))
+        		{
+        			UART_SendStringCRLNA(BAD_COMMAND);
+        		}
+        		else
+        		{
+        			UART_SendStringCRLNA("");
+        		}
+        		CMD_SetNewCommandFlagA(FALSE);
+    			UART_SendPromptA();
     		}
-    		else
+
+    		/* check for command over BLUEOOTH UART */
+    		if(CMD_GetNewCommandFlagC())
     		{
-    			UART_SendStringCRLN("");
+        		/* process new command */
+    			CMD_SetActiveUART('C');
+        		if(!CMD_CheckMatch(CommandStringC, Commands, LARGEST_COMMAND))
+        		{
+        			UART_SendStringCRLNC(BAD_COMMAND);
+        		}
+        		else
+        		{
+        			UART_SendStringCRLNC("");
+        		}
+        		CMD_SetNewCommandFlagC(FALSE);
+    			UART_SendPromptC();
     		}
-    		CMD_SetNewCommandFlag(FALSE);
-			UART_SendPrompt();
     	}
 
     	/* check for a new IR code received */
@@ -138,7 +163,8 @@ int main (void)
 					IR_repeat_times++;
 				}
 				sprintf((char*)SPRINTBuffer, "Received IR NEC code: 0x%lx", temp_NEC);
-				UART_SendStringCRLN(SPRINTBuffer);
+				UART_SendStringCRLNA(SPRINTBuffer);
+				UART_SendStringCRLNC(SPRINTBuffer);
 
 				if(IR_process)
 				{
@@ -146,8 +172,10 @@ int main (void)
 					if(IR_CheckForNECMatch(NEC, Sanyo, &index))
 					{
 						/* Sanyo match */
-						UART_SendString("Sanyo code : ");
-						UART_SendStringCRLN((unsigned char*)Sanyo[index].Description);
+						UART_SendStringA("Sanyo code : ");
+						UART_SendStringC("Sanyo code : ");
+						UART_SendStringCRLNA((unsigned char*)Sanyo[index].Description);
+						UART_SendStringCRLNC((unsigned char*)Sanyo[index].Description);
 						if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
 						{
 							Original_TV_inputMode++;
@@ -183,14 +211,18 @@ int main (void)
 					else if(IR_CheckForNECMatch(NEC, Visio, &index))
 					{
 						/* Visio match */
-						UART_SendString("Visio code : ");
-						UART_SendStringCRLN((unsigned char*)Visio[index].Description);
+						UART_SendStringA("Visio code : ");
+						UART_SendStringC("Visio code : ");
+						UART_SendStringCRLNA((unsigned char*)Visio[index].Description);
+						UART_SendStringCRLNC((unsigned char*)Visio[index].Description);
 					}
 					else if(IR_CheckForNECMatch(NEC, Idylis, &index))
 					{
 						/* Idylis match */
-						UART_SendString("Idylis code : ");
-						UART_SendStringCRLN((unsigned char*)Idylis[index].Description);
+						UART_SendStringA("Idylis code : ");
+						UART_SendStringC("Idylis code : ");
+						UART_SendStringCRLNA((unsigned char*)Idylis[index].Description);
+						UART_SendStringCRLNC((unsigned char*)Idylis[index].Description);
 					}
 				}
     		}
@@ -267,8 +299,10 @@ int main (void)
     		if(TV_SKYPE_Decode(Audio_ADC_Counts_LowPass_Buffer, Audio_ADC_Counts_LowPass_place, SKYPE_Codes, &index))
     		{
     			/* a valid audio skype code was received */
-				UART_SendString("Audio Skype code: ");
-				UART_SendStringCRLN((unsigned char*)SKYPE_Codes[index].Description);
+				UART_SendStringA("Audio Skype code: ");
+				UART_SendStringC("Audio Skype code: ");
+				UART_SendStringCRLNA((unsigned char*)SKYPE_Codes[index].Description);
+				UART_SendStringCRLNC((unsigned char*)SKYPE_Codes[index].Description);
 				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call Start"))
 				{
 		    		/* a button was pressed */
@@ -289,6 +323,21 @@ int main (void)
 				}
     		}
     		TV_SKYPE_SetDecodeFlag(FALSE);
+    	}
+
+    	/* check for the TOGGLE switch moving */
+    	if(TOG_GetToggleFlag())
+    	{
+    		if(TOG_GetToggleFlag() == TOGGLE_ON)
+    		{
+    			/* switch was toggled on */
+    		}
+    		else if(TOG_GetToggleFlag() == TOGGLE_OFF)
+    		{
+    			/* switch was toggled off */
+    		}
+    		TOG_SetToggleFlag(NO_TOGGLE);
+    		TOG_ToggleInterrupt(ON);
     	}
     }
 }

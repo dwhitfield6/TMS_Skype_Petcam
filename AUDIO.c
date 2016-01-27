@@ -26,6 +26,7 @@
 
 #include "ADC.h"
 #include "AUDIO.h"
+#include "SYSTEM.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -68,6 +69,8 @@ void InitAudio(void)
 	SSRelayAntiTwitchCount		= 20;
 	AUD_Sampling(ON);
 	ADC_ForceSampleA(); 		// take next sample
+	AUD_LOWPASS_Shutdown(OFF);
+	AUD_LOWPASS_ClockModulePins(TRUE);
 }
 
 /******************************************************************************/
@@ -164,6 +167,45 @@ void AUD_ShiftoutBuffer(unsigned short* buffer, unsigned short* amount, unsigned
 	}
 	buffer[i] = 0;
 	*amount -= shift;
+}
+
+/******************************************************************************/
+/* AUD_LOWPASS_Shutdown
+ *
+ * The function controls the shutdown pin of the lowpass filter.  			  */
+/******************************************************************************/
+void AUD_LOWPASS_Shutdown(unsigned char state)
+{
+	if(state)
+	{
+		SYS_WritePin(LOWPASS_SHDN_GPIO, OFF);
+	}
+	else
+	{
+		SYS_WritePin(LOWPASS_SHDN_GPIO, ON);
+	}
+}
+
+/******************************************************************************/
+/* AUD_LOWPASS_ClockModulePins
+ *
+ * The function sets the lowpass audio filters clock pin to PWM mode.		  */
+/******************************************************************************/
+void AUD_LOWPASS_ClockModulePins(unsigned char state)
+{
+	SYS_Unlock();
+    if(state)
+    {
+        /* Map the remappable pin */
+    	GpioCtrlRegs.GPAGMUX2.bit.GPIO20 = 0b01;	// Configure GPIO20 as EPWM11A
+    	GpioCtrlRegs.GPAMUX2.bit.GPIO20 = 0b01;		// Configure GPIO20 as EPWM11A
+    }
+    else
+    {
+    	GpioCtrlRegs.GPAGMUX2.bit.GPIO20 = 0b00;	// Configure GPIO20 as EPWM11A
+    	GpioCtrlRegs.GPAMUX2.bit.GPIO20 = 0b00;		// Configure GPIO20 as EPWM11A
+    }
+	SYS_Lock();
 }
 
 /*-----------------------------------------------------------------------------/

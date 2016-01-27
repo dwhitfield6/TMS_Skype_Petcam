@@ -82,7 +82,8 @@ typedef struct Type_command
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 extern const COMMANDTYPE Commands[];
-extern unsigned char CommandString[LARGEST_COMMAND_WITH_EXTRA];
+extern unsigned char CommandStringA[LARGEST_COMMAND_WITH_EXTRA];
+extern unsigned char CommandStringC[LARGEST_COMMAND_WITH_EXTRA];
 extern unsigned char NumCommands;
 extern unsigned char MiscBuffer[MISC_BUFFER_SIZE];
 extern unsigned char SPRINTBuffer[SPRINT_BUFFER_SIZE];
@@ -101,13 +102,17 @@ extern unsigned char SPRINTBuffer[SPRINT_BUFFER_SIZE];
 void InitCMD(void);
 void CMD_Help(void);
 unsigned char CMD_CheckMatch(unsigned char* received, const COMMANDTYPE* commands, unsigned char size);
-void CMD_SetNewCommandFlag(unsigned char status);
-unsigned char CMD_GetNewCommandFlag(void);
+void CMD_SetNewCommandFlagA(unsigned char status);
+void CMD_SetNewCommandFlagC(unsigned char status);
+unsigned char CMD_GetNewCommandFlagA(void);
+unsigned char CMD_GetNewCommandFlagC(void);
 unsigned char CMD_CommandSize(pFunction function);
 void CMD_PrintCommand(const COMMANDTYPE* command);
 void CMD_PrintAllCommands(void);
 void CMD_SendSanyo(void);
 void CMD_SendVisio(void);
 void CMD_SendIdylis(void);
+void CMD_SetActiveUART(unsigned char state);
+unsigned char CMD_GetActiveUART(void);
 
 #endif	/* CMD_H */

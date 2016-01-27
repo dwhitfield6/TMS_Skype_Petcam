@@ -137,7 +137,7 @@ void InitIRSend(void)
 {
 	IR_LEDModulePins(FALSE);
 	IR_LED(OFF);
-	PWM_SetDutyCycle(IR_LED_50_50);
+	PWM_SetDutyCycle8B(IR_LED_50_50);
 }
 
 /******************************************************************************/
@@ -259,7 +259,7 @@ void IR_SendNECRepeat(void)
 	IR_DisableReceive(); // disable the IR receive
 
 	/* make sure that the first cycle is fresh */
-	PWM_ResetTBClock();
+	PWM_ResetTBClock8();
 
     /* send repeat */
 	IR_LEDModulePins(TRUE);
@@ -290,7 +290,7 @@ void IR_SendNEC(unsigned long code)
     code = MSC_ReverseLong(code);
 
 	/* make sure that the first cycle is fresh */
-	PWM_ResetTBClock();
+	PWM_ResetTBClock8();
 
     /* send header sync pulse */
     IR_LEDModulePins(TRUE);
