@@ -51,7 +51,7 @@ typedef struct t_lowpass
  * This is the buffer size for storing raw Low pass ADC counts and timing
  *  data.																	  */
 /******************************************************************************/
-#define LOWPASS_BUFFER_SIZE 2
+#define LOWPASS_BUFFER_SIZE 1000
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */

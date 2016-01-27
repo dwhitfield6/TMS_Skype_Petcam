@@ -40,10 +40,7 @@ PAGE 1 : /* Data Memory */
 
    RAMLS5      : origin = 0x00A800, length = 0x000800
 
-   RAMGS0      : origin = 0x00C000, length = 0x001000
-   RAMGS1      : origin = 0x00D000, length = 0x001000
-   RAMGS2      : origin = 0x00E000, length = 0x001000
-   RAMGS3      : origin = 0x00F000, length = 0x001000
+   RAMGS0      : origin = 0x00C000, length = 0x004000
    RAMGS4      : origin = 0x010000, length = 0x001000
    RAMGS5      : origin = 0x011000, length = 0x001000
    RAMGS6      : origin = 0x012000, length = 0x001000
@@ -75,7 +72,7 @@ SECTIONS
 						 
    /* Allocate uninitalized data sections: */
    .stack              : > RAMM1        PAGE = 1
-   .ebss               : >> RAMLS5 | RAMGS0 | RAMGS1       PAGE = 1
+   .ebss               : >> RAMLS5 | RAMGS0       PAGE = 1
    .esysmem            : > RAMLS5       PAGE = 1
 
    /* Initalized sections go in Flash */
@@ -99,12 +96,8 @@ SECTIONS
 #endif
    
    ramgs0           : > RAMGS0,    PAGE = 1
-   ramgs1           : > RAMGS1,    PAGE = 1
    
    /* The following section definitions are for SDFM examples */		
-   Filter1_RegsFile : > RAMGS1,	PAGE = 1, fill=0x1111
-   Filter2_RegsFile : > RAMGS2,	PAGE = 1, fill=0x2222
-   Filter3_RegsFile : > RAMGS3,	PAGE = 1, fill=0x3333
    Filter4_RegsFile : > RAMGS4,	PAGE = 1, fill=0x4444
    Difference_RegsFile : >RAMGS5, 	PAGE = 1, fill=0x3333
 }

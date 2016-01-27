@@ -21,7 +21,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "AUDIO.h"
 #include "USER.h"
+
+/******************************************************************************/
+/* LARGEST_SKYPE_DESCRIPTION
+ *
+ * This is the largest size of the skype code description.					  */
+/******************************************************************************/
+#define LARGEST_SKYPE_DESCRIPTION 30
 
 /******************************************************************************/
 /* Structures                                                                 */
@@ -42,6 +50,12 @@ typedef enum e_skype_mode
 	ORIGINAL 	= 1,
 }ENUM_SKYPE_MODE;
 
+typedef struct t_skype_codes
+{
+    unsigned char Description[LARGEST_SKYPE_DESCRIPTION]; 	// skype code description
+    unsigned char AudioCode;           						// Audio code
+}TYPE_SKYPE_CODE;
+
 /******************************************************************************/
 /* TV_REPEAT_NEC_TIMES
  *
@@ -51,12 +65,30 @@ typedef enum e_skype_mode
 #define TV_REPEAT_NEC_TIMES 4
 
 /******************************************************************************/
+/* TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS
+ *
+ * This is the number of microseconds that a SKYPE audio protocol code takes. */
+/******************************************************************************/
+#define TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS 1100000.0
+
+/******************************************************************************/
+/* TV_SKYPE_AUDIO_ADC_HIGH
+ *
+ * This is the number of ADC counts that signifiy a code burst is happening.  */
+/******************************************************************************/
+#define TV_SKYPE_AUDIO_ADC_HIGH 3000
+
+/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 extern ENUM_TV_INPUT Original_TV_inputMode;
 extern ENUM_TV_INPUT Current_TV_inputMode;
 extern unsigned char Original_TV_Power;
 extern unsigned char Current_TV_Power;
+extern unsigned char TV_SKYPE_Audio_Code_Started;
+extern double TV_SKYPE_Audio_ProtocolTotalMicroseconds;
+extern const TYPE_SKYPE_CODE SKYPE_Codes[];
+extern unsigned char NumSKYPE;
 
 /******************************************************************************/
 /* Function prototypes                                                        */
@@ -66,5 +98,9 @@ void TV_GoToSkypeMode(void);
 void TV_GoToOriginalMode(void);
 void TV_SetMode(ENUM_SKYPE_MODE mode);
 ENUM_SKYPE_MODE TV_GetMode(void);
+void TV_SKYPE_SetDecodeFlag(unsigned char state);
+unsigned char TV_SKYPE_GetDecodeFlag(void);
+unsigned char TV_SKYPE_Decode(TYPE_LOWPASS* buffer, unsigned short amount, const TYPE_SKYPE_CODE* codes, unsigned char* index);
+unsigned char TV_SKYPE_FindFirstLocalMaximum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
 
 #endif	/* TV_H */

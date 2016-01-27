@@ -254,6 +254,7 @@
 #include "RELAY.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
+#include "TV.h"
 #include "UART.h"
 #include "USER.h"
 
@@ -345,8 +346,6 @@ interrupt void ISR_INT1_BUTTON(void)
 {
 	BUT_ButtonInterrupt(OFF);
 	BUT_SetButtonFlag(TRUE);
-	LED_RedLED(OFF);
-	LED_GreenLED(ON);
 
 	/* Acknowledge this interrupt from group 1 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP1;
@@ -497,10 +496,18 @@ interrupt void ISR_TIMER0_DELAY(void)
 /******************************************************************************/
 interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
-	/* IR receiver timout */
-	IR_NEC_Start = FALSE;
-	TMR_StartTimer1(FALSE);
-	TMR_SetTimerWithPeriod1();
+	if(TMR_GetTimer1Mode() == IR)
+	{
+		/* IR receiver timout */
+		IR_NEC_Start = FALSE;
+		TMR_StartTimer1(FALSE);
+		TMR_SetTimerWithPeriod1();
+	}
+	else
+	{
+		/* Audio receiver timout */
+		NOP();
+	}
 }
 
 /******************************************************************************/
@@ -556,9 +563,41 @@ interrupt void ISR_ADC_AUDIO(void)
 	ADC_counts1 = AdcaResultRegs.ADCRESULT1;
 	if(TMR_GetTimer1Mode() == AUDIO)
 	{
-		Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC = ADC_counts1;
-		Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts	= TMR_GetTimer1();
-		Audio_ADC_Counts_LowPass_place++;
+		if(TV_SKYPE_GetDecodeFlag() == FALSE)
+		{
+			/* we are not decoding the audio buffer */
+			if(TV_SKYPE_Audio_Code_Started)
+			{
+				/* code has started so record */
+				if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
+				{
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts);
+					TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
+					Audio_ADC_Counts_LowPass_place++;
+					if(TV_SKYPE_Audio_ProtocolTotalMicroseconds >= TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS)
+					{
+						/* a code length has passed so decode */
+						TV_SKYPE_SetDecodeFlag(TRUE);
+					}
+				}
+			}
+			else
+			{
+				if(ADC_counts1 > TV_SKYPE_AUDIO_ADC_HIGH == 3000)
+				{
+					/* a code has started */
+					TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
+					Audio_ADC_Counts_LowPass_place = 0;
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts	= 0;
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts);
+					Audio_ADC_Counts_LowPass_place++;
+					TV_SKYPE_Audio_Code_Started = TRUE;
+				}
+			}
+		}
 
 		TMR_StartTimer1(FALSE);
 		TMR_SetTimerWithPeriod1();

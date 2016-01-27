@@ -99,6 +99,7 @@ int main (void)
 
     while(1)
     {
+    	/* check for a new entered UART command */
     	if(CMD_GetNewCommandFlag())
     	{
     		/* process new command */
@@ -113,8 +114,11 @@ int main (void)
     		CMD_SetNewCommandFlag(FALSE);
 			UART_SendPrompt();
     	}
+
+    	/* check for a new IR code received */
     	if(IR_GetReceiveFlag())
     	{
+    		/* a new IR code was received */
     		IR_process = FALSE;
     		if(IR_ProcessReceiveNEC(&temp_NEC))
     		{
@@ -196,8 +200,11 @@ int main (void)
     		IR_ReceiverInterrupt(ON);
     		IR_ClearReceiveFlag();
     	}
+
+    	/* check for a new audio sample received */
     	if(AUD_GetSampleReadyFlag())
     	{
+    		/* a new audio sample was received and put in the buffer */
     		if(Audio_ADC_Counts_Unfiltered_place >= AudioProcessingSampleLarge)
     		{
 				if(AudioProcessing == AVERAGE)
@@ -234,8 +241,11 @@ int main (void)
     		AUD_Sampling(ON);
     		ADC_ForceSampleA(); 		// take next sample
     	}
+
+    	/* check if a button was pressed */
     	if(BUT_GetButtonFlag())
     	{
+    		/* a button was pressed */
     		if(TV_GetMode() == SKYPE)
     		{
     			TV_GoToOriginalMode();
@@ -248,6 +258,37 @@ int main (void)
     		}
     		BUT_SetButtonFlag(FALSE);
     		BUT_ButtonInterrupt(ON);
+    	}
+
+    	/* check for an audio SKYPE sound being received */
+    	if(TV_SKYPE_GetDecodeFlag())
+    	{
+    		/* decode an audio skype code */
+    		if(TV_SKYPE_Decode(Audio_ADC_Counts_LowPass_Buffer, Audio_ADC_Counts_LowPass_place, SKYPE_Codes, &index))
+    		{
+    			/* a valid audio skype code was received */
+				UART_SendString("Audio Skype code: ");
+				UART_SendStringCRLN((unsigned char*)SKYPE_Codes[index].Description);
+				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call Start"))
+				{
+		    		/* a button was pressed */
+		    		if(TV_GetMode() != SKYPE)
+		    		{
+		    			TV_GoToSkypeMode();
+		    			TV_SetMode(SKYPE);
+		    		}
+				}
+				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call End"))
+				{
+		    		/* a button was pressed */
+		    		if(TV_GetMode() != ORIGINAL)
+		    		{
+		    			TV_GoToOriginalMode();
+		    			TV_SetMode(ORIGINAL);
+		    		}
+				}
+    		}
+    		TV_SKYPE_SetDecodeFlag(FALSE);
     	}
     }
 }
