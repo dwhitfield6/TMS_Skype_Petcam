@@ -322,6 +322,7 @@ int main (void)
 		    		}
 				}
     		}
+    		TV_SKYPE_Audio_Code_Started = FALSE;
     		TV_SKYPE_SetDecodeFlag(FALSE);
     	}
 
@@ -331,13 +332,23 @@ int main (void)
     		if(TOG_GetToggleFlag() == TOGGLE_ON)
     		{
     			/* switch was toggled on */
+    			TV_SKYPE_SearchingEnabled(TRUE);
+    			LED_SetMode(GREEN);
     		}
     		else if(TOG_GetToggleFlag() == TOGGLE_OFF)
     		{
     			/* switch was toggled off */
+    			TV_SKYPE_SearchingEnabled(FALSE);
+    			LED_SetMode(RED);
     		}
     		TOG_SetToggleFlag(NO_TOGGLE);
     		TOG_ToggleInterrupt(ON);
+    	}
+
+    	/* LED blinking without blocking */
+    	if(LED_GetMode() == RED_BLINKING || LED_GetMode() == GREEN_BLINKING)
+    	{
+    		LED_BlinkingAction(LED_GetMode());
     	}
     }
 }

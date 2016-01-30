@@ -27,6 +27,7 @@
 #include "ADC.h"
 #include "AUDIO.h"
 #include "SYSTEM.h"
+#include "TIMERS.h"
 #include "USER.h"
 
 /******************************************************************************/
@@ -71,6 +72,7 @@ void InitAudio(void)
 	ADC_ForceSampleA(); 		// take next sample
 	AUD_LOWPASS_Shutdown(OFF);
 	AUD_LOWPASS_ClockModulePins(TRUE);
+	TMR_SetTimer1Mode(AUDIO);
 }
 
 /******************************************************************************/

@@ -24,6 +24,25 @@
 #include "USER.h"
 
 /******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
+typedef enum e_led_mode
+{
+	LED_OFF,
+    RED,
+	GREEN,
+	RED_BLINKING,
+	GREEN_BLINKING,
+}ENUM_LED_MODE;
+
+/******************************************************************************/
+/* LED_BLINKING_COUNT_SPEED
+ *
+ * This is the blinking speed of the LED.									  */
+/******************************************************************************/
+#define LED_BLINKING_COUNT_SPEED 1000L
+
+/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 
@@ -41,5 +60,8 @@
 void InitLEDs(void);
 void LED_RedLED(unsigned char state);
 void LED_GreenLED(unsigned char state);
+ENUM_LED_MODE LED_GetMode(void);
+void LED_SetMode(ENUM_LED_MODE mode);
+void LED_BlinkingAction(ENUM_LED_MODE mode);
 
 #endif	/* LED_H */

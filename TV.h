@@ -102,5 +102,7 @@ void TV_SKYPE_SetDecodeFlag(unsigned char state);
 unsigned char TV_SKYPE_GetDecodeFlag(void);
 unsigned char TV_SKYPE_Decode(TYPE_LOWPASS* buffer, unsigned short amount, const TYPE_SKYPE_CODE* codes, unsigned char* index);
 unsigned char TV_SKYPE_FindFirstLocalMaximum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
+void TV_SKYPE_SearchingEnabled(unsigned char mode);
+unsigned char TV_SKYPE_GetSearchingStatus(void);
 
 #endif	/* TV_H */

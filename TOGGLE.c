@@ -57,11 +57,20 @@ void InitToggle(void)
 	PieVectTable.XINT4_INT = &ISR_INT4_TOGGLE;
 	SYS_Lock();
 	SYS_EnableInterruptGroup(INTERRUPT_GROUP12);	// Group for INT12
-	TOG_ToggleInterrupt(ON);
 	SYS_Unlock();
     InputXbarRegs.INPUT13SELECT = TOGGLE_GPIO;		//Set XINT4 source to GPIO-pin
     SYS_Lock();
     XintRegs.XINT4CR.bit.POLARITY = 0b11;   		// Falling and rising edge interrupt
+
+	if(SYS_ReadPin(TOGGLE_GPIO))
+	{
+		TOG_SetToggleFlag(TOGGLE_OFF);
+	}
+	else
+	{
+		TOG_SetToggleFlag(TOGGLE_ON);
+	}
+	TOG_ToggleInterrupt(ON);
 }
 
 /******************************************************************************/

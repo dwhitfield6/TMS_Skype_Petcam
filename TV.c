@@ -58,6 +58,7 @@
 #include "LED.h"
 #include "MISC.h"
 #include "RELAY.h"
+#include "TOGGLE.h"
 #include "TV.h"
 #include "USER.h"
 
@@ -79,6 +80,7 @@ const TYPE_SKYPE_CODE SKYPE_Codes[] =
 /******************************************************************************/
 static ENUM_SKYPE_MODE TV_Skype_Mode = ORIGINAL;
 static unsigned char SKYPE_AudioDecodeFlag = FALSE;
+static unsigned char SKYPE_AudioProtocol = FALSE;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -120,8 +122,8 @@ void InitTV(void)
 /******************************************************************************/
 void TV_GoToSkypeMode(void)
 {
-	LED_RedLED(OFF);
-	LED_GreenLED(ON);
+	TOG_ToggleInterrupt(OFF);
+	LED_SetMode(GREEN_BLINKING);
 	RLY_MechRelay(ON);
 	TV_SetMode(SKYPE);
 	if(!Current_TV_Power)
@@ -150,8 +152,14 @@ void TV_GoToSkypeMode(void)
 /******************************************************************************/
 void TV_GoToOriginalMode(void)
 {
-	LED_RedLED(ON);
-	LED_GreenLED(OFF);
+	if(SYS_ReadPin(TOGGLE_GPIO))
+	{
+		LED_SetMode(RED);
+	}
+	else
+	{
+		LED_SetMode(GREEN);
+	}
 	RLY_MechRelay(OFF);
 	TV_SetMode(ORIGINAL);
 	if(Original_TV_Power != Current_TV_Power)
@@ -181,6 +189,7 @@ void TV_GoToOriginalMode(void)
 			}
 		}
 	}
+	TOG_ToggleInterrupt(ON);
 }
 
 /******************************************************************************/
@@ -314,6 +323,27 @@ unsigned char TV_SKYPE_FindFirstLocalMaximum(TYPE_LOWPASS* buffer, unsigned shor
 	}
 	return FAIL;
 }
+
+/******************************************************************************/
+/* TV_SKYPE_SearchingEnabled
+ *
+ * The function sets the SKYPE audio sampling state.						  */
+/******************************************************************************/
+void TV_SKYPE_SearchingEnabled(unsigned char mode)
+{
+	SKYPE_AudioProtocol = mode;
+}
+
+/******************************************************************************/
+/* TV_SKYPE_GetSearchingStatus
+ *
+ * The function gets the SKYPE audio sampling state.						  */
+/******************************************************************************/
+unsigned char TV_SKYPE_GetSearchingStatus(void)
+{
+	return SKYPE_AudioProtocol;
+}
+
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/

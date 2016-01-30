@@ -654,6 +654,7 @@ interrupt void ISR_ADC_AUDIO(void)
 {
 	unsigned short ADC_counts0;
 	unsigned short ADC_counts1;
+	unsigned long TimingCounts1;
 
 	AUD_Sampling(OFF);
 
@@ -667,47 +668,50 @@ interrupt void ISR_ADC_AUDIO(void)
 
 	/* ADC low-pass filtered audio sampling */
 	ADC_counts1 = AdcaResultRegs.ADCRESULT1;
-	if(TMR_GetTimer1Mode() == AUDIO)
+	if(TV_SKYPE_GetSearchingStatus())
 	{
-		if(TV_SKYPE_GetDecodeFlag() == FALSE)
+		if(TMR_GetTimer1Mode() == AUDIO)
 		{
-			/* we are not decoding the audio buffer */
-			if(TV_SKYPE_Audio_Code_Started)
+			if(TV_SKYPE_GetDecodeFlag() == FALSE)
 			{
-				/* code has started so record */
-				if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
+				/* we are not decoding the audio buffer */
+				if(TV_SKYPE_Audio_Code_Started)
 				{
-					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
-					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts);
-					TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
-					Audio_ADC_Counts_LowPass_place++;
-					if(TV_SKYPE_Audio_ProtocolTotalMicroseconds >= TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS)
+					/* code has started so record */
+					if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
 					{
-						/* a code length has passed so decode */
-						TV_SKYPE_SetDecodeFlag(TRUE);
+						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
+						TimingCounts1																	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
+						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts1);
+						TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
+						Audio_ADC_Counts_LowPass_place++;
+						if(TV_SKYPE_Audio_ProtocolTotalMicroseconds >= TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS)
+						{
+							/* a code length has passed so decode */
+							TV_SKYPE_SetDecodeFlag(TRUE);
+						}
+					}
+				}
+				else
+				{
+					if(ADC_counts1 >= TV_SKYPE_AUDIO_ADC_HIGH)
+					{
+						/* a code has started */
+						TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
+						Audio_ADC_Counts_LowPass_place = 0;
+						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
+						TimingCounts1																	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
+						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts1);
+						Audio_ADC_Counts_LowPass_place++;
+						TV_SKYPE_Audio_Code_Started = TRUE;
 					}
 				}
 			}
-			else
-			{
-				if(ADC_counts1 >= TV_SKYPE_AUDIO_ADC_HIGH)
-				{
-					/* a code has started */
-					TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
-					Audio_ADC_Counts_LowPass_place = 0;
-					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts	= 0;
-					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].TimingCounts);
-					Audio_ADC_Counts_LowPass_place++;
-					TV_SKYPE_Audio_Code_Started = TRUE;
-				}
-			}
-		}
 
-		TMR_StartTimer1(FALSE);
-		TMR_SetTimerWithPeriod1();
-		TMR_StartTimer1(TRUE);
+			TMR_StartTimer1(FALSE);
+			TMR_SetTimerWithPeriod1();
+			TMR_StartTimer1(TRUE);
+		}
 	}
 
 	AUD_SetSampleReadyFlag();

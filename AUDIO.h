@@ -33,8 +33,7 @@ typedef enum e_processing
 
 typedef struct t_lowpass
 {
-	unsigned long ADC;			// Raw ADC counts
-	unsigned long TimingCounts;	// Raw timer1 difference in counts
+	unsigned short ADC;			// Raw ADC counts
 	double MicroSeconds;		// Timer 1 difference in Microseconds
 }TYPE_LOWPASS;
 
@@ -58,7 +57,7 @@ typedef struct t_lowpass
  * This is the buffer size for storing raw Low pass ADC counts and timing
  *  data.																	  */
 /******************************************************************************/
-#define LOWPASS_BUFFER_SIZE 1000
+#define LOWPASS_BUFFER_SIZE 16000
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
