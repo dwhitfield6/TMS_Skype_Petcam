@@ -26,6 +26,7 @@
 
 #include "ADC.h"
 #include "AUDIO.h"
+#include "BLUETOOTH.h"
 #include "BUTTON.h"
 #include "CMD.h"
 #include "IR.h"
@@ -203,6 +204,7 @@ void Init_Modules(void)
 	InitAudio();
 	InitTV();
 	InitToggle();
+	InitBluetooth();
 }
 
 /*-----------------------------------------------------------------------------/

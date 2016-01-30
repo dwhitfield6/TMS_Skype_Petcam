@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "BLUETOOTH.h"
 #include "CMD.h"
 #include "IR.h"
 #include "MISC.h"
@@ -48,6 +49,7 @@ const COMMANDTYPE Commands[] =
 	{"IR Sanyo Send~", CMD_SendSanyo,"Sends an IR command to the Sanyo TV"},
 	{"IR Visio Send~", CMD_SendVisio,"Sends an IR command to the Visio TV"},
 	{"IR Idylis Send~", CMD_SendIdylis,"Sends an IR command to the Idylis Air conditioner"},
+	{"Blue init", CMD_InitBluetooth, "Initializes the HC-06 Bluetooth module"},
 };
 
 unsigned char CommandStringA[LARGEST_COMMAND_WITH_EXTRA];
@@ -515,6 +517,33 @@ void CMD_SetActiveUART(unsigned char state)
 unsigned char CMD_GetActiveUART(void)
 {
 	return ActiveUARTflag;
+}
+
+/******************************************************************************/
+/* CMD_InitBluetooth
+ *
+ * The function initializes the HC-06 module.								  */
+/******************************************************************************/
+void CMD_InitBluetooth(void)
+{
+	while(!UART_IsDoneC());
+	MSC_DelayUS(100);
+	UART_SetParametersC(9600, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
+	MSC_DelayUS(100000);
+	BLUE_ATCommand("AT");
+	MSC_DelayUS(1000000);
+	BLUE_ATCommand("AT+NAMEMARLEY");
+	MSC_DelayUS(1000000);
+	BLUE_ATCommand("AT+BAUD8");
+	while(!UART_IsDoneC());
+	UART_SetParametersC(115200, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
+	BLUE_ATCommand("AT");
+	MSC_DelayUS(1000000);
+	BLUE_ATCommand("AT+NAMEMARLEY");
+	MSC_DelayUS(1000000);
+	BLUE_ATCommand("AT+BAUD8");
+	MSC_DelayUS(1000000);
+	while(!UART_IsDoneC());
 }
 
 /*-----------------------------------------------------------------------------/

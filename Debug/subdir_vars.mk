@@ -20,6 +20,7 @@ C_SRCS += \
 ../RELAY.c \
 ../SYSTEM.c \
 ../TIMERS.c \
+../TOGGLE.c \
 ../TV.c \
 ../UART.c \
 ../USER.c \
@@ -40,6 +41,7 @@ OBJS += \
 ./START.obj \
 ./SYSTEM.obj \
 ./TIMERS.obj \
+./TOGGLE.obj \
 ./TV.obj \
 ./UART.obj \
 ./USER.obj \
@@ -62,6 +64,7 @@ C_DEPS += \
 ./RELAY.pp \
 ./SYSTEM.pp \
 ./TIMERS.pp \
+./TOGGLE.pp \
 ./TV.pp \
 ./UART.pp \
 ./USER.pp \
@@ -81,6 +84,7 @@ C_DEPS__QUOTED += \
 "RELAY.pp" \
 "SYSTEM.pp" \
 "TIMERS.pp" \
+"TOGGLE.pp" \
 "TV.pp" \
 "UART.pp" \
 "USER.pp" \
@@ -101,6 +105,7 @@ OBJS__QUOTED += \
 "START.obj" \
 "SYSTEM.obj" \
 "TIMERS.obj" \
+"TOGGLE.obj" \
 "TV.obj" \
 "UART.obj" \
 "USER.obj" \
@@ -123,6 +128,7 @@ C_SRCS__QUOTED += \
 "../RELAY.c" \
 "../SYSTEM.c" \
 "../TIMERS.c" \
+"../TOGGLE.c" \
 "../TV.c" \
 "../UART.c" \
 "../USER.c" \

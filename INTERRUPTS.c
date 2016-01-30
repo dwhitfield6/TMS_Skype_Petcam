@@ -691,7 +691,7 @@ interrupt void ISR_ADC_AUDIO(void)
 			}
 			else
 			{
-				if(ADC_counts1 > TV_SKYPE_AUDIO_ADC_HIGH == 3000)
+				if(ADC_counts1 >= TV_SKYPE_AUDIO_ADC_HIGH)
 				{
 					/* a code has started */
 					TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;

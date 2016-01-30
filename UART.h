@@ -116,5 +116,7 @@ void UART_SendPromptA(void);
 void UART_SendPromptC(void);
 void UART_ProcessCharacterA(unsigned char data);
 void UART_ProcessCharacterC(unsigned char data);
+unsigned char UART_IsDoneA(void);
+unsigned char UART_IsDoneC(void);
 
 #endif	/* UART_H */

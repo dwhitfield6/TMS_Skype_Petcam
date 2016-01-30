@@ -9,6 +9,7 @@ ASM_SRCS += \
 C_SRCS += \
 ../ADC.c \
 ../AUDIO.c \
+../BLUETOOTH.c \
 ../BUTTON.c \
 ../CMD.c \
 ../DMA.c \
@@ -29,6 +30,7 @@ C_SRCS += \
 OBJS += \
 ./ADC.obj \
 ./AUDIO.obj \
+./BLUETOOTH.obj \
 ./BUTTON.obj \
 ./CMD.obj \
 ./DMA.obj \
@@ -53,6 +55,7 @@ ASM_DEPS += \
 C_DEPS += \
 ./ADC.pp \
 ./AUDIO.pp \
+./BLUETOOTH.pp \
 ./BUTTON.pp \
 ./CMD.pp \
 ./DMA.pp \
@@ -73,6 +76,7 @@ C_DEPS += \
 C_DEPS__QUOTED += \
 "ADC.pp" \
 "AUDIO.pp" \
+"BLUETOOTH.pp" \
 "BUTTON.pp" \
 "CMD.pp" \
 "DMA.pp" \
@@ -93,6 +97,7 @@ C_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "ADC.obj" \
 "AUDIO.obj" \
+"BLUETOOTH.obj" \
 "BUTTON.obj" \
 "CMD.obj" \
 "DMA.obj" \
@@ -117,6 +122,7 @@ ASM_DEPS__QUOTED += \
 C_SRCS__QUOTED += \
 "../ADC.c" \
 "../AUDIO.c" \
+"../BLUETOOTH.c" \
 "../BUTTON.c" \
 "../CMD.c" \
 "../DMA.c" \

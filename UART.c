@@ -79,17 +79,19 @@ void InitUART_A(void)
 	PieVectTable.SCIA_TX_INT = &ISR_UART_A_TX;
 	SYS_Lock();
 
+    UART_ReceiveInterruptA(OFF);         // enable the receive interrupt
+    UART_TransmitInterruptA(OFF);       // disable the receive interrupt
 	SYS_EnableInterruptGroup(INTERRUPT_GROUP9);	// Group for UART
 	SciaRegs.SCIFFTX.bit.SCIRST = 1; 	// take transmitter out of reset
     UART_SetParametersA(115200, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
     UART_SetFIFOA(OFF);
     UART_SetFIFOA(ON);
-    UART_ReceiveInterruptA(ON);         // enable the receive interrupt
-    UART_TransmitInterruptA(OFF);       // disable the receive interrupt
     UART_ReceiveEnableA(ON);
     UART_TransmitEnableA(ON);
 	UART_ModulePinsA(TRUE);
     UART_ModuleEnableA(ON);
+    SciaRegs.SCIFFRX.bit.RXFFINTCLR = 1;   	// Clear Interrupt flag
+    UART_ReceiveInterruptA(ON);         	// enable the receive interrupt
 }
 
 /******************************************************************************/
@@ -105,17 +107,19 @@ void InitUART_C(void)
 	PieVectTable.SCIC_TX_INT = &ISR_UART_C_TX;
 	SYS_Lock();
 
+    UART_ReceiveInterruptC(OFF);         // enable the receive interrupt
+    UART_TransmitInterruptC(OFF);       // disable the receive interrupt
 	SYS_EnableInterruptGroup(INTERRUPT_GROUP8);	// Group for UART
 	ScicRegs.SCIFFTX.bit.SCIRST = 1; 	// take transmitter out of reset
     UART_SetParametersC(115200, 1, PARITY_NONE);   // set the Baud rate, stop bits, and parity bit
     UART_SetFIFOC(OFF);
     UART_SetFIFOC(ON);
-    UART_ReceiveInterruptC(ON);         // enable the receive interrupt
-    UART_TransmitInterruptC(OFF);       // disable the receive interrupt
     UART_ReceiveEnableC(ON);
     UART_TransmitEnableC(ON);
 	UART_ModulePinsC(TRUE);
     UART_ModuleEnableC(ON);
+    ScicRegs.SCIFFRX.bit.RXFFINTCLR = 1;   	// Clear Interrupt flag
+    UART_ReceiveInterruptC(ON);         	// enable the receive interrupt
 }
 
 /******************************************************************************/
@@ -725,7 +729,7 @@ void UART_SendCharC(unsigned char data)
         }
     }
 
-    TX_C_Buffer[TX_A_Buffer_ADD_Place] = data;
+    TX_C_Buffer[TX_C_Buffer_ADD_Place] = data;
     TX_C_Buffer_ADD_Place++;
 
     if(TX_C_Buffer_ADD_Place >= UART_C_TRANSMIT_SIZE)
@@ -966,6 +970,34 @@ void UART_ProcessCharacterC(unsigned char data)
 		/* dont do anything with non-printable characters */
 		NOP();
 	}
+}
+
+/******************************************************************************/
+/* UART_IsDoneA
+ *
+ * The function returns TRUE if the current transmit is done.				  */
+/******************************************************************************/
+unsigned char UART_IsDoneA(void)
+{
+	if(TX_A_Buffer_REMOVE_Place == TX_A_Buffer_ADD_Place)
+	{
+			return TRUE;
+	}
+	return FALSE;
+}
+
+/******************************************************************************/
+/* UART_IsDoneC
+ *
+ * The function returns TRUE if the current transmit is done.				  */
+/******************************************************************************/
+unsigned char UART_IsDoneC(void)
+{
+	if(TX_C_Buffer_REMOVE_Place == TX_C_Buffer_ADD_Place)
+	{
+			return TRUE;
+	}
+	return FALSE;
 }
 
 /*-----------------------------------------------------------------------------/

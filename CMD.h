@@ -114,5 +114,6 @@ void CMD_SendVisio(void);
 void CMD_SendIdylis(void);
 void CMD_SetActiveUART(unsigned char state);
 unsigned char CMD_GetActiveUART(void);
+void CMD_InitBluetooth(void);
 
 #endif	/* CMD_H */

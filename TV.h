@@ -76,7 +76,7 @@ typedef struct t_skype_codes
  *
  * This is the number of ADC counts that signifiy a code burst is happening.  */
 /******************************************************************************/
-#define TV_SKYPE_AUDIO_ADC_HIGH 3000
+#define TV_SKYPE_AUDIO_ADC_HIGH 3800
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */

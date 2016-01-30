@@ -50,7 +50,7 @@ typedef struct t_lowpass
  *
  * This is the corner frequency of the low pass filter.						  */
 /******************************************************************************/
-#define LOWPASS_CORNER_FREQUENCY 20.0
+#define LOWPASS_CORNER_FREQUENCY 100.0
 
 /******************************************************************************/
 /* LOWPASS_BUFFER_SIZE
