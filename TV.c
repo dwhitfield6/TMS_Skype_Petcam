@@ -108,7 +108,7 @@ unsigned char NumSKYPE;
 /******************************************************************************/
 void InitTV(void)
 {
-	NumSKYPE = sizeof(TYPE_SKYPE_CODE) / sizeof(SKYPE_Codes);
+	NumSKYPE = sizeof(SKYPE_Codes) / sizeof(TYPE_SKYPE_CODE);
 	Original_TV_inputMode = HDMI2;
 	Current_TV_inputMode = Original_TV_inputMode;
 	Original_TV_Power = ON;
@@ -241,37 +241,352 @@ unsigned char TV_SKYPE_GetDecodeFlag(void)
 unsigned char TV_SKYPE_Decode(TYPE_LOWPASS* buffer, unsigned short amount, const TYPE_SKYPE_CODE* codes, unsigned char* index)
 {
 	double timeUs = 0.0;
-	unsigned short localindex[6];
-	unsigned long i;
+	unsigned short a,b,c,d,e,f,g,h,i,j,c0a,c0b,c1a,c1b,c0a_i;
+	unsigned long ii;
+	unsigned long TotalCodeIndex;
+	double AccumulatedTime;
+	unsigned char tempcode[2];
+	unsigned char code = 0;
+	unsigned char tempindex;
 
 	/* look for header burst of 6 bursts. The 6 bursts takes .3 seconds */
-	for(i=0;i<amount;i++)
+	for(ii=0;ii<amount;ii++)
 	{
 		/* find the sample that corresponds to the end of the 6th burst */
 		timeUs += buffer[i].MicroSeconds;
-		if(timeUs >= 300000.0)
+		if(timeUs >= TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS)
 		{
 			break;
 		}
 	}
+	TotalCodeIndex = ii;
 
-	/* find first local max location */
-	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,0,i, &localindex[0]))
+	/*~~~~~~~~~~~~~~~~~~~~~~ First measurement (a to b) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find first local max location (a) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,0,TotalCodeIndex, &a)) // a
 	{
 		/* couldnt find the local maximum */
 		return FAIL;
 	}
-	if(localindex[0] >= i)
+	if(a >= TotalCodeIndex)
 	{
-		/* cant find valid loacal max */
+		/* cant find valid local max */
 		return FAIL;
 	}
-	if((buffer[localindex[0]].MicroSeconds < (50000.0 * 0.9)) || (buffer[localindex[0]].MicroSeconds > (50000.0 * 1.1)))
+
+	/* find first local min location (b) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMinimum(buffer,a,TotalCodeIndex, &b)) // b
 	{
-		/* first pulse of header is out of place */
+		/* couldnt find the local maximum */
 		return FAIL;
 	}
-	return TRUE;
+	if(b >= TotalCodeIndex)
+	{
+		/* cant find valid loacal min */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, a, b);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ Second measurement (b to c) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find second local max location (c) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,b,TotalCodeIndex, &c)) // c
+	{
+		/* couldnt find the local maximum */
+		return FAIL;
+	}
+	if(c >= TotalCodeIndex)
+	{
+		/* cant find valid local max */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, b, c);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ Third measurement (c to d) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find second local min location (d) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMinimum(buffer,c,TotalCodeIndex, &d)) // d
+	{
+		/* couldnt find the local minimum */
+		return FAIL;
+	}
+	if(d >= TotalCodeIndex)
+	{
+		/* cant find valid local min */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, c, d);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ forth measurement (d to e) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find third local max location (e) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,d,TotalCodeIndex, &e)) // e
+	{
+		/* couldnt find the local maximum */
+		return FAIL;
+	}
+	if(e >= TotalCodeIndex)
+	{
+		/* cant find valid local max */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, d, e);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ forth measurement (e to f) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find third local min location (f) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMinimum(buffer,e,TotalCodeIndex, &f)) // f
+	{
+		/* couldnt find the local minimum */
+		return FAIL;
+	}
+	if(f >= TotalCodeIndex)
+	{
+		/* cant find valid local min */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, e, f);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ fifth measurement (f to g) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find forth local max location (g) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,f,TotalCodeIndex, &g)) // g
+	{
+		/* couldnt find the local maximum */
+		return FAIL;
+	}
+	if(g >= TotalCodeIndex)
+	{
+		/* cant find valid local max */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, f, g);
+	if((AccumulatedTime < (175000.0 * 0.9)) || (AccumulatedTime > (175000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ sixth measurement (g to h) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find forth local min location (h) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMinimum(buffer,g,TotalCodeIndex, &h)) // h
+	{
+		/* couldnt find the local minimum */
+		return FAIL;
+	}
+	if(h >= TotalCodeIndex)
+	{
+		/* cant find valid local min */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, g, h);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ seventh measurement (h to c0a or i) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find fifth local max location (i or c0a) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,h,TotalCodeIndex, &c0a_i)) // c0a or i
+	{
+		/* couldnt find the local maximum */
+		return FAIL;
+	}
+	if(c0a_i >= TotalCodeIndex)
+	{
+		/* cant find valid local max */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, h, c0a_i);
+	if((AccumulatedTime >= (25000.0 * 0.9)) && (AccumulatedTime <= (25000.0 * 1.1)))
+	{
+		/* code is starting out as a 1 so use c0a */
+		c0a = c0a_i;
+		tempcode[0] = 1;
+	}
+	else if((AccumulatedTime >= (125000.0 * 0.9)) && (AccumulatedTime <= (125000.0 * 1.1)))
+	{
+		/* code is starting out as a 0 so use i */
+		i = c0a_i;
+		tempcode[0] = 0;
+	}
+	else
+	{
+		/*code out of sync */
+		return FAIL;
+	}
+
+	if(tempcode[0] == 1)
+	{
+		/*~~~~~~~~~~~~~~~~~~~~~~ optional 1 measurement (c0a to c0b) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		/* find fifth local min location (c0b) in ProtocolTimingDiagram1.png */
+		if(!TV_SKYPE_FindFirstLocalMinimum(buffer,c0a,TotalCodeIndex, &c0b)) // c0b
+		{
+			/* couldnt find the local minimum */
+			return FAIL;
+		}
+		if(c0b >= TotalCodeIndex)
+		{
+			/* cant find valid local min */
+			return FAIL;
+		}
+
+		AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, c0a, c0b);
+		if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+		{
+			/* wrong frequency */
+			return FAIL;
+		}
+
+		/*~~~~~~~~~~~~~~~~~~~~~~ eighth measurement (c0b to i) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		/* find sixth local max location (i) in ProtocolTimingDiagram1.png */
+		if(!TV_SKYPE_FindFirstLocalMaximum(buffer,c0b,TotalCodeIndex, &i)) // i
+		{
+			/* couldnt find the local maximum */
+			return FAIL;
+		}
+		if(i >= TotalCodeIndex)
+		{
+			/* cant find valid local max */
+			return FAIL;
+		}
+
+		AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, c0b, i);
+		if((AccumulatedTime < (75000.0 * 0.9)) || (AccumulatedTime > (75000.0 * 1.1)))
+		{
+			/* wrong frequency */
+			return FAIL;
+		}
+
+		/*~~~~~~~~~~~~~~~~~~~~~~ sixth measurement (g to h) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		/* find forth local min location (h) in ProtocolTimingDiagram0.png */
+		if(!TV_SKYPE_FindFirstLocalMinimum(buffer,g,TotalCodeIndex, &h)) // h
+		{
+			/* couldnt find the local minimum */
+			return FAIL;
+		}
+		if(h >= TotalCodeIndex)
+		{
+			/* cant find valid local min */
+			return FAIL;
+		}
+
+		AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, g, h);
+		if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+		{
+			/* wrong frequency */
+			return FAIL;
+		}
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ eleventh measurement (i to j) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find sixth local min location (j) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMinimum(buffer,i,TotalCodeIndex, &j)) // j
+	{
+		/* couldnt find the local minimum */
+		return FAIL;
+	}
+	if(j >= TotalCodeIndex)
+	{
+		/* the minimum is the last entry */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, i, j);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ twelth measurement (j to c1a or end) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find seventh local max location (c1a or end) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMaximum(buffer,j,TotalCodeIndex, &c1a)) // c1a or end
+	{
+		/* couldnt find the local maximum */
+		tempcode[1] = 0;
+		goto END;
+	}
+	if(c1a >= TotalCodeIndex)
+	{
+		/* cant find valid local max */
+		tempcode[1] = 0;
+		goto END;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, j, c1a);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+
+	/*~~~~~~~~~~~~~~~~~~~~~~ thirteenth measurement (c1a to c1b) ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/* find forth local min location (h) in ProtocolTimingDiagram0.png */
+	if(!TV_SKYPE_FindFirstLocalMinimum(buffer,c1a,TotalCodeIndex, &c1b)) // c1b
+	{
+		/* couldnt find the local minimum */
+		return FAIL;
+	}
+	if(c1b >= TotalCodeIndex)
+	{
+		/* cant find valid local min */
+		return FAIL;
+	}
+
+	AccumulatedTime = TV_SKYPE_AccumulatedTime(buffer, c1a, c1b);
+	if((AccumulatedTime < (25000.0 * 0.9)) || (AccumulatedTime > (25000.0 * 1.1)))
+	{
+		/* wrong frequency */
+		return FAIL;
+	}
+	else
+	{
+		tempcode[1] = 1;
+	}
+
+	END:
+	code |= tempcode[1];
+	code |= (tempcode[0] << 1);
+	for(tempindex = 0; tempindex < NumSKYPE; tempindex++)
+	{
+		if(codes[tempindex].AudioCode == code)
+		{
+			*index = tempindex;
+			return PASS;
+		}
+	}
+
+	return FAIL;
 }
 
 /******************************************************************************/
@@ -314,11 +629,75 @@ unsigned char TV_SKYPE_FindFirstLocalMaximum(TYPE_LOWPASS* buffer, unsigned shor
 		if(temp > localmax)
 		{
 			localmax = temp;
+			*index = i;
 		}
+		if(localmax > (average + average/2))
+		{
+			if(temp < average)
+			{
+				if(localmax >= TV_SKYPE_AUDIO_ADC_HIGH)
+				{
+					return PASS;
+				}
+				return FAIL;
+			}
+		}
+	}
+	return FAIL;
+}
+
+/******************************************************************************/
+/* TV_SKYPE_FindFirstLocalMinimum
+ *
+ * The function searches through an audio stream looking for the first local
+ *  minimum.																  */
+/******************************************************************************/
+unsigned char TV_SKYPE_FindFirstLocalMinimum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index)
+{
+	double average = 0.0;
+	double sample = 0.0;
+	double localmin = 4095.0;
+	unsigned short startingpoint = start;
+	unsigned short i;
+	double temp = 0.0;
+
+	for(i=start;i<finish;i++)
+	{
+		temp = (double) buffer[i].ADC;
+		average += temp;
+		sample += 1.0;
+	}
+	average /= sample;
+
+	for(i=start;i<finish;i++)
+	{
+		temp = (double) buffer[i].ADC;
 		if(temp < average)
 		{
+			localmin = temp;
+			break;
+		}
+	}
+	startingpoint = i;
+
+	for(i=startingpoint;i<finish;i++)
+	{
+		temp = (double) buffer[i].ADC;
+		if(temp < localmin)
+		{
+			localmin = temp;
 			*index = i;
-			return PASS;
+		}
+		if(localmin < (average/2))
+		{
+			if(temp > average)
+			{
+				if(localmin <= TV_SKYPE_AUDIO_ADC_LOW)
+				{
+					return PASS;
+				}
+				return FAIL;
+			}
 		}
 	}
 	return FAIL;
@@ -342,6 +721,28 @@ void TV_SKYPE_SearchingEnabled(unsigned char mode)
 unsigned char TV_SKYPE_GetSearchingStatus(void)
 {
 	return SKYPE_AudioProtocol;
+}
+
+/******************************************************************************/
+/* TV_SKYPE_AccumulatedTime
+ *
+ * The function calculates the total time from the start index tothe finish
+ *  index.																	  */
+/******************************************************************************/
+double TV_SKYPE_AccumulatedTime(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish)
+{
+	double total = 0.0;
+	unsigned short i;
+
+	if(start > finish)
+	{
+		return total;
+	}
+	for(i = start; i <= finish; i++)
+	{
+		total += buffer[i].MicroSeconds;
+	}
+	return total;
 }
 
 /*-----------------------------------------------------------------------------/

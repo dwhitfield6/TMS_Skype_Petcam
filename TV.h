@@ -69,14 +69,21 @@ typedef struct t_skype_codes
  *
  * This is the number of microseconds that a SKYPE audio protocol code takes. */
 /******************************************************************************/
-#define TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS 1100000.0
+#define TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS 600000.0
 
 /******************************************************************************/
 /* TV_SKYPE_AUDIO_ADC_HIGH
  *
  * This is the number of ADC counts that signifiy a code burst is happening.  */
 /******************************************************************************/
-#define TV_SKYPE_AUDIO_ADC_HIGH 3800
+#define TV_SKYPE_AUDIO_ADC_HIGH 3900
+
+/******************************************************************************/
+/* TV_SKYPE_AUDIO_ADC_LOW
+ *
+ * This is the number of ADC counts that signifiy a code burst is happening.  */
+/******************************************************************************/
+#define TV_SKYPE_AUDIO_ADC_LOW 300
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -102,7 +109,9 @@ void TV_SKYPE_SetDecodeFlag(unsigned char state);
 unsigned char TV_SKYPE_GetDecodeFlag(void);
 unsigned char TV_SKYPE_Decode(TYPE_LOWPASS* buffer, unsigned short amount, const TYPE_SKYPE_CODE* codes, unsigned char* index);
 unsigned char TV_SKYPE_FindFirstLocalMaximum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
+unsigned char TV_SKYPE_FindFirstLocalMinimum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
 void TV_SKYPE_SearchingEnabled(unsigned char mode);
 unsigned char TV_SKYPE_GetSearchingStatus(void);
+double TV_SKYPE_AccumulatedTime(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish);
 
 #endif	/* TV_H */
