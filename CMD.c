@@ -25,10 +25,12 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "AUDIO.h"
 #include "BLUETOOTH.h"
 #include "CMD.h"
 #include "IR.h"
 #include "MISC.h"
+#include "TV.h"
 #include "UART.h"
 #include "USER.h"
     
@@ -45,11 +47,19 @@ static unsigned char ActiveUARTflag = 0;
 const COMMANDTYPE Commands[] =
 {
 	{"?", CMD_Help,"Prints the Help menu"},
+	{"Blue init", CMD_InitBluetooth, "Initializes the HC-06 Bluetooth module"},
 	{"Help", CMD_PrintAllCommands,"Prints all of the commands"},
 	{"IR Sanyo Send~", CMD_SendSanyo,"Sends an IR command to the Sanyo TV"},
 	{"IR Visio Send~", CMD_SendVisio,"Sends an IR command to the Visio TV"},
 	{"IR Idylis Send~", CMD_SendIdylis,"Sends an IR command to the Idylis Air conditioner"},
-	{"Blue init", CMD_InitBluetooth, "Initializes the HC-06 Bluetooth module"},
+	{"Skype", CMD_GoToSKYPE, "Goes to SKYPE mode"},
+	{"Original", CMD_GoToOriginal, "Goes to Original mode"},
+	{"Large Average+", CMD_IncreaseLargeAverage,"Increases the large averager by 10 samples"},
+	{"Large Average-", CMD_DecreaseLargeAverage,"Decreases the large averager by 10 samples"},
+	{"Small Average+", CMD_IncreaseSmallAverage,"Increases the small averager by 10 samples"},
+	{"Small Average-", CMD_DecreaseSmallAverage,"Decreases the small averager by 10 samples"},
+	{"VU Lowpass", CMD_VULowpass,"Sets the VU meter to use the Lowpass filter"},
+	{"VU nofilter", CMD_VUAll,"Sets the VU meter to use the full audio spectrum filter"},
 };
 
 unsigned char CommandStringA[LARGEST_COMMAND_WITH_EXTRA];
@@ -544,6 +554,98 @@ void CMD_InitBluetooth(void)
 	BLUE_ATCommand("AT+BAUD8");
 	MSC_DelayUS(1000000);
 	while(!UART_IsDoneC());
+}
+
+/******************************************************************************/
+/* CMD_GoToSKYPE
+ *
+ * The function puts the system into SKYPE mode (Skype).					  */
+/******************************************************************************/
+void CMD_GoToSKYPE(void)
+{
+	TV_GoToSkypeMode();
+}
+
+/******************************************************************************/
+/* CMD_GoToOriginal
+ *
+ * The function puts the system into original mode (Original).				  */
+/******************************************************************************/
+void CMD_GoToOriginal(void)
+{
+	TV_GoToOriginalMode();
+}
+
+/******************************************************************************/
+/* CMD_IncreaseLargeAverage
+ *
+ * The function increases the large averager by 10.							  */
+/******************************************************************************/
+void CMD_IncreaseLargeAverage(void)
+{
+	if(AudioProcessingSampleLarge < 15990)
+	{
+		AudioProcessingSampleLarge += 10;
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseLargeAverage
+ *
+ * The function decreases the large averager by 10.							  */
+/******************************************************************************/
+void CMD_DecreaseLargeAverage(void)
+{
+	if(AudioProcessingSampleLarge > 10 && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 10))
+	{
+		AudioProcessingSampleLarge -= 10;
+	}
+}
+
+/******************************************************************************/
+/* CMD_IncreaseSmallAverage
+ *
+ * The function increases the small averager by 10.							  */
+/******************************************************************************/
+void CMD_IncreaseSmallAverage(void)
+{
+	if(AudioProcessingSampleSmall < 15990 && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 10))
+	{
+		AudioProcessingSampleSmall += 10;
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseSmallAverage
+ *
+ * The function decreases the small averager by 10.							  */
+/******************************************************************************/
+void CMD_DecreaseSmallAverage(void)
+{
+	if(AudioProcessingSampleSmall > 10)
+	{
+		AudioProcessingSampleSmall -= 10;
+	}
+}
+
+/******************************************************************************/
+/* CMD_VULowpass
+ *
+ * The function sets the Vu meter to use the lowpass filtered audio.		  */
+/******************************************************************************/
+void CMD_VULowpass(void)
+{
+	AudioVU = LOWPASS;
+}
+
+/******************************************************************************/
+/* CMD_VUAll
+ *
+ * The function sets the Vu meter to use the unfiltered audio.				  */
+/******************************************************************************/
+void CMD_VUAll(void)
+{
+	AudioVU = ALL;
 }
 
 /*-----------------------------------------------------------------------------/

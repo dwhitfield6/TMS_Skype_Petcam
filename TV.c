@@ -122,7 +122,6 @@ void InitTV(void)
 /******************************************************************************/
 void TV_GoToSkypeMode(void)
 {
-	TOG_ToggleInterrupt(OFF);
 	LED_SetMode(GREEN_BLINKING);
 	RLY_MechRelay(ON);
 	TV_SetMode(SKYPE);
@@ -189,7 +188,6 @@ void TV_GoToOriginalMode(void)
 			}
 		}
 	}
-	TOG_ToggleInterrupt(ON);
 }
 
 /******************************************************************************/

@@ -303,7 +303,7 @@ int main (void)
 				UART_SendStringC("Audio Skype code: ");
 				UART_SendStringCRLNA((unsigned char*)SKYPE_Codes[index].Description);
 				UART_SendStringCRLNC((unsigned char*)SKYPE_Codes[index].Description);
-				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call Start"))
+				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call Start")) // code1
 				{
 		    		/* a button was pressed */
 		    		if(TV_GetMode() != SKYPE)
@@ -312,7 +312,7 @@ int main (void)
 		    			TV_SetMode(SKYPE);
 		    		}
 				}
-				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call End"))
+				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call End")) // code2
 				{
 		    		/* a button was pressed */
 		    		if(TV_GetMode() != ORIGINAL)
@@ -329,19 +329,21 @@ int main (void)
     	/* check for the TOGGLE switch moving */
     	if(TOG_GetToggleFlag())
     	{
-    		if(TOG_GetToggleFlag() == TOGGLE_ON)
-    		{
-    			/* switch was toggled on */
-    			TV_SKYPE_SearchingEnabled(TRUE);
-    			LED_SetMode(GREEN);
-    		}
-    		else if(TOG_GetToggleFlag() == TOGGLE_OFF)
+    		if(SYS_ReadPin(TOGGLE_GPIO))
     		{
     			/* switch was toggled off */
     			TV_SKYPE_SearchingEnabled(FALSE);
     			LED_SetMode(RED);
     		}
-    		TOG_SetToggleFlag(NO_TOGGLE);
+    		else
+    		{
+    			/* switch was toggled on */
+    			TV_SKYPE_Audio_Code_Started = FALSE;
+    			TV_SKYPE_SearchingEnabled(TRUE);
+    			LED_SetMode(GREEN);
+    		}
+
+    		TOG_SetToggleFlag(FALSE);
     		TOG_ToggleInterrupt(ON);
     	}
 

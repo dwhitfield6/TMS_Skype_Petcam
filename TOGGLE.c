@@ -31,7 +31,7 @@
 /******************************************************************************/
 /* Private Variable Declaration      	                                      */
 /******************************************************************************/
-static ENUM_TOGGLE ToggleFlag = NO_TOGGLE;
+static unsigned char ToggleFlag = 0;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -61,15 +61,7 @@ void InitToggle(void)
     InputXbarRegs.INPUT13SELECT = TOGGLE_GPIO;		//Set XINT4 source to GPIO-pin
     SYS_Lock();
     XintRegs.XINT4CR.bit.POLARITY = 0b11;   		// Falling and rising edge interrupt
-
-	if(SYS_ReadPin(TOGGLE_GPIO))
-	{
-		TOG_SetToggleFlag(TOGGLE_OFF);
-	}
-	else
-	{
-		TOG_SetToggleFlag(TOGGLE_ON);
-	}
+    TOG_SetToggleFlag(TRUE);
 	TOG_ToggleInterrupt(ON);
 }
 
@@ -99,7 +91,7 @@ void TOG_ToggleInterrupt(unsigned char state)
  *
  * The function sets the toggle flag.										  */
 /******************************************************************************/
-void TOG_SetToggleFlag(ENUM_TOGGLE status)
+void TOG_SetToggleFlag(unsigned char status)
 {
 	ToggleFlag = status;
 }
@@ -109,7 +101,7 @@ void TOG_SetToggleFlag(ENUM_TOGGLE status)
  *
  * The function gets the toggle flag.										  */
 /******************************************************************************/
-ENUM_TOGGLE TOG_GetToggleFlag(void)
+unsigned char TOG_GetToggleFlag(void)
 {
 	return ToggleFlag;
 }

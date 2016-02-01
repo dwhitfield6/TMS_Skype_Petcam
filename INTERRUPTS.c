@@ -250,6 +250,7 @@
 #include "INTERRUPTS.h"
 #include "IR.h"
 #include "LED.h"
+#include "MISC.h"
 #include "PWM.h"
 #include "RELAY.h"
 #include "SYSTEM.h"
@@ -464,6 +465,7 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	unsigned char done = FALSE;
 
 	TMR_SetTimer1Mode(IR);
+	TMR_Interrupt1(ON);
 	counts = IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
 	microseconds = TMR_CountsToMicroseconds(counts);
 
@@ -529,8 +531,10 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	TMR_SetTimerWithPeriod1();
 	if(done)
 	{
+		TMR_Interrupt1(OFF);
 		IR_ReceiverInterrupt(OFF);
 		IR_NEC_Start = FALSE;
+		TV_SKYPE_Audio_Code_Started = FALSE;
 		TMR_SetTimer1Mode(AUDIO);
 	}
 	else
@@ -550,14 +554,7 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 interrupt void ISR_INT4_TOGGLE(void)
 {
 	TOG_ToggleInterrupt(OFF);
-	if(SYS_ReadPin(TOGGLE_GPIO))
-	{
-		TOG_SetToggleFlag(TOGGLE_OFF);
-	}
-	else
-	{
-		TOG_SetToggleFlag(TOGGLE_ON);
-	}
+	TOG_SetToggleFlag(TRUE);
 
 	/* Acknowledge this interrupt from group 12 */
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP12;
@@ -585,12 +582,15 @@ interrupt void ISR_TIMER0_DELAY(void)
 /******************************************************************************/
 interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
+	TMR_Interrupt1(OFF);
 	if(TMR_GetTimer1Mode() == IR)
 	{
 		/* IR receiver timout */
 		IR_NEC_Start = FALSE;
 		TMR_StartTimer1(FALSE);
 		TMR_SetTimerWithPeriod1();
+		TV_SKYPE_Audio_Code_Started = FALSE;
+		TMR_SetTimer1Mode(AUDIO);
 	}
 	else
 	{
@@ -658,16 +658,24 @@ interrupt void ISR_ADC_AUDIO(void)
 
 	AUD_Sampling(OFF);
 
-	/* ADC unfiltered audio sampling */
-	ADC_counts0 = AdcaResultRegs.ADCRESULT0;
+	/* ADC unfiltered and lowpass filtered audio sampling */
+	ADC_counts0 = AdcaResultRegs.ADCRESULT0; // unfiltered
+	ADC_counts1 = AdcaResultRegs.ADCRESULT1; // lowpass filtered
+
 	if(Audio_ADC_Counts_Unfiltered_place < AUDIO_ADC_BUFFER_SIZE)
 	{
-		Audio_ADC_Counts_Unfiltered_Buffer[Audio_ADC_Counts_Unfiltered_place] = ADC_counts0;
+		if(AudioVU == LOWPASS)
+		{
+			Audio_ADC_Counts_Unfiltered_Buffer[Audio_ADC_Counts_Unfiltered_place] = ADC_counts1;
+		}
+		else
+		{
+			Audio_ADC_Counts_Unfiltered_Buffer[Audio_ADC_Counts_Unfiltered_place] = ADC_counts0;
+		}
 		Audio_ADC_Counts_Unfiltered_place++;
 	}
 
 	/* ADC low-pass filtered audio sampling */
-	ADC_counts1 = AdcaResultRegs.ADCRESULT1;
 	if(TV_SKYPE_GetSearchingStatus())
 	{
 		if(TMR_GetTimer1Mode() == AUDIO)

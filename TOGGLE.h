@@ -26,12 +26,6 @@
 /******************************************************************************/
 /* Structures                                                                 */
 /******************************************************************************/
-typedef enum e_toggle
-{
-	NO_TOGGLE = 0,	// no toggle switch movement
-	TOGGLE_ON = 1,  // toggled on
-	TOGGLE_OFF= 2	// toggled off
-}ENUM_TOGGLE;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -50,7 +44,7 @@ typedef enum e_toggle
 /******************************************************************************/
 void InitToggle(void);
 void TOG_ToggleInterrupt(unsigned char state);
-void TOG_SetToggleFlag(ENUM_TOGGLE status);
-ENUM_TOGGLE TOG_GetToggleFlag(void);
+void TOG_SetToggleFlag(unsigned char status);
+unsigned char TOG_GetToggleFlag(void);
 
 #endif	/* TOGGLE_H */

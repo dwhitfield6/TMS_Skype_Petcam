@@ -4,10 +4,13 @@ The easiest way to determine if a Skype call has been answered or ended when in 
  and do the corresponding action. Luckily, Skype filters its audio by low pass filtering the audio
  at a corner frequency of 250 Hz. We will take advantage of this fact and set our "active" tone to 20Hz.
  
-Code 0 is a 20Hz wave for 800mS then 400mS of silence
-Code 1 is a 20Hz wave for 1000 mS then 400mS of silence
+See images:
+ProtocolTimingDiagram_0.png
+ProtocolTimingDiagram_1.png
+ProtocolTimingDiagram_2.png
+ProtocolTimingDiagram_3.png
 
-The fundamental frequency os 20Hz.
+The fundamental frequency is 20Hz.
 
 To change the setting to play our code for each instance above:
 1) Tools->Options

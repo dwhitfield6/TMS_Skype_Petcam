@@ -203,8 +203,8 @@ void Init_Modules(void)
 	InitADC();
 	InitAudio();
 	InitTV();
-	InitToggle();
 	InitBluetooth();
+	InitToggle();
 }
 
 /*-----------------------------------------------------------------------------/
