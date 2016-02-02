@@ -37,6 +37,7 @@
 /******************************************************************************/
 static unsigned char Timer0_Timeout = FALSE;
 static ENUM_TIMER1_MODE TIMER1_Mode = IR;
+static unsigned long Timer1WatchdogCount = TIMER_1_WATCHDOG_COUNTS;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -505,6 +506,37 @@ ENUM_TIMER1_MODE TMR_GetTimer1Mode(void)
 {
 	return TIMER1_Mode;
 }
+
+/******************************************************************************/
+/* TMR_Timer1IRModeWatchdogBark
+ *
+ * This returns the status of a timer1 mode watchdog bark. Since we share
+ *  timer 1, sometimes an incomplete IR receive at just the right time can
+ *   cause problems so we use this watchdog to make sure it is always in use. */
+/******************************************************************************/
+unsigned char TMR_Timer1IRModeWatchdogBark(void)
+{
+	if(Timer1WatchdogCount < TIMER_1_WATCHDOG_COUNTS)
+	{
+		Timer1WatchdogCount++;
+		return FALSE;
+	}
+	else
+	{
+		return TRUE;
+	}
+}
+
+/******************************************************************************/
+/* TMR_Timer1IRModePetWatchdog
+ *
+ * This functions pets the timer 1 puppy.									  */
+/******************************************************************************/
+void TMR_Timer1IRModePetWatchdog(void)
+{
+	Timer1WatchdogCount = 0;
+}
+
 
 /*-----------------------------------------------------------------------------/
  End of File

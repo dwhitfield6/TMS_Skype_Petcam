@@ -1,0 +1,1 @@
+The Audio files must be 16-bit PCM 48000Hz sampling rate .wav files inorder to be imported by skype.

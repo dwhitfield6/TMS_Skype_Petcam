@@ -464,6 +464,7 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	unsigned long counts;
 	unsigned char done = FALSE;
 
+	TMR_Timer1IRModePetWatchdog();
 	TMR_SetTimer1Mode(IR);
 	TMR_Interrupt1(ON);
 	counts = IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
@@ -531,7 +532,6 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	TMR_SetTimerWithPeriod1();
 	if(done)
 	{
-		TMR_Interrupt1(OFF);
 		IR_ReceiverInterrupt(OFF);
 		IR_NEC_Start = FALSE;
 		TV_SKYPE_Audio_Code_Started = FALSE;

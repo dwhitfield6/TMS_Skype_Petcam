@@ -16,6 +16,6 @@ To change the setting to play our code for each instance above:
 1) Tools->Options
 2) Notification Settings->Sounds
 3) Unselect all (no sound should play for anything)
-4) Click hang up and select import sound under my custom sounds (Code0.MP3)
-5) Click IM in current chat and select import sound under my custom sounds (Code1.MP3)
+4) Click hang up and select import sound under my custom sounds (Code2.WAV)
+5) Click IM in current chat and select import sound under my custom sounds (Code1.WAV)
 6) Save

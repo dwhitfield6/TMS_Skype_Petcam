@@ -35,6 +35,7 @@
 #include "MISC.h"
 #include "RELAY.h"
 #include "SYSTEM.h"
+#include "TIMERS.h"
 #include "TOGGLE.h"
 #include "TV.h"
 #include "UART.h"
@@ -58,6 +59,7 @@ int main (void)
 	unsigned char IR_repeat_times;
 	unsigned long temp_NEC = 0;
 	unsigned char IR_process;
+
 
 	/* initialize pins and clocks */
     SYS_Interrupts(OFF);
@@ -178,22 +180,27 @@ int main (void)
 						UART_SendStringCRLNC((unsigned char*)Sanyo[index].Description);
 						if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
 						{
-							Original_TV_inputMode++;
-							if(Original_TV_inputMode > VIDEO)
+							if(Original_TV_Power)
 							{
-								Original_TV_inputMode = HDMI1;
+								Original_TV_inputMode++;
+								if(Original_TV_inputMode > VIDEO)
+								{
+									Original_TV_inputMode = HDMI1;
+								}
 							}
 						}
 						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Back"))
 						{
-
-							if(Original_TV_inputMode == HDMI1)
+							if(Original_TV_Power)
 							{
-								Original_TV_inputMode = VIDEO;
-							}
-							else
-							{
-								Original_TV_inputMode--;
+								if(Original_TV_inputMode == HDMI1)
+								{
+									Original_TV_inputMode = VIDEO;
+								}
+								else
+								{
+									Original_TV_inputMode--;
+								}
 							}
 						}
 						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Power"))
@@ -230,6 +237,7 @@ int main (void)
     		memset(IR_Receive_Timing_MicroSeconds, 0, MAX_IR_RECEIVE_EVENTS);
     		IR_NEC_Start = FALSE;
     		IR_ReceiverInterrupt(ON);
+    		TMR_SetTimer1Mode(AUDIO);
     		IR_ClearReceiveFlag();
     	}
 
@@ -351,6 +359,12 @@ int main (void)
     	if(LED_GetMode() == RED_BLINKING || LED_GetMode() == GREEN_BLINKING)
     	{
     		LED_BlinkingAction(LED_GetMode());
+    	}
+
+    	/* check for a timer 1 watchdog event */
+    	if(TMR_Timer1IRModeWatchdogBark())
+    	{
+    		TMR_SetTimer1Mode(AUDIO);
     	}
     }
 }

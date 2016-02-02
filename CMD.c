@@ -22,6 +22,7 @@
 #include "F2837xS_device.h"     		// TMS320F28377S Include file
 #include "F2837xS_GlobalPrototypes.h"
 #include <stdint.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -260,13 +261,13 @@ void CMD_PrintCommand(const COMMANDTYPE* command)
 	}
     while(count < (LARGEST_COMMAND + 1))
     {
-		if(CMD_GetActiveUART() == ' ')
+		if(CMD_GetActiveUART() == 'A')
 		{
-			UART_SendCharA(command->Command[i]);
+			UART_SendCharA(' ');
 		}
-		else if(CMD_GetActiveUART() == ' ')
+		else if(CMD_GetActiveUART() == 'C')
 		{
-			UART_SendCharC(command->Command[i]);
+			UART_SendCharC(' ');
 		}
         count++;
     }
@@ -298,7 +299,6 @@ void CMD_PrintAllCommands(void)
 		{
 			CMD_PrintCommand(&Commands[i]);
 		}
-		UART_SendStringCRLNA("");
 	}
     else if(CMD_GetActiveUART() == 'C')
 	{
@@ -309,7 +309,6 @@ void CMD_PrintAllCommands(void)
 		{
 			CMD_PrintCommand(&Commands[i]);
 		}
-		UART_SendStringCRLNC("");
 	}
 }
 
@@ -587,6 +586,16 @@ void CMD_IncreaseLargeAverage(void)
 	{
 		AudioProcessingSampleLarge += 10;
 	}
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleLarge = %d", AudioProcessingSampleLarge);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
 }
 
 /******************************************************************************/
@@ -599,6 +608,17 @@ void CMD_DecreaseLargeAverage(void)
 	if(AudioProcessingSampleLarge > 10 && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 10))
 	{
 		AudioProcessingSampleLarge -= 10;
+	}
+
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleLarge = %d", AudioProcessingSampleLarge);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
 	}
 }
 
@@ -613,6 +633,17 @@ void CMD_IncreaseSmallAverage(void)
 	{
 		AudioProcessingSampleSmall += 10;
 	}
+
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleSmall = %d", AudioProcessingSampleSmall);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
 }
 
 /******************************************************************************/
@@ -626,6 +657,17 @@ void CMD_DecreaseSmallAverage(void)
 	{
 		AudioProcessingSampleSmall -= 10;
 	}
+
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleSmall = %d", AudioProcessingSampleSmall);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
 }
 
 /******************************************************************************/
@@ -636,6 +678,15 @@ void CMD_DecreaseSmallAverage(void)
 void CMD_VULowpass(void)
 {
 	AudioVU = LOWPASS;
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA("Audio Vu mode = Lowpass");
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC("Audio Vu mode = Lowpass");
+	}
 }
 
 /******************************************************************************/
@@ -646,6 +697,15 @@ void CMD_VULowpass(void)
 void CMD_VUAll(void)
 {
 	AudioVU = ALL;
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA("Audio Vu mode = Allpass");
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC("Audio Vu mode = Allpass");
+	}
 }
 
 /*-----------------------------------------------------------------------------/
