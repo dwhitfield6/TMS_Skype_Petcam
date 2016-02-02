@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.4.9                      
 ******************************************************************************
->> Linked Tue Feb 02 02:43:54 2016
+>> Linked Tue Feb 02 09:51:01 2016
 
 OUTPUT FILE NAME:   <TMS_Skype_Petcam.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 000858c5
@@ -19,11 +19,11 @@ PAGE 0:
   RAMLS3                00009800   00000800  00000000  00000800  RWIX
   BEGIN                 00080000   00000002  00000002  00000000  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  00002000  00000000  RWIX
-  FLASHC                00084000   00002000  00001bf2  0000040e  RWIX
+  FLASHB                00082000   00002000  00001fff  00000001  RWIX
+  FLASHC                00084000   00002000  00001bf9  00000407  RWIX
   FLASHD                00086000   00002000  00000000  00002000  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
-  FLASHF                00090000   00008000  00000eee  00007112  RWIX
+  FLASHF                00090000   00008000  000010c6  00006f3a  RWIX
   FLASHG                00098000   00008000  00000000  00008000  RWIX
   FLASHH                000a0000   00008000  00000000  00008000  RWIX
   FLASHI                000a8000   00008000  00000000  00008000  RWIX
@@ -172,15 +172,15 @@ codestart
 
 .pinit     0    00082000    00000000     UNINITIALIZED
 
-.text.1    0    000820d0    00001f30     
+.text.1    0    000820d0    00001f2f     
                   000820d0    00000c01     rts2800_fpu32.lib : _printfi.obj (.text)
-                  00082cd1    00000776     TV.obj (.text)
-                  00083447    00000506     INTERRUPTS.obj (.text:retain)
-                  0008394d    000004bc     CMD.obj (.text)
-                  00083e09    000001c6     TIMERS.obj (.text)
-                  00083fcf    00000031     rts2800_fpu32.lib : atoi.obj (.text)
+                  00082cd1    000006d5     TV.obj (.text)
+                  000833a6    00000563     CMD.obj (.text)
+                  00083909    00000506     INTERRUPTS.obj (.text:retain)
+                  00083e0f    000001c6     TIMERS.obj (.text)
+                  00083fd5    0000002a     rts2800_fpu32.lib : fd_cmp.obj (.text)
 
-.text.2    0    00084000    00001bf2     
+.text.2    0    00084000    00001bf9     
                   00084000    000004ba     UART.obj (.text)
                   000844ba    00000367     IR.obj (.text)
                   00084821    00000362     SYSTEM.obj (.text)
@@ -201,46 +201,46 @@ codestart
                   0008590b    00000042     BUTTON.obj (.text)
                   0008594d    00000034     rts2800_fpu32.lib : ldexp.obj (.text)
                   00085981    00000032                       : sprintf.obj (.text)
-                  000859b3    0000002e                       : ltoa.obj (.text)
-                  000859e1    0000002a                       : fd_cmp.obj (.text)
-                  00085a0b    0000002a                       : l_div.obj (.text)
-                  00085a35    00000023                       : fd_tofs.obj (.text)
-                  00085a58    00000021                       : fd_toi.obj (.text)
-                  00085a79    0000001f                       : fd_tol.obj (.text)
-                  00085a98    0000001e                       : ll_cmp.obj (.text)
-                  00085ab6    0000001e                       : memcpy.obj (.text)
-                  00085ad4    0000001d                       : i_tofd.obj (.text)
-                  00085af1    0000001c                       : fs_tofd.obj (.text)
-                  00085b0d    0000001c                       : l_tofd.obj (.text)
-                  00085b29    00000019                       : args_main.obj (.text)
-                  00085b42    00000019                       : exit.obj (.text)
-                  00085b5b    00000018                       : ll_aox.obj (.text)
-                  00085b73    00000016     BLUETOOTH.obj (.text)
-                  00085b89    00000016     rts2800_fpu32.lib : frexp.obj (.text)
-                  00085b9f    0000000e                       : fd_sub.obj (.text)
-                  00085bad    0000000e                       : memccpy.obj (.text)
-                  00085bbb    0000000c                       : memset.obj (.text)
-                  00085bc7    0000000c                       : strchr.obj (.text)
-                  00085bd3    00000009                       : _lock.obj (.text)
-                  00085bdc    00000009                       : fd_neg.obj (.text)
-                  00085be5    00000008                       : strlen.obj (.text)
-                  00085bed    00000005                       : strcpy.obj (.text)
+                  000859b3    00000031                       : atoi.obj (.text)
+                  000859e4    0000002e                       : ltoa.obj (.text)
+                  00085a12    0000002a                       : l_div.obj (.text)
+                  00085a3c    00000023                       : fd_tofs.obj (.text)
+                  00085a5f    00000021                       : fd_toi.obj (.text)
+                  00085a80    0000001f                       : fd_tol.obj (.text)
+                  00085a9f    0000001e                       : ll_cmp.obj (.text)
+                  00085abd    0000001e                       : memcpy.obj (.text)
+                  00085adb    0000001d                       : i_tofd.obj (.text)
+                  00085af8    0000001c                       : fs_tofd.obj (.text)
+                  00085b14    0000001c                       : l_tofd.obj (.text)
+                  00085b30    00000019                       : args_main.obj (.text)
+                  00085b49    00000019                       : exit.obj (.text)
+                  00085b62    00000018                       : ll_aox.obj (.text)
+                  00085b7a    00000016     BLUETOOTH.obj (.text)
+                  00085b90    00000016     rts2800_fpu32.lib : frexp.obj (.text)
+                  00085ba6    0000000e                       : fd_sub.obj (.text)
+                  00085bb4    0000000e                       : memccpy.obj (.text)
+                  00085bc2    0000000c                       : memset.obj (.text)
+                  00085bce    0000000c                       : strchr.obj (.text)
+                  00085bda    00000009                       : _lock.obj (.text)
+                  00085be3    00000009                       : fd_neg.obj (.text)
+                  00085bec    00000008                       : strlen.obj (.text)
+                  00085bf4    00000005                       : strcpy.obj (.text)
 
-.econst    0    00090000    00000eee     
-                  00090000    00000674     CMD.obj (.econst:_Commands)
-                  00090674    00000252     IR.obj (.econst:_Sanyo)
-                  000908c6    0000024c     CMD.obj (.econst:.string)
-                  00090b12    00000101     rts2800_fpu32.lib : ctype.obj (.econst:.string:__ctypes_)
-                  00090c13    00000001     --HOLE-- [fill = 0]
-                  00090c14    000000a1     main.obj (.econst:.string)
-                  00090cb5    00000001     --HOLE-- [fill = 0]
-                  00090cb6    00000086     UART.obj (.econst:.string)
-                  00090d3c    00000084     IR.obj (.econst:_Idylis)
-                  00090dc0    0000006e     IR.obj (.econst:_Visio)
-                  00090e2e    00000040     TV.obj (.econst:.string)
-                  00090e6e    0000003e     TV.obj (.econst:_SKYPE_Codes)
-                  00090eac    00000026     rts2800_fpu32.lib : _printfi.obj (.econst:.string)
-                  00090ed2    0000001c                       : _printfi.obj (.econst)
+.econst    0    00090000    000010c6     
+                  00090000    0000084c     CMD.obj (.econst:_Commands)
+                  0009084c    00000252     IR.obj (.econst:_Sanyo)
+                  00090a9e    0000024c     CMD.obj (.econst:.string)
+                  00090cea    00000101     rts2800_fpu32.lib : ctype.obj (.econst:.string:__ctypes_)
+                  00090deb    00000001     --HOLE-- [fill = 0]
+                  00090dec    000000a1     main.obj (.econst:.string)
+                  00090e8d    00000001     --HOLE-- [fill = 0]
+                  00090e8e    00000086     UART.obj (.econst:.string)
+                  00090f14    00000084     IR.obj (.econst:_Idylis)
+                  00090f98    0000006e     IR.obj (.econst:_Visio)
+                  00091006    00000040     TV.obj (.econst:.string)
+                  00091046    0000003e     TV.obj (.econst:_SKYPE_Codes)
+                  00091084    00000026     rts2800_fpu32.lib : _printfi.obj (.econst:.string)
+                  000910aa    0000001c                       : _printfi.obj (.econst)
 
 AdcaResultFile 
 *          1    00000b00    00000018     UNINITIALIZED
@@ -860,12 +860,12 @@ address     data page           name
 
 0001a480     692 (0001a480)     _IR_Receive_Timing_Counts
 
-0001a642     699 (0001a640)     _NumCommands
-0001a644     699 (0001a640)     _CommandStringC
+0001a641     699 (0001a640)     _NumCommands
+0001a644     699 (0001a640)     _MiscBuffer
 
-0001a680     69a (0001a680)     _MiscBuffer
+0001a680     69a (0001a680)     _CommandStringA
 
-0001a6c0     69b (0001a6c0)     _CommandStringA
+0001a6c0     69b (0001a6c0)     _CommandStringC
 
 0001a700     69c (0001a700)     _SPRINTBuffer
 
@@ -915,15 +915,15 @@ address     data page           name
 
 00090000    2400 (00090000)     _Commands
 
-00090674    2419 (00090640)     _Sanyo
+0009084c    2421 (00090840)     _Sanyo
 
-00090b12    242c (00090b00)     __ctypes_
+00090cea    2433 (00090cc0)     __ctypes_
 
-00090d3c    2434 (00090d00)     _Idylis
+00090f14    243c (00090f00)     _Idylis
 
-00090dc0    2437 (00090dc0)     _Visio
+00090f98    243e (00090f80)     _Visio
 
-00090e6e    2439 (00090e40)     _SKYPE_Codes
+00091046    2441 (00091040)     _SKYPE_Codes
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
@@ -931,30 +931,30 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                                     
 ----  -------   ----                                     
 abs   ffffffff  .text                                    
-0     00085b42  C$$EXIT                                  
+0     00085b49  C$$EXIT                                  
 0     00085670  FD$$ADD                                  
-0     000859e1  FD$$CMP                                  
+0     00083fd5  FD$$CMP                                  
 0     0008570c  FD$$DIV                                  
 0     00085797  FD$$MPY                                  
-0     00085bdc  FD$$NEG                                  
-0     00085b9f  FD$$SUB                                  
-0     00085a35  FD$$TOFS                                 
-0     00085a58  FD$$TOI                                  
-0     00085a79  FD$$TOL                                  
-0     00085af1  FS$$TOFD                                 
-0     00085ad4  I$$TOFD                                  
-0     00085a0b  L$$DIV                                   
-0     00085a1a  L$$MOD                                   
-0     00085b0d  L$$TOFD                                  
-0     00085b5b  LL$$AND                                  
-0     00085a98  LL$$CMP                                  
+0     00085be3  FD$$NEG                                  
+0     00085ba6  FD$$SUB                                  
+0     00085a3c  FD$$TOFS                                 
+0     00085a5f  FD$$TOI                                  
+0     00085a80  FD$$TOL                                  
+0     00085af8  FS$$TOFD                                 
+0     00085adb  I$$TOFD                                  
+0     00085a12  L$$DIV                                   
+0     00085a21  L$$MOD                                   
+0     00085b14  L$$TOFD                                  
+0     00085b62  LL$$AND                                  
+0     00085a9f  LL$$CMP                                  
 0     00085415  LL$$DIV                                  
 0     00085451  LL$$MOD                                  
-0     00085b63  LL$$OR                                   
-0     00085b6b  LL$$XOR                                  
-0     00085a28  UL$$DIV                                  
-0     00085a2f  UL$$MOD                                  
-0     00085aaa  ULL$$CMP                                 
+0     00085b6a  LL$$OR                                   
+0     00085b72  LL$$XOR                                  
+0     00085a2f  UL$$DIV                                  
+0     00085a36  UL$$MOD                                  
+0     00085ab1  ULL$$CMP                                 
 0     0008548b  ULL$$DIV                                 
 0     000854ba  ULL$$MOD                                 
 0     00085142  _ADC_BusyA                               
@@ -993,33 +993,37 @@ abs   ffffffff  .text
 1     0000a003  _Audio_ADC_Counts_LowPass_place          
 1     0000a040  _Audio_ADC_Counts_Unfiltered_Buffer      
 1     0000a007  _Audio_ADC_Counts_Unfiltered_place       
-0     00085b76  _BLUE_ATCommand                          
+0     00085b7d  _BLUE_ATCommand                          
 0     00085927  _BUT_ButtonInterrupt                     
 0     00085949  _BUT_GetButtonFlag                       
 0     00085942  _BUT_SetButtonFlag                       
-0     0008397c  _CMD_CheckMatch                          
-0     00083a05  _CMD_CommandSize                         
-0     00083d5c  _CMD_DecreaseLargeAverage                
-0     00083db9  _CMD_DecreaseSmallAverage                
-0     00083cd9  _CMD_GetActiveUART                       
-0     000839fd  _CMD_GetNewCommandFlagA                  
-0     00083a01  _CMD_GetNewCommandFlagC                  
-0     00083d34  _CMD_GoToOriginal                        
-0     00083d31  _CMD_GoToSKYPE                           
-0     00083952  _CMD_Help                                
-0     00083d37  _CMD_IncreaseLargeAverage                
-0     00083d8b  _CMD_IncreaseSmallAverage                
-0     00083cdd  _CMD_InitBluetooth                       
-0     00083a92  _CMD_PrintAllCommands                    
-0     00083a3d  _CMD_PrintCommand                        
-0     00083c2a  _CMD_SendIdylis                          
-0     00083ada  _CMD_SendSanyo                           
-0     00083b82  _CMD_SendVisio                           
-0     00083cd2  _CMD_SetActiveUART                       
-0     000839ef  _CMD_SetNewCommandFlagA                  
-0     000839f6  _CMD_SetNewCommandFlagC                  
-0     00083df3  _CMD_VUAll                               
-0     00083dde  _CMD_VULowpass                           
+0     000833d5  _CMD_CheckMatch                          
+0     0008345e  _CMD_CommandSize                         
+0     00083809  _CMD_DecreaseLargeAverage                
+0     000837da  _CMD_DecreaseLargeAverageAlot            
+0     000838b9  _CMD_DecreaseSmallAverage                
+0     00083894  _CMD_DecreaseSmallAverageAlot            
+0     00083732  _CMD_GetActiveUART                       
+0     00083456  _CMD_GetNewCommandFlagA                  
+0     0008345a  _CMD_GetNewCommandFlagC                  
+0     0008378d  _CMD_GoToOriginal                        
+0     0008378a  _CMD_GoToSKYPE                           
+0     000833ab  _CMD_Help                                
+0     000837b5  _CMD_IncreaseLargeAverage                
+0     00083790  _CMD_IncreaseLargeAverageAlot            
+0     00083866  _CMD_IncreaseSmallAverage                
+0     00083838  _CMD_IncreaseSmallAverageAlot            
+0     00083736  _CMD_InitBluetooth                       
+0     000834eb  _CMD_PrintAllCommands                    
+0     00083496  _CMD_PrintCommand                        
+0     00083683  _CMD_SendIdylis                          
+0     00083533  _CMD_SendSanyo                           
+0     000835db  _CMD_SendVisio                           
+0     0008372b  _CMD_SetActiveUART                       
+0     00083448  _CMD_SetNewCommandFlagA                  
+0     0008344f  _CMD_SetNewCommandFlagC                  
+0     000838f3  _CMD_VUAll                               
+0     000838de  _CMD_VULowpass                           
 1     0001a258  _CPU_FREQ                                
 1     00001400  _Cla1Regs                                
 0     00000ce0  _Cla1SoftIntRegs                         
@@ -1032,8 +1036,8 @@ abs   ffffffff  .text
 1     00005d20  _Cmpss6Regs                              
 1     00005d40  _Cmpss7Regs                              
 1     00005d60  _Cmpss8Regs                              
-1     0001a6c0  _CommandStringA                          
-1     0001a644  _CommandStringC                          
+1     0001a680  _CommandStringA                          
+1     0001a6c0  _CommandStringC                          
 0     00090000  _Commands                                
 1     0005d300  _CpuSysRegs                              
 1     00000c00  _CpuTimer0Regs                           
@@ -1111,26 +1115,26 @@ abs   ffffffff  .text
 0     000845d5  _IR_SendNECWithRepeat                    
 0     00084806  _IR_SendNECWithRepeatASCII               
 0     00084658  _IR_SetReceiveFlag                       
-0     0008385b  _ISR_ADC_AUDIO                           
-0     00083821  _ISR_EPWM_11_LOWPASS                     
-0     000837e7  _ISR_EPWM_8_IRLED                        
-0     0008359b  _ISR_INT1_BUTTON                         
-0     000835cf  _ISR_INT2_ZEROCROSS                      
-0     00083622  _ISR_INT3_IR_RECEIVE                     
-0     00083709  _ISR_INT4_TOGGLE                         
-0     0008373d  _ISR_TIMER0_DELAY                        
-0     00083773  _ISR_TIMER1_IR_RECEIVE                   
-0     000837b4  _ISR_TIMER2_SS_Relay                     
-0     00083447  _ISR_UART_A_RX                           
-0     000834df  _ISR_UART_A_TX                           
-0     00083493  _ISR_UART_C_RX                           
-0     0008353d  _ISR_UART_C_TX                           
-0     00090d3c  _Idylis                                  
+0     00083d1d  _ISR_ADC_AUDIO                           
+0     00083ce3  _ISR_EPWM_11_LOWPASS                     
+0     00083ca9  _ISR_EPWM_8_IRLED                        
+0     00083a5d  _ISR_INT1_BUTTON                         
+0     00083a91  _ISR_INT2_ZEROCROSS                      
+0     00083ae4  _ISR_INT3_IR_RECEIVE                     
+0     00083bcb  _ISR_INT4_TOGGLE                         
+0     00083bff  _ISR_TIMER0_DELAY                        
+0     00083c35  _ISR_TIMER1_IR_RECEIVE                   
+0     00083c76  _ISR_TIMER2_SS_Relay                     
+0     00083909  _ISR_UART_A_RX                           
+0     000839a1  _ISR_UART_A_TX                           
+0     00083955  _ISR_UART_C_RX                           
+0     000839ff  _ISR_UART_C_TX                           
+0     00090f14  _Idylis                                  
 0     00084fe4  _InitADC                                 
 0     0008551c  _InitAudio                               
-0     00085b73  _InitBluetooth                           
+0     00085b7a  _InitBluetooth                           
 0     0008590b  _InitButtons                             
-0     0008394d  _InitCMD                                 
+0     000833a6  _InitCMD                                 
 0     000844ba  _InitIR                                  
 0     000844d1  _InitIRReceive                           
 0     000844c7  _InitIRSend                              
@@ -1140,10 +1144,10 @@ abs   ffffffff  .text
 0     0008517d  _InitPWM_IR                              
 0     0008581a  _InitRelay                               
 0     00082cd1  _InitTV                                  
-0     00083e10  _InitTimer0                              
-0     00083e29  _InitTimer1                              
-0     00083e43  _InitTimer2                              
-0     00083e09  _InitTimers                              
+0     00083e16  _InitTimer0                              
+0     00083e2f  _InitTimer1                              
+0     00083e49  _InitTimer2                              
+0     00083e0f  _InitTimers                              
 0     0008587f  _InitToggle                              
 0     00084000  _InitUART                                
 0     00084005  _InitUART_A                              
@@ -1169,11 +1173,11 @@ abs   ffffffff  .text
 1     00006040  _McbspbRegs                              
 1     0005f400  _MemCfgRegs                              
 1     0005f500  _MemoryErrorRegs                         
-1     0001a680  _MiscBuffer                              
+1     0001a644  _MiscBuffer                              
 1     0001a288  _NEC                                     
 1     0001a283  _NEC_REPEAT                              
 1     00007060  _NmiIntruptRegs                          
-1     0001a642  _NumCommands                             
+1     0001a641  _NumCommands                             
 1     0001a286  _NumIdylis                               
 1     0001a24c  _NumSKYPE                                
 1     0001a285  _NumSanyo                                
@@ -1214,7 +1218,7 @@ abs   00000000  _RamfuncsRunSize
 0     00008000  _RamfuncsRunStart                        
 1     0005e608  _RomPrefetchRegs                         
 1     0005f540  _RomWaitStateRegs                        
-0     00090e6e  _SKYPE_Codes                             
+0     00091046  _SKYPE_Codes                             
 1     0001a700  _SPRINTBuffer                            
 1     0000a004  _SSRelayAntiTwitchCount                  
 1     0000a002  _SSRelayOnCount                          
@@ -1238,7 +1242,7 @@ abs   00000000  _RamfuncsRunSize
 0     00084aba  _SYS_SetupPinOptions                     
 0     00084a1c  _SYS_Unlock                              
 0     00084b65  _SYS_WritePin                            
-0     00090674  _Sanyo                                   
+0     0009084c  _Sanyo                                   
 1     00007200  _SciaRegs                                
 1     00007210  _ScibRegs                                
 1     00007220  _ScicRegs                                
@@ -1249,55 +1253,55 @@ abs   00000000  _RamfuncsRunSize
 1     00006110  _SpibRegs                                
 1     00006120  _SpicRegs                                
 1     00007940  _SyncSocRegs                             
-0     00083f59  _TMR_ClearTimerFlag0                     
-0     00083f61  _TMR_CountsToMicroseconds                
-0     00083f82  _TMR_DutyToPeriod                        
-0     00083f3c  _TMR_GetStartTimerStatus0                
-0     00083f44  _TMR_GetStartTimerStatus1                
-0     00083f4c  _TMR_GetStartTimerStatus2                
-0     00083e5c  _TMR_GetTimer0                           
-0     00083e67  _TMR_GetTimer1                           
-0     00083fb7  _TMR_GetTimer1Mode                       
-0     00083e72  _TMR_GetTimer2                           
-0     00083f5d  _TMR_GetTimerFlag0                       
-0     00083e98  _TMR_GetTimerPeriod0                     
-0     00083ea3  _TMR_GetTimerPeriod1                     
-0     00083eae  _TMR_GetTimerPeriod2                     
-0     00083eb9  _TMR_Interrupt0                          
-0     00083edb  _TMR_Interrupt1                          
-0     00083ef5  _TMR_Interrupt2                          
-0     00083fb0  _TMR_SetTimer1Mode                       
-0     00083f54  _TMR_SetTimerFlag0                       
-0     00083e7d  _TMR_SetTimerPeriod0                     
-0     00083e86  _TMR_SetTimerPeriod1                     
-0     00083e8f  _TMR_SetTimerPeriod2                     
-0     00083e4d  _TMR_SetTimerWithPeriod0                 
-0     00083e52  _TMR_SetTimerWithPeriod1                 
-0     00083e57  _TMR_SetTimerWithPeriod2                 
-0     00083f0f  _TMR_StartTimer0                         
-0     00083f1e  _TMR_StartTimer1                         
-0     00083f2d  _TMR_StartTimer2                         
-0     00083fca  _TMR_Timer1IRModePetWatchdog             
-0     00083fbb  _TMR_Timer1IRModeWatchdogBark            
+0     00083f5f  _TMR_ClearTimerFlag0                     
+0     00083f67  _TMR_CountsToMicroseconds                
+0     00083f88  _TMR_DutyToPeriod                        
+0     00083f42  _TMR_GetStartTimerStatus0                
+0     00083f4a  _TMR_GetStartTimerStatus1                
+0     00083f52  _TMR_GetStartTimerStatus2                
+0     00083e62  _TMR_GetTimer0                           
+0     00083e6d  _TMR_GetTimer1                           
+0     00083fbd  _TMR_GetTimer1Mode                       
+0     00083e78  _TMR_GetTimer2                           
+0     00083f63  _TMR_GetTimerFlag0                       
+0     00083e9e  _TMR_GetTimerPeriod0                     
+0     00083ea9  _TMR_GetTimerPeriod1                     
+0     00083eb4  _TMR_GetTimerPeriod2                     
+0     00083ebf  _TMR_Interrupt0                          
+0     00083ee1  _TMR_Interrupt1                          
+0     00083efb  _TMR_Interrupt2                          
+0     00083fb6  _TMR_SetTimer1Mode                       
+0     00083f5a  _TMR_SetTimerFlag0                       
+0     00083e83  _TMR_SetTimerPeriod0                     
+0     00083e8c  _TMR_SetTimerPeriod1                     
+0     00083e95  _TMR_SetTimerPeriod2                     
+0     00083e53  _TMR_SetTimerWithPeriod0                 
+0     00083e58  _TMR_SetTimerWithPeriod1                 
+0     00083e5d  _TMR_SetTimerWithPeriod2                 
+0     00083f15  _TMR_StartTimer0                         
+0     00083f24  _TMR_StartTimer1                         
+0     00083f33  _TMR_StartTimer2                         
+0     00083fd0  _TMR_Timer1IRModePetWatchdog             
+0     00083fc1  _TMR_Timer1IRModeWatchdogBark            
 0     000858c1  _TOG_GetToggleFlag                       
 0     000858ba  _TOG_SetToggleFlag                       
 0     0008589f  _TOG_ToggleInterrupt                     
-0     00082d9e  _TV_GetMode                              
+0     00082da1  _TV_GetMode                              
 0     00082d31  _TV_GoToOriginalMode                     
 0     00082cdd  _TV_GoToSkypeMode                        
-0     00083426  _TV_SKYPE_AccumulatedTime                
+0     00083385  _TV_SKYPE_AccumulatedTime                
 1     0001a24b  _TV_SKYPE_Audio_Code_Started             
 1     0001a252  _TV_SKYPE_Audio_ProtocolTotalMicroseconds
-0     00082dad  _TV_SKYPE_Decode                         
-0     00083230  _TV_SKYPE_FindFirstLocalMaximumDecreasing
-0     0008318b  _TV_SKYPE_FindFirstLocalMaximumIncreasing
-0     00083378  _TV_SKYPE_FindFirstLocalMinimumDecreasing
-0     000832d7  _TV_SKYPE_FindFirstLocalMinimumIncreasing
-0     00082da9  _TV_SKYPE_GetDecodeFlag                  
-0     00083422  _TV_SKYPE_GetSearchingStatus             
-0     0008341b  _TV_SKYPE_SearchingEnabled               
-0     00082da2  _TV_SKYPE_SetDecodeFlag                  
-0     00082d97  _TV_SetMode                              
+0     00082db0  _TV_SKYPE_Decode                         
+0     0008318f  _TV_SKYPE_FindFirstLocalMaximumDecreasing
+0     000830ea  _TV_SKYPE_FindFirstLocalMaximumIncreasing
+0     000832d7  _TV_SKYPE_FindFirstLocalMinimumDecreasing
+0     00083236  _TV_SKYPE_FindFirstLocalMinimumIncreasing
+0     00082dac  _TV_SKYPE_GetDecodeFlag                  
+0     00083381  _TV_SKYPE_GetSearchingStatus             
+0     0008337a  _TV_SKYPE_SearchingEnabled               
+0     00082da5  _TV_SKYPE_SetDecodeFlag                  
+0     00082d9a  _TV_SetMode                              
 1     0001a080  _TX_A_Buffer                             
 1     00019e40  _TX_A_Buffer_ADD_Place                   
 1     00019e42  _TX_A_Buffer_REMOVE_Place                
@@ -1341,7 +1345,7 @@ abs   00000000  _RamfuncsRunSize
 0     000841c0  _UART_TransmitInterruptA                 
 0     000841db  _UART_TransmitInterruptC                 
 1     00006200  _UppRegs                                 
-0     00090dc0  _Visio                                   
+0     00090f98  _Visio                                   
 1     00007000  _WdRegs                                  
 1     00007920  _XbarRegs                                
 1     00007070  _XintRegs                                
@@ -1356,30 +1360,30 @@ abs   ffffffff  ___c_args__
 abs   ffffffff  ___etext__                               
 abs   ffffffff  ___pinit__                               
 abs   ffffffff  ___text__                                
-0     00085b29  __args_main                              
-0     00090b12  __ctypes_                                
+0     00085b30  __args_main                              
+0     00090cea  __ctypes_                                
 1     0001a26e  __lock                                   
-0     00085bdb  __nop                                    
-0     00085bd7  __register_lock                          
-0     00085bd3  __register_unlock                        
+0     00085be2  __nop                                    
+0     00085bde  __register_lock                          
+0     00085bda  __register_unlock                        
 0     00000000  __stack                                  
 1     0001a270  __unlock                                 
-0     00085b42  _abort                                   
-0     00083fcf  _atoi                                    
+0     00085b49  _abort                                   
+0     000859b3  _atoi                                    
 0     000858c5  _c_int00                                 
 1     0001a275  _errno                                   
-0     00085b44  _exit                                    
-0     00085b89  _frexp                                   
+0     00085b4b  _exit                                    
+0     00085b90  _frexp                                   
 0     0008594d  _ldexp                                   
-0     000859b3  _ltoa                                    
+0     000859e4  _ltoa                                    
 0     00084b83  _main                                    
-0     00085bad  _memccpy                                 
-0     00085ab6  _memcpy                                  
-0     00085bbb  _memset                                  
+0     00085bb4  _memccpy                                 
+0     00085abd  _memcpy                                  
+0     00085bc2  _memset                                  
 0     00085981  _sprintf                                 
-0     00085bc7  _strchr                                  
-0     00085bed  _strcpy                                  
-0     00085be5  _strlen                                  
+0     00085bce  _strchr                                  
+0     00085bf4  _strcpy                                  
+0     00085bec  _strlen                                  
 abs   ffffffff  binit                                    
 0     00082000  cinit                                    
 0     00080000  code_start                               
@@ -1405,91 +1409,95 @@ page  address   name
 0     00082cd1  _InitTV                                  
 0     00082cdd  _TV_GoToSkypeMode                        
 0     00082d31  _TV_GoToOriginalMode                     
-0     00082d97  _TV_SetMode                              
-0     00082d9e  _TV_GetMode                              
-0     00082da2  _TV_SKYPE_SetDecodeFlag                  
-0     00082da9  _TV_SKYPE_GetDecodeFlag                  
-0     00082dad  _TV_SKYPE_Decode                         
-0     0008318b  _TV_SKYPE_FindFirstLocalMaximumIncreasing
-0     00083230  _TV_SKYPE_FindFirstLocalMaximumDecreasing
-0     000832d7  _TV_SKYPE_FindFirstLocalMinimumIncreasing
-0     00083378  _TV_SKYPE_FindFirstLocalMinimumDecreasing
-0     0008341b  _TV_SKYPE_SearchingEnabled               
-0     00083422  _TV_SKYPE_GetSearchingStatus             
-0     00083426  _TV_SKYPE_AccumulatedTime                
-0     00083447  _ISR_UART_A_RX                           
-0     00083493  _ISR_UART_C_RX                           
-0     000834df  _ISR_UART_A_TX                           
-0     0008353d  _ISR_UART_C_TX                           
-0     0008359b  _ISR_INT1_BUTTON                         
-0     000835cf  _ISR_INT2_ZEROCROSS                      
-0     00083622  _ISR_INT3_IR_RECEIVE                     
-0     00083709  _ISR_INT4_TOGGLE                         
-0     0008373d  _ISR_TIMER0_DELAY                        
-0     00083773  _ISR_TIMER1_IR_RECEIVE                   
-0     000837b4  _ISR_TIMER2_SS_Relay                     
-0     000837e7  _ISR_EPWM_8_IRLED                        
-0     00083821  _ISR_EPWM_11_LOWPASS                     
-0     0008385b  _ISR_ADC_AUDIO                           
-0     0008394d  _InitCMD                                 
-0     00083952  _CMD_Help                                
-0     0008397c  _CMD_CheckMatch                          
-0     000839ef  _CMD_SetNewCommandFlagA                  
-0     000839f6  _CMD_SetNewCommandFlagC                  
-0     000839fd  _CMD_GetNewCommandFlagA                  
-0     00083a01  _CMD_GetNewCommandFlagC                  
-0     00083a05  _CMD_CommandSize                         
-0     00083a3d  _CMD_PrintCommand                        
-0     00083a92  _CMD_PrintAllCommands                    
-0     00083ada  _CMD_SendSanyo                           
-0     00083b82  _CMD_SendVisio                           
-0     00083c2a  _CMD_SendIdylis                          
-0     00083cd2  _CMD_SetActiveUART                       
-0     00083cd9  _CMD_GetActiveUART                       
-0     00083cdd  _CMD_InitBluetooth                       
-0     00083d31  _CMD_GoToSKYPE                           
-0     00083d34  _CMD_GoToOriginal                        
-0     00083d37  _CMD_IncreaseLargeAverage                
-0     00083d5c  _CMD_DecreaseLargeAverage                
-0     00083d8b  _CMD_IncreaseSmallAverage                
-0     00083db9  _CMD_DecreaseSmallAverage                
-0     00083dde  _CMD_VULowpass                           
-0     00083df3  _CMD_VUAll                               
-0     00083e09  _InitTimers                              
-0     00083e10  _InitTimer0                              
-0     00083e29  _InitTimer1                              
-0     00083e43  _InitTimer2                              
-0     00083e4d  _TMR_SetTimerWithPeriod0                 
-0     00083e52  _TMR_SetTimerWithPeriod1                 
-0     00083e57  _TMR_SetTimerWithPeriod2                 
-0     00083e5c  _TMR_GetTimer0                           
-0     00083e67  _TMR_GetTimer1                           
-0     00083e72  _TMR_GetTimer2                           
-0     00083e7d  _TMR_SetTimerPeriod0                     
-0     00083e86  _TMR_SetTimerPeriod1                     
-0     00083e8f  _TMR_SetTimerPeriod2                     
-0     00083e98  _TMR_GetTimerPeriod0                     
-0     00083ea3  _TMR_GetTimerPeriod1                     
-0     00083eae  _TMR_GetTimerPeriod2                     
-0     00083eb9  _TMR_Interrupt0                          
-0     00083edb  _TMR_Interrupt1                          
-0     00083ef5  _TMR_Interrupt2                          
-0     00083f0f  _TMR_StartTimer0                         
-0     00083f1e  _TMR_StartTimer1                         
-0     00083f2d  _TMR_StartTimer2                         
-0     00083f3c  _TMR_GetStartTimerStatus0                
-0     00083f44  _TMR_GetStartTimerStatus1                
-0     00083f4c  _TMR_GetStartTimerStatus2                
-0     00083f54  _TMR_SetTimerFlag0                       
-0     00083f59  _TMR_ClearTimerFlag0                     
-0     00083f5d  _TMR_GetTimerFlag0                       
-0     00083f61  _TMR_CountsToMicroseconds                
-0     00083f82  _TMR_DutyToPeriod                        
-0     00083fb0  _TMR_SetTimer1Mode                       
-0     00083fb7  _TMR_GetTimer1Mode                       
-0     00083fbb  _TMR_Timer1IRModeWatchdogBark            
-0     00083fca  _TMR_Timer1IRModePetWatchdog             
-0     00083fcf  _atoi                                    
+0     00082d9a  _TV_SetMode                              
+0     00082da1  _TV_GetMode                              
+0     00082da5  _TV_SKYPE_SetDecodeFlag                  
+0     00082dac  _TV_SKYPE_GetDecodeFlag                  
+0     00082db0  _TV_SKYPE_Decode                         
+0     000830ea  _TV_SKYPE_FindFirstLocalMaximumIncreasing
+0     0008318f  _TV_SKYPE_FindFirstLocalMaximumDecreasing
+0     00083236  _TV_SKYPE_FindFirstLocalMinimumIncreasing
+0     000832d7  _TV_SKYPE_FindFirstLocalMinimumDecreasing
+0     0008337a  _TV_SKYPE_SearchingEnabled               
+0     00083381  _TV_SKYPE_GetSearchingStatus             
+0     00083385  _TV_SKYPE_AccumulatedTime                
+0     000833a6  _InitCMD                                 
+0     000833ab  _CMD_Help                                
+0     000833d5  _CMD_CheckMatch                          
+0     00083448  _CMD_SetNewCommandFlagA                  
+0     0008344f  _CMD_SetNewCommandFlagC                  
+0     00083456  _CMD_GetNewCommandFlagA                  
+0     0008345a  _CMD_GetNewCommandFlagC                  
+0     0008345e  _CMD_CommandSize                         
+0     00083496  _CMD_PrintCommand                        
+0     000834eb  _CMD_PrintAllCommands                    
+0     00083533  _CMD_SendSanyo                           
+0     000835db  _CMD_SendVisio                           
+0     00083683  _CMD_SendIdylis                          
+0     0008372b  _CMD_SetActiveUART                       
+0     00083732  _CMD_GetActiveUART                       
+0     00083736  _CMD_InitBluetooth                       
+0     0008378a  _CMD_GoToSKYPE                           
+0     0008378d  _CMD_GoToOriginal                        
+0     00083790  _CMD_IncreaseLargeAverageAlot            
+0     000837b5  _CMD_IncreaseLargeAverage                
+0     000837da  _CMD_DecreaseLargeAverageAlot            
+0     00083809  _CMD_DecreaseLargeAverage                
+0     00083838  _CMD_IncreaseSmallAverageAlot            
+0     00083866  _CMD_IncreaseSmallAverage                
+0     00083894  _CMD_DecreaseSmallAverageAlot            
+0     000838b9  _CMD_DecreaseSmallAverage                
+0     000838de  _CMD_VULowpass                           
+0     000838f3  _CMD_VUAll                               
+0     00083909  _ISR_UART_A_RX                           
+0     00083955  _ISR_UART_C_RX                           
+0     000839a1  _ISR_UART_A_TX                           
+0     000839ff  _ISR_UART_C_TX                           
+0     00083a5d  _ISR_INT1_BUTTON                         
+0     00083a91  _ISR_INT2_ZEROCROSS                      
+0     00083ae4  _ISR_INT3_IR_RECEIVE                     
+0     00083bcb  _ISR_INT4_TOGGLE                         
+0     00083bff  _ISR_TIMER0_DELAY                        
+0     00083c35  _ISR_TIMER1_IR_RECEIVE                   
+0     00083c76  _ISR_TIMER2_SS_Relay                     
+0     00083ca9  _ISR_EPWM_8_IRLED                        
+0     00083ce3  _ISR_EPWM_11_LOWPASS                     
+0     00083d1d  _ISR_ADC_AUDIO                           
+0     00083e0f  _InitTimers                              
+0     00083e16  _InitTimer0                              
+0     00083e2f  _InitTimer1                              
+0     00083e49  _InitTimer2                              
+0     00083e53  _TMR_SetTimerWithPeriod0                 
+0     00083e58  _TMR_SetTimerWithPeriod1                 
+0     00083e5d  _TMR_SetTimerWithPeriod2                 
+0     00083e62  _TMR_GetTimer0                           
+0     00083e6d  _TMR_GetTimer1                           
+0     00083e78  _TMR_GetTimer2                           
+0     00083e83  _TMR_SetTimerPeriod0                     
+0     00083e8c  _TMR_SetTimerPeriod1                     
+0     00083e95  _TMR_SetTimerPeriod2                     
+0     00083e9e  _TMR_GetTimerPeriod0                     
+0     00083ea9  _TMR_GetTimerPeriod1                     
+0     00083eb4  _TMR_GetTimerPeriod2                     
+0     00083ebf  _TMR_Interrupt0                          
+0     00083ee1  _TMR_Interrupt1                          
+0     00083efb  _TMR_Interrupt2                          
+0     00083f15  _TMR_StartTimer0                         
+0     00083f24  _TMR_StartTimer1                         
+0     00083f33  _TMR_StartTimer2                         
+0     00083f42  _TMR_GetStartTimerStatus0                
+0     00083f4a  _TMR_GetStartTimerStatus1                
+0     00083f52  _TMR_GetStartTimerStatus2                
+0     00083f5a  _TMR_SetTimerFlag0                       
+0     00083f5f  _TMR_ClearTimerFlag0                     
+0     00083f63  _TMR_GetTimerFlag0                       
+0     00083f67  _TMR_CountsToMicroseconds                
+0     00083f88  _TMR_DutyToPeriod                        
+0     00083fb6  _TMR_SetTimer1Mode                       
+0     00083fbd  _TMR_GetTimer1Mode                       
+0     00083fc1  _TMR_Timer1IRModeWatchdogBark            
+0     00083fd0  _TMR_Timer1IRModePetWatchdog             
+0     00083fd5  FD$$CMP                                  
 0     00084000  _InitUART                                
 0     00084005  _InitUART_A                              
 0     00084040  _InitUART_C                              
@@ -1640,47 +1648,47 @@ page  address   name
 0     00085949  _BUT_GetButtonFlag                       
 0     0008594d  _ldexp                                   
 0     00085981  _sprintf                                 
-0     000859b3  _ltoa                                    
-0     000859e1  FD$$CMP                                  
-0     00085a0b  L$$DIV                                   
-0     00085a1a  L$$MOD                                   
-0     00085a28  UL$$DIV                                  
-0     00085a2f  UL$$MOD                                  
-0     00085a35  FD$$TOFS                                 
-0     00085a58  FD$$TOI                                  
-0     00085a79  FD$$TOL                                  
-0     00085a98  LL$$CMP                                  
-0     00085aaa  ULL$$CMP                                 
-0     00085ab6  _memcpy                                  
-0     00085ad4  I$$TOFD                                  
-0     00085af1  FS$$TOFD                                 
-0     00085b0d  L$$TOFD                                  
-0     00085b29  __args_main                              
-0     00085b42  C$$EXIT                                  
-0     00085b42  _abort                                   
-0     00085b44  _exit                                    
-0     00085b5b  LL$$AND                                  
-0     00085b63  LL$$OR                                   
-0     00085b6b  LL$$XOR                                  
-0     00085b73  _InitBluetooth                           
-0     00085b76  _BLUE_ATCommand                          
-0     00085b89  _frexp                                   
-0     00085b9f  FD$$SUB                                  
-0     00085bad  _memccpy                                 
-0     00085bbb  _memset                                  
-0     00085bc7  _strchr                                  
-0     00085bd3  __register_unlock                        
-0     00085bd7  __register_lock                          
-0     00085bdb  __nop                                    
-0     00085bdc  FD$$NEG                                  
-0     00085be5  _strlen                                  
-0     00085bed  _strcpy                                  
+0     000859b3  _atoi                                    
+0     000859e4  _ltoa                                    
+0     00085a12  L$$DIV                                   
+0     00085a21  L$$MOD                                   
+0     00085a2f  UL$$DIV                                  
+0     00085a36  UL$$MOD                                  
+0     00085a3c  FD$$TOFS                                 
+0     00085a5f  FD$$TOI                                  
+0     00085a80  FD$$TOL                                  
+0     00085a9f  LL$$CMP                                  
+0     00085ab1  ULL$$CMP                                 
+0     00085abd  _memcpy                                  
+0     00085adb  I$$TOFD                                  
+0     00085af8  FS$$TOFD                                 
+0     00085b14  L$$TOFD                                  
+0     00085b30  __args_main                              
+0     00085b49  C$$EXIT                                  
+0     00085b49  _abort                                   
+0     00085b4b  _exit                                    
+0     00085b62  LL$$AND                                  
+0     00085b6a  LL$$OR                                   
+0     00085b72  LL$$XOR                                  
+0     00085b7a  _InitBluetooth                           
+0     00085b7d  _BLUE_ATCommand                          
+0     00085b90  _frexp                                   
+0     00085ba6  FD$$SUB                                  
+0     00085bb4  _memccpy                                 
+0     00085bc2  _memset                                  
+0     00085bce  _strchr                                  
+0     00085bda  __register_unlock                        
+0     00085bde  __register_lock                          
+0     00085be2  __nop                                    
+0     00085be3  FD$$NEG                                  
+0     00085bec  _strlen                                  
+0     00085bf4  _strcpy                                  
 0     00090000  _Commands                                
-0     00090674  _Sanyo                                   
-0     00090b12  __ctypes_                                
-0     00090d3c  _Idylis                                  
-0     00090dc0  _Visio                                   
-0     00090e6e  _SKYPE_Codes                             
+0     0009084c  _Sanyo                                   
+0     00090cea  __ctypes_                                
+0     00090f14  _Idylis                                  
+0     00090f98  _Visio                                   
+0     00091046  _SKYPE_Codes                             
 1     00000b00  _AdcaResultRegs                          
 1     00000b20  _AdcbResultRegs                          
 1     00000b40  _AdccResultRegs                          
@@ -1806,10 +1814,10 @@ page  address   name
 1     0001a288  _NEC                                     
 1     0001a2c0  _IR_Receive_Timing_MicroSeconds          
 1     0001a480  _IR_Receive_Timing_Counts                
-1     0001a642  _NumCommands                             
-1     0001a644  _CommandStringC                          
-1     0001a680  _MiscBuffer                              
-1     0001a6c0  _CommandStringA                          
+1     0001a641  _NumCommands                             
+1     0001a644  _MiscBuffer                              
+1     0001a680  _CommandStringA                          
+1     0001a6c0  _CommandStringC                          
 1     0001a700  _SPRINTBuffer                            
 1     00047000  _Emif1Regs                               
 1     00047800  _Emif2Regs                               
@@ -1847,4 +1855,4 @@ abs   ffffffff  binit
 abs   ffffffff  etext                                    
 abs   ffffffff  pinit                                    
 
-[455 symbols]
+[459 symbols]

@@ -76,22 +76,14 @@ typedef struct t_skype_codes
  *
  * This is the number of ADC counts that signifiy a code burst is happening.  */
 /******************************************************************************/
-#define TV_SKYPE_AUDIO_ADC_HIGH 3500
+#define TV_SKYPE_AUDIO_ADC_HIGH 3800
 
 /******************************************************************************/
 /* TV_SKYPE_AUDIO_ADC_LOW
  *
- * This is the number of ADC counts that signifiy a code burst is happening.  */
+ * This is the number of ADC counts that signify a code burst is happening.  */
 /******************************************************************************/
-#define TV_SKYPE_AUDIO_ADC_LOW 600
-
-/******************************************************************************/
-/* AUDIO_ADC_TIMING_HIGH_LIMIT
- *
- * This is the multiplier for the Audio protocol timing for a valid larger
- *  than expected.															  */
-/******************************************************************************/
-#define AUDIO_ADC_TIMING_HIGH_LIMIT 1.1
+#define TV_SKYPE_AUDIO_ADC_LOW 300
 
 /******************************************************************************/
 /* FIND_LOCAL_WRONG_WAY_COUNT
@@ -99,7 +91,15 @@ typedef struct t_skype_codes
  * This is the multiplier for the Audio protocol timing for a valid larger
  *  than expected.															  */
 /******************************************************************************/
-#define FIND_LOCAL_WRONG_WAY_COUNT 250
+#define FIND_LOCAL_WRONG_WAY_COUNT 200
+
+/******************************************************************************/
+/* AUDIO_ADC_TIMING_HIGH_LIMIT
+ *
+ * This is the multiplier for the Audio protocol timing for a valid larger
+ *  than expected.															  */
+/******************************************************************************/
+#define AUDIO_ADC_TIMING_HIGH_LIMIT 1.2
 
 /******************************************************************************/
 /* AUDIO_ADC_TIMING_LOW_LIMIT
@@ -107,7 +107,7 @@ typedef struct t_skype_codes
  * This is the multiplier for the Audio protocol timing for a valid smaller
  *  than expected.															  */
 /******************************************************************************/
-#define AUDIO_ADC_TIMING_LOW_LIMIT 0.9
+#define AUDIO_ADC_TIMING_LOW_LIMIT 0.8
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */

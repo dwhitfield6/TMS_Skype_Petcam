@@ -55,9 +55,13 @@ const COMMANDTYPE Commands[] =
 	{"IR Idylis Send~", CMD_SendIdylis,"Sends an IR command to the Idylis Air conditioner"},
 	{"Skype", CMD_GoToSKYPE, "Goes to SKYPE mode"},
 	{"Original", CMD_GoToOriginal, "Goes to Original mode"},
+	{"Large Average++", CMD_IncreaseLargeAverageAlot,"Increases the large averager by 100 samples"},
 	{"Large Average+", CMD_IncreaseLargeAverage,"Increases the large averager by 10 samples"},
+	{"Large Average--", CMD_DecreaseLargeAverageAlot,"Decreases the large averager by 100 samples"},
 	{"Large Average-", CMD_DecreaseLargeAverage,"Decreases the large averager by 10 samples"},
+	{"Small Average++", CMD_IncreaseSmallAverageAlot,"Increases the small averager by 100 samples"},
 	{"Small Average+", CMD_IncreaseSmallAverage,"Increases the small averager by 10 samples"},
+	{"Small Average--", CMD_DecreaseSmallAverageAlot,"Decreases the small averager by 100 samples"},
 	{"Small Average-", CMD_DecreaseSmallAverage,"Decreases the small averager by 10 samples"},
 	{"VU Lowpass", CMD_VULowpass,"Sets the VU meter to use the Lowpass filter"},
 	{"VU nofilter", CMD_VUAll,"Sets the VU meter to use the full audio spectrum filter"},
@@ -576,16 +580,63 @@ void CMD_GoToOriginal(void)
 }
 
 /******************************************************************************/
+/* CMD_IncreaseLargeAverageAlot
+ *
+ * The function increases the large averager by 100.						  */
+/******************************************************************************/
+void CMD_IncreaseLargeAverageAlot(void)
+{
+	if(AudioProcessingSampleLarge < (AUDIO_ADC_BUFFER_SIZE - 100))
+	{
+		AudioProcessingSampleLarge += 100;
+	}
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleLarge = %d", AudioProcessingSampleLarge);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
 /* CMD_IncreaseLargeAverage
  *
  * The function increases the large averager by 10.							  */
 /******************************************************************************/
 void CMD_IncreaseLargeAverage(void)
 {
-	if(AudioProcessingSampleLarge < 15990)
+	if(AudioProcessingSampleLarge < (AUDIO_ADC_BUFFER_SIZE - 10))
 	{
 		AudioProcessingSampleLarge += 10;
 	}
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleLarge = %d", AudioProcessingSampleLarge);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseLargeAverageAlot
+ *
+ * The function decreases the large averager by 100.						  */
+/******************************************************************************/
+void CMD_DecreaseLargeAverageAlot(void)
+{
+	if(AudioProcessingSampleLarge > 100 && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 100))
+	{
+		AudioProcessingSampleLarge -= 100;
+	}
+
 	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleLarge = %d", AudioProcessingSampleLarge);
 
 	if(CMD_GetActiveUART() == 'A')
@@ -623,15 +674,63 @@ void CMD_DecreaseLargeAverage(void)
 }
 
 /******************************************************************************/
+/* CMD_IncreaseSmallAverageAlot
+ *
+ * The function increases the small averager by 100.							  */
+/******************************************************************************/
+void CMD_IncreaseSmallAverageAlot(void)
+{
+	if((AudioProcessingSampleSmall < (AUDIO_ADC_BUFFER_SIZE - 100)) && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 100))
+	{
+		AudioProcessingSampleSmall += 100;
+	}
+
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleSmall = %d", AudioProcessingSampleSmall);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
 /* CMD_IncreaseSmallAverage
  *
  * The function increases the small averager by 10.							  */
 /******************************************************************************/
 void CMD_IncreaseSmallAverage(void)
 {
-	if(AudioProcessingSampleSmall < 15990 && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 10))
+	if((AudioProcessingSampleSmall < (AUDIO_ADC_BUFFER_SIZE - 10)) && ((AudioProcessingSampleLarge - AudioProcessingSampleSmall) > 10))
 	{
 		AudioProcessingSampleSmall += 10;
+	}
+
+	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleSmall = %d", AudioProcessingSampleSmall);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseSmallAverageAlot
+ *
+ * The function decreases the small averager by 100.						  */
+/******************************************************************************/
+void CMD_DecreaseSmallAverageAlot(void)
+{
+	if(AudioProcessingSampleSmall > 100)
+	{
+		AudioProcessingSampleSmall -= 100;
 	}
 
 	sprintf((char*)SPRINTBuffer, "AudioProcessingSampleSmall = %d", AudioProcessingSampleSmall);
