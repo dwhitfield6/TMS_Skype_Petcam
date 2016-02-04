@@ -107,7 +107,7 @@ typedef struct t_skype_codes
  * This is the multiplier for the Audio protocol timing for a valid smaller
  *  than expected.															  */
 /******************************************************************************/
-#define AUDIO_ADC_TIMING_LOW_LIMIT 0.4
+#define AUDIO_ADC_TIMING_LOW_LIMIT 0.6
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -133,10 +133,8 @@ ENUM_SKYPE_MODE TV_GetMode(void);
 void TV_SKYPE_SetDecodeFlag(unsigned char state);
 unsigned char TV_SKYPE_GetDecodeFlag(void);
 unsigned char TV_SKYPE_Decode(TYPE_LOWPASS* buffer, unsigned short amount, const TYPE_SKYPE_CODE* codes, unsigned char* index);
-unsigned char TV_SKYPE_FindFirstLocalMaximumIncreasing(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
-unsigned char TV_SKYPE_FindFirstLocalMaximumDecreasing(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
-unsigned char TV_SKYPE_FindFirstLocalMinimumIncreasing(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
-unsigned char TV_SKYPE_FindFirstLocalMinimumDecreasing(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
+unsigned char TV_SKYPE_FindFirstLocalMaximum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
+unsigned char TV_SKYPE_FindFirstLocalMinimum(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish, unsigned short* index);
 void TV_SKYPE_SearchingEnabled(unsigned char mode);
 unsigned char TV_SKYPE_GetSearchingStatus(void);
 double TV_SKYPE_AccumulatedTime(TYPE_LOWPASS* buffer, unsigned short start, unsigned short finish);

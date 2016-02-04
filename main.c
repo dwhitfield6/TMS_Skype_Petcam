@@ -91,12 +91,17 @@ int main (void)
 	UART_SendPromptA();
 	UART_SendPromptC();
 
-	/* start sampling */
-	AUD_Sampling(ON);
+	/* take and burn 3 samples */
+	AUD_ClearSampleReadyFlag();
 	ADC_ForceSampleA(); 		// take next sample
-	AUD_Sampling(ON);
+	while(!AUD_GetSampleReadyFlag());
+	AUD_ClearSampleReadyFlag();
 	ADC_ForceSampleA(); 		// take next sample
-	AUD_Sampling(ON);
+	while(!AUD_GetSampleReadyFlag());
+	AUD_ClearSampleReadyFlag();
+	ADC_ForceSampleA(); 		// take next sample
+	while(!AUD_GetSampleReadyFlag());
+	AUD_ClearSampleReadyFlag();
 	ADC_ForceSampleA(); 		// take next sample
 
 	/* throw away first samples */
@@ -237,7 +242,6 @@ int main (void)
     		memset(IR_Receive_Timing_MicroSeconds, 0, MAX_IR_RECEIVE_EVENTS);
     		IR_NEC_Start = FALSE;
     		IR_ReceiverInterrupt(ON);
-    		TMR_SetTimer1Mode(AUDIO);
     		IR_ClearReceiveFlag();
     	}
 
@@ -251,34 +255,29 @@ int main (void)
 				{
 					AUD_Process(Audio_ADC_Counts_Unfiltered_Buffer, Audio_ADC_Counts_Unfiltered_place, AVERAGE, AudioProcessingSampleLarge, &AudioProcess1); 	// long average
 					AUD_Process(&Audio_ADC_Counts_Unfiltered_Buffer[AudioProcessingSampleLarge - AudioProcessingSampleSmall - 1], Audio_ADC_Counts_Unfiltered_place, AVERAGE, AudioProcessingSampleSmall, &AudioProcess2);						// short average
-					if((AudioProcess2 > (AudioProcess1 * 1.1)) || (AudioProcess2 < (AudioProcess1 * 0.9)))
+					if((AudioProcess2 > (AudioProcess1 * 1.2)) || (AudioProcess2 < (AudioProcess1 * 0.8)))
 					{
 						SSRelayOnCount = SSRelayAntiTwitchCount;
 					}
 					else
 					{
-						if(SSRelayOnCount > 1)
+						if(SSRelayOnCount > 0)
 						{
 							SSRelayOnCount--;
 						}
 					}
 					if(SSRelayOnCount)
 					{
-						#ifdef SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
-							RLY_SetSSRelayDutyCycle(100);
-						#endif
+						RLY_SetSSRelayNext(ON);
 					}
 					else
 					{
-						#ifdef SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
-							RLY_SetSSRelayDutyCycle(0);
-						#endif
+						RLY_SetSSRelayNext(OFF);
 					}
 					AUD_ShiftoutBuffer(Audio_ADC_Counts_Unfiltered_Buffer, &Audio_ADC_Counts_Unfiltered_place, 1);
 				}
     		}
     		AUD_ClearSampleReadyFlag();
-    		AUD_Sampling(ON);
     		ADC_ForceSampleA(); 		// take next sample
     	}
 
@@ -359,12 +358,6 @@ int main (void)
     	if(LED_GetMode() == RED_BLINKING || LED_GetMode() == GREEN_BLINKING)
     	{
     		LED_BlinkingAction(LED_GetMode());
-    	}
-
-    	/* check for a timer 1 watchdog event */
-    	if(TMR_Timer1IRModeWatchdogBark())
-    	{
-    		TMR_SetTimer1Mode(AUDIO);
     	}
     }
 }

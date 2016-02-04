@@ -34,7 +34,7 @@
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-unsigned char RLY_SSRelayDuty = 0;
+unsigned char SS_RelayNext = 0;
 
 /******************************************************************************/
 /* Inline Functions 														  */
@@ -119,18 +119,13 @@ void RLY_SolidStateRelay(unsigned char state)
 }
 
 /******************************************************************************/
-/* RLY_SSRelayDutyCycle
+/* RLY_SetSSRelayNext
  *
- * The function sets the solid state relay duty cycle.						  */
+ * The function controls the solid state relay at the next zerocross.		  */
 /******************************************************************************/
-void RLY_SetSSRelayDutyCycle(unsigned char duty)
+void RLY_SetSSRelayNext(unsigned char state)
 {
-	unsigned long period;
-
-	RLY_SSRelayDuty = duty;
-	period = TMR_DutyToPeriod(duty);
-	TMR_StartTimer2(FALSE);				// stop timer
-	TMR_SetTimerPeriod2(period);
+	SS_RelayNext = state;
 }
 
 /*-----------------------------------------------------------------------------/

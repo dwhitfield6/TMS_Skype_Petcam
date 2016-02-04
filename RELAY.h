@@ -24,25 +24,9 @@
 #include "USER.h"
 
 /******************************************************************************/
-/* SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
- *
- * This macro defines the type of solid state relay. When defined it means
- *  the solid state relay has built in zerocross detection so dimming is
- *  impossible.																  */
-/******************************************************************************/
-#define SOLID_STATE_RELAY_WITH_ZEROCROSS_DETECTION
-
-/******************************************************************************/
-/* AC_FREQUENCY
- *
- * This is the frequency of the wall AC.									  */
-/******************************************************************************/
-#define AC_FREQUENCY 60.0
-
-/******************************************************************************/
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
-extern unsigned char RLY_SSRelayDuty;
+extern unsigned char SS_RelayNext;
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -59,6 +43,6 @@ void InitRelay(void);
 void RLY_ZeroCrossInterrupt(unsigned char state);
 void RLY_MechRelay(unsigned char state);
 void RLY_SolidStateRelay(unsigned char state);
-void RLY_SetSSRelayDutyCycle(unsigned char duty);
+void RLY_SetSSRelayNext(unsigned char state);
 
 #endif	/* RELAY_H */

@@ -69,28 +69,8 @@ void InitAudio(void)
 	AudioProcessingSampleLarge 	= 200;
 	AudioProcessingSampleSmall 	= 20;
 	SSRelayAntiTwitchCount		= 20;
-	AUD_Sampling(ON);
-	ADC_ForceSampleA(); 		// take next sample
 	AUD_LOWPASS_Shutdown(OFF);
 	AUD_LOWPASS_ClockModulePins(TRUE);
-	TMR_SetTimer1Mode(AUDIO);
-}
-
-/******************************************************************************/
-/* AUD_Sampling
- *
- * The function controls ADC sampling for processing.	        			  */
-/******************************************************************************/
-void AUD_Sampling(unsigned char state)
-{
-	if(state)
-	{
-		ADC_InterruptA(ON);
-	}
-	else
-	{
-		ADC_InterruptA(OFF);
-	}
 }
 
 /******************************************************************************/

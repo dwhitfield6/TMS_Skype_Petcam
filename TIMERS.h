@@ -27,19 +27,6 @@
 /******************************************************************************/
 /* Structures                                                                 */
 /******************************************************************************/
-typedef enum e_timer1_mode
-{
-    IR,
-	AUDIO,
-}ENUM_TIMER1_MODE;
-
-/******************************************************************************/
-/* TIMER_1_WATCHDOG_COUNTS
- *
- * This is the number of main function laps before we call a watchdog call of
- *  the Timer 1 mode to set it back to AUDIO.								  */
-/******************************************************************************/
-#define TIMER_1_WATCHDOG_COUNTS 1000000
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -77,10 +64,5 @@ void TMR_SetTimerFlag0(void);
 void TMR_ClearTimerFlag0(void);
 unsigned char TMR_GetTimerFlag0(void);
 unsigned long TMR_CountsToMicroseconds(unsigned long counts);
-unsigned long TMR_DutyToPeriod(unsigned char duty);
-void TMR_SetTimer1Mode(ENUM_TIMER1_MODE mode);
-ENUM_TIMER1_MODE TMR_GetTimer1Mode(void);
-unsigned char TMR_Timer1IRModeWatchdogBark(void);
-void TMR_Timer1IRModePetWatchdog(void);
 
 #endif	/* TIMERS_H */

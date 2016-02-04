@@ -34,7 +34,7 @@ interrupt void ISR_INT3_IR_RECEIVE(void);
 interrupt void ISR_INT4_TOGGLE(void);
 interrupt void ISR_TIMER0_DELAY(void);
 interrupt void ISR_TIMER1_IR_RECEIVE(void);
-interrupt void ISR_TIMER2_SS_Relay(void);
+interrupt void ISR_TIMER2_AUDIO_PROTOCOL(void);
 interrupt void ISR_EPWM_8_IRLED(void);
 interrupt void ISR_EPWM_11_LOWPASS(void);
 interrupt void ISR_ADC_AUDIO(void);

@@ -427,26 +427,15 @@ interrupt void ISR_INT1_BUTTON(void)
 /******************************************************************************/
 interrupt void ISR_INT2_ZEROCROSS(void)
 {
-	/* turn off the relay and set the timer to fire */
+	/* set the relay */
 
-	if(RLY_SSRelayDuty == 0)
+	if(SS_RelayNext)
 	{
-		TMR_StartTimer2(OFF);
-		TMR_Interrupt2(OFF);
-		RLY_SolidStateRelay(OFF);
-	}
-	else if(RLY_SSRelayDuty == 100)
-	{
-		TMR_StartTimer2(OFF);
-		TMR_Interrupt2(OFF);
 		RLY_SolidStateRelay(ON);
 	}
 	else
 	{
 		RLY_SolidStateRelay(OFF);
-		TMR_SetTimerWithPeriod2();
-		TMR_Interrupt2(ON);
-		TMR_StartTimer2(ON);
 	}
 
 	/* Acknowledge this interrupt from group 1 */
@@ -464,9 +453,6 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 	unsigned long counts;
 	unsigned char done = FALSE;
 
-	TMR_Timer1IRModePetWatchdog();
-	TMR_SetTimer1Mode(IR);
-	TMR_Interrupt1(ON);
 	counts = IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
 	microseconds = TMR_CountsToMicroseconds(counts);
 
@@ -535,7 +521,6 @@ interrupt void ISR_INT3_IR_RECEIVE(void)
 		IR_ReceiverInterrupt(OFF);
 		IR_NEC_Start = FALSE;
 		TV_SKYPE_Audio_Code_Started = FALSE;
-		TMR_SetTimer1Mode(AUDIO);
 	}
 	else
 	{
@@ -582,32 +567,20 @@ interrupt void ISR_TIMER0_DELAY(void)
 /******************************************************************************/
 interrupt void ISR_TIMER1_IR_RECEIVE(void)
 {
-	TMR_Interrupt1(OFF);
-	if(TMR_GetTimer1Mode() == IR)
-	{
-		/* IR receiver timout */
-		IR_NEC_Start = FALSE;
-		TMR_StartTimer1(FALSE);
-		TMR_SetTimerWithPeriod1();
-		TV_SKYPE_Audio_Code_Started = FALSE;
-		TMR_SetTimer1Mode(AUDIO);
-	}
-	else
-	{
-		/* Audio receiver timout */
-		NOP();
-	}
+	/* IR receiver timeout */
+	IR_NEC_Start = FALSE;
+	TMR_StartTimer1(FALSE);
+	TMR_SetTimerWithPeriod1();
+	TV_SKYPE_Audio_Code_Started = FALSE;
 }
 
 /******************************************************************************/
 /* Timer 2 interrupt
  *
- * Used for Solid state relay dimming.		                                  */
+ * Used for skype audio protocol timing.		                              */
 /******************************************************************************/
-interrupt void ISR_TIMER2_SS_Relay(void)
+interrupt void ISR_TIMER2_AUDIO_PROTOCOL(void)
 {
-	RLY_SolidStateRelay(ON);
-	TMR_StartTimer2(OFF);
 	TMR_Interrupt2(OFF);
 }
 
@@ -654,9 +627,7 @@ interrupt void ISR_ADC_AUDIO(void)
 {
 	unsigned short ADC_counts0;
 	unsigned short ADC_counts1;
-	unsigned long TimingCounts1;
-
-	AUD_Sampling(OFF);
+	unsigned long TimingCounts2;
 
 	/* ADC unfiltered and lowpass filtered audio sampling */
 	ADC_counts0 = AdcaResultRegs.ADCRESULT0; // unfiltered
@@ -683,53 +654,51 @@ interrupt void ISR_ADC_AUDIO(void)
 	/* ADC low-pass filtered audio sampling */
 	if(TV_SKYPE_GetSearchingStatus())
 	{
-		if(TMR_GetTimer1Mode() == AUDIO)
+		if(TV_SKYPE_GetDecodeFlag() == FALSE)
 		{
-			if(TV_SKYPE_GetDecodeFlag() == FALSE)
+			/* we are not decoding the audio buffer */
+			if(TV_SKYPE_Audio_Code_Started)
 			{
-				/* we are not decoding the audio buffer */
-				if(TV_SKYPE_Audio_Code_Started)
+				/* code has started so record */
+				if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
 				{
-					/* code has started so record */
-					if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
+					TimingCounts2																	= (IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer2());
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts2);
+					TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
+					Audio_ADC_Counts_LowPass_place++;
+					if(TV_SKYPE_Audio_ProtocolTotalMicroseconds >= TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS)
 					{
-						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-						TimingCounts1																	= (IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1()) + 4;
-						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts1);
-						TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
-						Audio_ADC_Counts_LowPass_place++;
-						if(TV_SKYPE_Audio_ProtocolTotalMicroseconds >= TV_SKYPE_AUDIO_CODE_LENGTH_MICROSECONDS)
-						{
-							/* a code length has passed so decode */
-							TV_SKYPE_SetDecodeFlag(TRUE);
-						}
-					}
-				}
-				else
-				{
-					if(ADC_counts1 >= TV_SKYPE_AUDIO_ADC_HIGH)
-					{
-						/* a code has started */
-						TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
-						Audio_ADC_Counts_LowPass_place = 0;
-						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-						TimingCounts1																	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
-						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts1);
-						Audio_ADC_Counts_LowPass_place++;
-						TV_SKYPE_Audio_Code_Started = TRUE;
+						/* a code length has passed so decode */
+						TV_SKYPE_SetDecodeFlag(TRUE);
 					}
 				}
 			}
-
-			TMR_StartTimer1(FALSE);
-			TMR_SetTimerWithPeriod1();
-			TMR_StartTimer1(TRUE);
+			else
+			{
+				if(ADC_counts1 >= TV_SKYPE_AUDIO_ADC_HIGH)
+				{
+					/* a code has started */
+					TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
+					Audio_ADC_Counts_LowPass_place = 0;
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
+					TimingCounts2																	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer2();
+					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts2);
+					Audio_ADC_Counts_LowPass_place++;
+					TV_SKYPE_Audio_Code_Started = TRUE;
+				}
+			}
 		}
+
+		TMR_StartTimer2(FALSE);
+		TMR_SetTimerWithPeriod2();
+		TMR_StartTimer2(TRUE);
+
 	}
 
 	AUD_SetSampleReadyFlag();
 
-	AdcaRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; //clear INT2 flag
+	AdcaRegs.ADCINTFLGCLR.bit.ADCINT2 = 1; // clear INT2 flag
 	PieCtrlRegs.PIEACK.all = INTERRUPT_GROUP10;
 }
 

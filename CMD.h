@@ -129,5 +129,9 @@ void CMD_VULowpass(void);
 void CMD_VUAll(void);
 void CMD_SKYPE_SignalInverted(void);
 void CMD_SKYPE_SignalNotInverted(void);
+void CMD_IncreaseAntiTwitchAverager(void);
+void CMD_IncreaseAntiTwitchAveragerAlot(void);
+void CMD_DecreaseAntiTwitchAverager(void);
+void CMD_DecreaseAntiTwitchAveragerAlot(void);
 
 #endif	/* CMD_H */

@@ -36,8 +36,6 @@
 /* Private Variable Declaration		                                          */
 /******************************************************************************/
 static unsigned char Timer0_Timeout = FALSE;
-static ENUM_TIMER1_MODE TIMER1_Mode = IR;
-static unsigned long Timer1WatchdogCount = TIMER_1_WATCHDOG_COUNTS;
 
 /******************************************************************************/
 /* User Global Variable Declaration                                           */
@@ -102,14 +100,19 @@ void InitTimer1(void)
 /******************************************************************************/
 /* InitTimer2
  *
- * The function initializes timer 2 for the Solid State Relay dimming.		  */
+ * The function initializes timer 2 audio protocol timing.					  */
 /******************************************************************************/
 void InitTimer2(void)
 {
 	/* Set Timer 2 ISR */
 	SYS_Unlock();
-	PieVectTable.TIMER2_INT = &ISR_TIMER2_SS_Relay;
+	PieVectTable.TIMER2_INT = &ISR_TIMER2_AUDIO_PROTOCOL;
 	SYS_Lock();
+
+	TMR_SetTimerPeriod2(0xFFFFFFFF);
+	TMR_Interrupt2(OFF);
+	TMR_StartTimer2(FALSE);						// Stop the timer
+	CpuTimer1Regs.TPR.bit.TDDR = 15;			// presceler is 16
 }
 
 
@@ -470,73 +473,6 @@ unsigned long TMR_CountsToMicroseconds(unsigned long counts)
 	microseconds = (unsigned long) MSC_Round((16.0 / (double)SYSCLK) * (double) counts * 1000000.0);
 	return microseconds;
 }
-
-/******************************************************************************/
-/* TMR_DutyToPeriod
- *
- * The function calculates the period from the dutycycle.					  */
-/******************************************************************************/
-unsigned long TMR_DutyToPeriod(unsigned char duty)
-{
-	unsigned long complete_cycle;
-	unsigned long percent_1_cycle;
-
-	complete_cycle = (unsigned long) MSC_Round((2.0 / AC_FREQUENCY) * ((double)SYSCLK / 16.0));
-	percent_1_cycle = (unsigned long) MSC_Round((double) complete_cycle / 100.0);
-
-	return percent_1_cycle * duty;
-}
-
-/******************************************************************************/
-/* TMR_SetTimer1Mode
- *
- * The sets the timer 1 mode.												  */
-/******************************************************************************/
-void TMR_SetTimer1Mode(ENUM_TIMER1_MODE mode)
-{
-	TIMER1_Mode = mode;
-}
-
-/******************************************************************************/
-/* TMR_GetTimer1Mode
- *
- * The gets the timer 1 mode.												  */
-/******************************************************************************/
-ENUM_TIMER1_MODE TMR_GetTimer1Mode(void)
-{
-	return TIMER1_Mode;
-}
-
-/******************************************************************************/
-/* TMR_Timer1IRModeWatchdogBark
- *
- * This returns the status of a timer1 mode watchdog bark. Since we share
- *  timer 1, sometimes an incomplete IR receive at just the right time can
- *   cause problems so we use this watchdog to make sure it is always in use. */
-/******************************************************************************/
-unsigned char TMR_Timer1IRModeWatchdogBark(void)
-{
-	if(Timer1WatchdogCount < TIMER_1_WATCHDOG_COUNTS)
-	{
-		Timer1WatchdogCount++;
-		return FALSE;
-	}
-	else
-	{
-		return TRUE;
-	}
-}
-
-/******************************************************************************/
-/* TMR_Timer1IRModePetWatchdog
- *
- * This functions pets the timer 1 puppy.									  */
-/******************************************************************************/
-void TMR_Timer1IRModePetWatchdog(void)
-{
-	Timer1WatchdogCount = 0;
-}
-
 
 /*-----------------------------------------------------------------------------/
  End of File

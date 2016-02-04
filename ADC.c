@@ -69,6 +69,7 @@ void InitADC(void)
 
 	/* set up for continuous mode */
 	ADC_SetupContinuousA();
+	ADC_InterruptA(ON);
 }
 
 /******************************************************************************/

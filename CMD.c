@@ -48,6 +48,10 @@ static unsigned char ActiveUARTflag = 0;
 const COMMANDTYPE Commands[] =
 {
 	{"?", CMD_Help,"Prints the Help menu"},
+	{"Anti-twitch++", CMD_IncreaseAntiTwitchAveragerAlot,"Increases the anti-twitch averager by 100 samples"},
+	{"Anti-twitch+", CMD_IncreaseAntiTwitchAverager,"Increases the anti-twitch averager by 10 samples"},
+	{"Anti-twitch--", CMD_DecreaseAntiTwitchAveragerAlot,"Decreases the anti-twitch averager by 100 samples"},
+	{"Anti-twitch-", CMD_DecreaseAntiTwitchAverager,"Decreases the anti-twitch averager by 10 samples"},
 	{"Blue init", CMD_InitBluetooth, "Initializes the HC-06 Bluetooth module"},
 	{"Help", CMD_PrintAllCommands,"Prints all of the commands"},
 	{"IR Sanyo Send~", CMD_SendSanyo,"Sends an IR command to the Sanyo TV"},
@@ -846,6 +850,103 @@ void CMD_SKYPE_SignalNotInverted(void)
 		UART_SendStringCRLNC("Audio signal source = Not Inverted");
 	}
 }
+
+/******************************************************************************/
+/* CMD_IncreaseAntiTwitchAverager
+ *
+ * The function increases the anti-twitch averager by 10.					  */
+/******************************************************************************/
+void CMD_IncreaseAntiTwitchAverager(void)
+{
+	if(SSRelayAntiTwitchCount < 5000)
+	{
+		SSRelayAntiTwitchCount += 10;
+	}
+
+	sprintf((char*)SPRINTBuffer, "Audio anti-twitch averager = %d", SSRelayAntiTwitchCount);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_IncreaseAntiTwitchAveragerAlot
+ *
+ * The function increases the anti-twitch averager by 100.					  */
+/******************************************************************************/
+void CMD_IncreaseAntiTwitchAveragerAlot(void)
+{
+	if(SSRelayAntiTwitchCount < 5000)
+	{
+		SSRelayAntiTwitchCount += 100;
+	}
+
+	sprintf((char*)SPRINTBuffer, "Audio anti-twitch averager = %d", SSRelayAntiTwitchCount);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseAntiTwitchAverager
+ *
+ * The function decreases the anti-twitch averager by 10.					  */
+/******************************************************************************/
+void CMD_DecreaseAntiTwitchAverager(void)
+{
+	if(SSRelayAntiTwitchCount > 10)
+	{
+		SSRelayAntiTwitchCount -= 10;
+	}
+
+	sprintf((char*)SPRINTBuffer, "Audio anti-twitch averager = %d", SSRelayAntiTwitchCount);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseAntiTwitchAveragerAlot
+ *
+ * The function decreases the anti-twitch averager by 100.					  */
+/******************************************************************************/
+void CMD_DecreaseAntiTwitchAveragerAlot(void)
+{
+	if(SSRelayAntiTwitchCount > 100)
+	{
+		SSRelayAntiTwitchCount -= 100;
+	}
+
+	sprintf((char*)SPRINTBuffer, "Audio anti-twitch averager = %d", SSRelayAntiTwitchCount);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/
