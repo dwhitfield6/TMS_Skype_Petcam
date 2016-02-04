@@ -1,8 +1,4 @@
 eclipse.preferences.version=1
-encoding//Debug/Library/subdir_rules.mk=UTF-8
-encoding//Debug/Library/subdir_vars.mk=UTF-8
-encoding//Debug/Linker/subdir_rules.mk=UTF-8
-encoding//Debug/Linker/subdir_vars.mk=UTF-8
 encoding//Debug/controlSUITE/F2837xS/F2837xS_common/cmd/subdir_rules.mk=UTF-8
 encoding//Debug/controlSUITE/F2837xS/F2837xS_common/cmd/subdir_vars.mk=UTF-8
 encoding//Debug/controlSUITE/F2837xS/F2837xS_common/third_party/fatfs/port/subdir_rules.mk=UTF-8

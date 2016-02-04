@@ -675,6 +675,11 @@ interrupt void ISR_ADC_AUDIO(void)
 		Audio_ADC_Counts_Unfiltered_place++;
 	}
 
+	if(SKYPE_Signal_Inverted)
+	{
+		ADC_counts1	= 4095 - ADC_counts1; // signal is inverted
+	}
+
 	/* ADC low-pass filtered audio sampling */
 	if(TV_SKYPE_GetSearchingStatus())
 	{
@@ -689,7 +694,7 @@ interrupt void ISR_ADC_AUDIO(void)
 					if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
 					{
 						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-						TimingCounts1																	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1();
+						TimingCounts1																	= (IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer1()) + 4;
 						Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts1);
 						TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
 						Audio_ADC_Counts_LowPass_place++;

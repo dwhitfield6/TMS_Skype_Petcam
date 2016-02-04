@@ -30,7 +30,7 @@
  *
  * This is the largest command in characters.								  */
 /******************************************************************************/
-#define LARGEST_COMMAND 16L
+#define LARGEST_COMMAND 30L
 
 /******************************************************************************/
 /* LARGEST_COMMAND_WITH_EXTRA
@@ -127,5 +127,7 @@ void CMD_DecreaseSmallAverageAlot(void);
 void CMD_DecreaseSmallAverage(void);
 void CMD_VULowpass(void);
 void CMD_VUAll(void);
+void CMD_SKYPE_SignalInverted(void);
+void CMD_SKYPE_SignalNotInverted(void);
 
 #endif	/* CMD_H */

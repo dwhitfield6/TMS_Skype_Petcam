@@ -55,6 +55,8 @@ const COMMANDTYPE Commands[] =
 	{"IR Idylis Send~", CMD_SendIdylis,"Sends an IR command to the Idylis Air conditioner"},
 	{"Skype", CMD_GoToSKYPE, "Goes to SKYPE mode"},
 	{"Original", CMD_GoToOriginal, "Goes to Original mode"},
+	{"Signal inverted", CMD_SKYPE_SignalInverted, "Sets the audio signal inverted"},
+	{"Signal notinverted", CMD_SKYPE_SignalNotInverted, "Sets the audio signal not-inverted"},
 	{"Large Average++", CMD_IncreaseLargeAverageAlot,"Increases the large averager by 100 samples"},
 	{"Large Average+", CMD_IncreaseLargeAverage,"Increases the large averager by 10 samples"},
 	{"Large Average--", CMD_DecreaseLargeAverageAlot,"Decreases the large averager by 100 samples"},
@@ -807,6 +809,43 @@ void CMD_VUAll(void)
 	}
 }
 
+/******************************************************************************/
+/* CMD_SKYPE_SignalInverted
+ *
+ * The function sets the audio signal inverted.								  */
+/******************************************************************************/
+void CMD_SKYPE_SignalInverted(void)
+{
+	SKYPE_Signal_Inverted = TRUE;
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA("Audio signal source = Inverted");
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC("Audio signal source = Inverted");
+	}
+}
+
+/******************************************************************************/
+/* CMD_SKYPE_SignalNotInverted
+ *
+ * The function sets the audio signal not inverted.							  */
+/******************************************************************************/
+void CMD_SKYPE_SignalNotInverted(void)
+{
+	SKYPE_Signal_Inverted = FALSE;
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA("Audio signal source = Not Inverted");
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC("Audio signal source = Not Inverted");
+	}
+}
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/

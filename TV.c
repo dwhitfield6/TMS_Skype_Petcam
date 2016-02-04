@@ -93,6 +93,7 @@ unsigned char Current_TV_Power;
 unsigned char TV_SKYPE_Audio_Code_Started = FALSE;
 double TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
 unsigned char NumSKYPE;
+unsigned char SKYPE_Signal_Inverted = TRUE;
 
 /******************************************************************************/
 /* Inline Functions                                                           */
@@ -613,7 +614,7 @@ unsigned char TV_SKYPE_FindFirstLocalMaximumIncreasing(TYPE_LOWPASS* buffer, uns
 	short startingpoint = (short)start;
 	short i;
 	double temp = 0.0;
-	unsigned char count = 0;
+	unsigned short count = 0;
 	short tempstart = (short) start;
 	short tempfinish = (short) finish;
 
@@ -628,7 +629,7 @@ unsigned char TV_SKYPE_FindFirstLocalMaximumIncreasing(TYPE_LOWPASS* buffer, uns
 	for(i=tempstart;i<=tempfinish;i++)
 	{
 		temp = (double) buffer[i].ADC;
-		if(temp > average)
+		if(temp > (average + (average / 2)))
 		{
 			localmax = temp;
 			break;
@@ -639,15 +640,16 @@ unsigned char TV_SKYPE_FindFirstLocalMaximumIncreasing(TYPE_LOWPASS* buffer, uns
 	for(i=startingpoint;i<=tempfinish;i++)
 	{
 		temp = (double) buffer[i].ADC;
-		if(temp > localmax)
+		if(temp >= localmax)
 		{
 			localmax = temp;
 			*index = i;
+			count = 0;
 		}
-		if((temp <= localmax) || (i == tempfinish))
+		else
 		{
 			count++;
-			if((count > FIND_LOCAL_WRONG_WAY_COUNT) || (i == tempfinish))
+			if(count > FIND_LOCAL_WRONG_WAY_COUNT)
 			{
 				/* we have been traveling in the wrong direction for 20 sample in a row */
 				if(localmax >= TV_SKYPE_AUDIO_ADC_HIGH)
@@ -656,10 +658,6 @@ unsigned char TV_SKYPE_FindFirstLocalMaximumIncreasing(TYPE_LOWPASS* buffer, uns
 				}
 				return FAIL;
 			}
-		}
-		else
-		{
-			count = 0;
 		}
 
 	}
@@ -751,7 +749,7 @@ unsigned char TV_SKYPE_FindFirstLocalMinimumIncreasing(TYPE_LOWPASS* buffer, uns
 	short startingpoint = (short)start;
 	short i;
 	double temp = 0.0;
-	unsigned char count = 0;
+	unsigned short count = 0;
 	short tempstart = (short) start;
 	short tempfinish = (short) finish;
 
@@ -766,7 +764,7 @@ unsigned char TV_SKYPE_FindFirstLocalMinimumIncreasing(TYPE_LOWPASS* buffer, uns
 	for(i=tempstart;i<=tempfinish;i++)
 	{
 		temp = (double) buffer[i].ADC;
-		if(temp < average)
+		if(temp < (average - (average / 2)))
 		{
 			localmin = temp;
 			break;
@@ -778,12 +776,13 @@ unsigned char TV_SKYPE_FindFirstLocalMinimumIncreasing(TYPE_LOWPASS* buffer, uns
 	for(i=startingpoint;i<=tempfinish;i++)
 	{
 		temp = (double) buffer[i].ADC;
-		if(temp < localmin)
+		if(temp <= localmin)
 		{
 			localmin = temp;
 			*index = i;
+			count = 0;
 		}
-		if((temp >= localmin) || (i == tempfinish))
+		else
 		{
 			count++;
 			if((count > FIND_LOCAL_WRONG_WAY_COUNT) || (i == tempfinish))
@@ -795,10 +794,6 @@ unsigned char TV_SKYPE_FindFirstLocalMinimumIncreasing(TYPE_LOWPASS* buffer, uns
 				}
 				return FAIL;
 			}
-		}
-		else
-		{
-			count = 0;
 		}
 	}
 	return FAIL;
