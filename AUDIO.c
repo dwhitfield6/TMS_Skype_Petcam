@@ -49,7 +49,9 @@ unsigned int SSRelayOnCount;
 unsigned int SSRelayAntiTwitchCount;
 TYPE_LOWPASS Audio_ADC_Counts_LowPass_Buffer[LOWPASS_BUFFER_SIZE];
 unsigned short Audio_ADC_Counts_LowPass_place;
-ENUM_VU AudioVU = ALL;
+volatile ENUM_VU AudioVU = ALL;
+double AudioTriggerHigh = 1.2;
+double AudioTriggerLow = 0.8;
 
 /******************************************************************************/
 /* Inline Functions 														  */

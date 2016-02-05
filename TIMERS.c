@@ -109,10 +109,10 @@ void InitTimer2(void)
 	PieVectTable.TIMER2_INT = &ISR_TIMER2_AUDIO_PROTOCOL;
 	SYS_Lock();
 
-	TMR_SetTimerPeriod2(0xFFFFFFFF);
+	TMR_SetTimerPeriod2(TIMER_2_PERIOD_COUNTS);
 	TMR_Interrupt2(OFF);
 	TMR_StartTimer2(FALSE);						// Stop the timer
-	CpuTimer1Regs.TPR.bit.TDDR = 15;			// presceler is 16
+	CpuTimer2Regs.TPR.bit.TDDR = 15;			// presceler is 16
 }
 
 

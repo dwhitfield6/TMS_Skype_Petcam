@@ -133,5 +133,9 @@ void CMD_IncreaseAntiTwitchAverager(void);
 void CMD_IncreaseAntiTwitchAveragerAlot(void);
 void CMD_DecreaseAntiTwitchAverager(void);
 void CMD_DecreaseAntiTwitchAveragerAlot(void);
+void CMD_IncreaseAudioTriggerAlot(void);
+void CMD_IncreaseAudioTrigger(void);
+void CMD_DecreaseAudioTriggerAlot(void);
+void CMD_DecreaseAudioTrigger(void);
 
 #endif	/* CMD_H */

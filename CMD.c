@@ -52,6 +52,14 @@ const COMMANDTYPE Commands[] =
 	{"Anti-twitch+", CMD_IncreaseAntiTwitchAverager,"Increases the anti-twitch averager by 10 samples"},
 	{"Anti-twitch--", CMD_DecreaseAntiTwitchAveragerAlot,"Decreases the anti-twitch averager by 100 samples"},
 	{"Anti-twitch-", CMD_DecreaseAntiTwitchAverager,"Decreases the anti-twitch averager by 10 samples"},
+	{"Antitwitch++", CMD_IncreaseAntiTwitchAveragerAlot,"Increases the anti-twitch averager by 100 samples"},
+	{"Antitwitch+", CMD_IncreaseAntiTwitchAverager,"Increases the anti-twitch averager by 10 samples"},
+	{"Antitwitch--", CMD_DecreaseAntiTwitchAveragerAlot,"Decreases the anti-twitch averager by 100 samples"},
+	{"Antitwitch-", CMD_DecreaseAntiTwitchAverager,"Decreases the anti-twitch averager by 10 samples"},
+	{"Audio Trigger++", CMD_IncreaseAudioTriggerAlot,"Increases the audio trigger by 10%"},
+	{"Audio Trigger+", CMD_IncreaseAudioTrigger,"Increases the audio trigger by 1%"},
+	{"Audio Trigger--", CMD_DecreaseAudioTriggerAlot,"Decreases the audio trigger by 10%"},
+	{"Audio Trigger-", CMD_DecreaseAudioTrigger,"Decreases the audio trigger by 1%"},
 	{"Blue init", CMD_InitBluetooth, "Initializes the HC-06 Bluetooth module"},
 	{"Help", CMD_PrintAllCommands,"Prints all of the commands"},
 	{"IR Sanyo Send~", CMD_SendSanyo,"Sends an IR command to the Sanyo TV"},
@@ -70,7 +78,8 @@ const COMMANDTYPE Commands[] =
 	{"Small Average--", CMD_DecreaseSmallAverageAlot,"Decreases the small averager by 100 samples"},
 	{"Small Average-", CMD_DecreaseSmallAverage,"Decreases the small averager by 10 samples"},
 	{"VU Lowpass", CMD_VULowpass,"Sets the VU meter to use the Lowpass filter"},
-	{"VU nofilter", CMD_VUAll,"Sets the VU meter to use the full audio spectrum filter"},
+	{"VU nofilter", CMD_VUAll,"Sets the VU meter to use the full audio spectrum"},
+	{"VU all", CMD_VUAll,"Sets the VU meter to use the full audio spectrum"},
 };
 
 unsigned char CommandStringA[LARGEST_COMMAND_WITH_EXTRA];
@@ -936,6 +945,106 @@ void CMD_DecreaseAntiTwitchAveragerAlot(void)
 	}
 
 	sprintf((char*)SPRINTBuffer, "Audio anti-twitch averager = %d", SSRelayAntiTwitchCount);
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_IncreaseAudioTriggerAlot
+ *
+ * The function increases the audio trigger by 10%.							  */
+/******************************************************************************/
+void CMD_IncreaseAudioTriggerAlot(void)
+{
+	if(AudioTriggerHigh < 1.8999)
+	{
+		AudioTriggerHigh +=	0.1;
+	}
+	AudioTriggerLow = 2.0 - AudioTriggerHigh;
+
+	sprintf((char*)SPRINTBuffer, "Audio trigger level = %3.1f %%", ((AudioTriggerHigh * 100.0) + 0.00005));
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_IncreaseAudioTrigger
+ *
+ * The function increases the audio trigger by 1%.							  */
+/******************************************************************************/
+void CMD_IncreaseAudioTrigger(void)
+{
+	if(AudioTriggerHigh < 1.9899)
+	{
+		AudioTriggerHigh +=	0.01;
+	}
+	AudioTriggerLow = 2.0 - AudioTriggerHigh;
+
+	sprintf((char*)SPRINTBuffer, "Audio trigger level = %3.1f %%", ((AudioTriggerHigh * 100.0) + 0.00005));
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseAudioTriggerAlot
+ *
+ * The function decreases the audio trigger by 10%.							  */
+/******************************************************************************/
+void CMD_DecreaseAudioTriggerAlot(void)
+{
+	if(AudioTriggerHigh > 1.111)
+	{
+		AudioTriggerHigh -=	0.1;
+	}
+	AudioTriggerLow = 2.0 - AudioTriggerHigh;
+
+	sprintf((char*)SPRINTBuffer, "Audio trigger level = %3.1f %%", ((AudioTriggerHigh * 100.0) + 0.00005));
+
+	if(CMD_GetActiveUART() == 'A')
+	{
+		UART_SendStringCRLNA(SPRINTBuffer);
+	}
+	else if(CMD_GetActiveUART() == 'C')
+	{
+		UART_SendStringCRLNC(SPRINTBuffer);
+	}
+}
+
+/******************************************************************************/
+/* CMD_DecreaseAudioTrigger
+ *
+ * The function decreases the audio trigger by 1%.							  */
+/******************************************************************************/
+void CMD_DecreaseAudioTrigger(void)
+{
+	if(AudioTriggerHigh > 1.011)
+	{
+		AudioTriggerHigh -=	0.01;
+	}
+	AudioTriggerLow = 2.0 - AudioTriggerHigh;
+
+	sprintf((char*)SPRINTBuffer, "Audio trigger level = %3.1f %%", ((AudioTriggerHigh * 100.0) + 0.00005));
 
 	if(CMD_GetActiveUART() == 'A')
 	{

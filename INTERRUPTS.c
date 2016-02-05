@@ -290,6 +290,12 @@ interrupt void ISR_UART_A_RX(void)
 		if(Framing_Error || Parity_Error)
 		{
 			/* error occured */
+			SciaRegs.SCICTL1.bit.SWRESET = 0;
+			NOP();
+			NOP();
+			NOP();
+			NOP();
+			SciaRegs.SCICTL1.bit.SWRESET = 1;
 		}
 		else
 		{
@@ -321,6 +327,13 @@ interrupt void ISR_UART_A_RX(void)
  		if(Framing_Error || Parity_Error)
  		{
  			/* error occured */
+			/* error occured */
+			ScicRegs.SCICTL1.bit.SWRESET = 0;
+			NOP();
+			NOP();
+			NOP();
+			NOP();
+			ScicRegs.SCICTL1.bit.SWRESET = 1;
  		}
  		else
  		{
@@ -663,7 +676,7 @@ interrupt void ISR_ADC_AUDIO(void)
 				if(Audio_ADC_Counts_LowPass_place < LOWPASS_BUFFER_SIZE)
 				{
 					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-					TimingCounts2																	= (IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer2());
+					TimingCounts2																	= (TIMER_2_PERIOD_COUNTS - TMR_GetTimer2());
 					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts2);
 					TV_SKYPE_Audio_ProtocolTotalMicroseconds += Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds;
 					Audio_ADC_Counts_LowPass_place++;
@@ -682,7 +695,7 @@ interrupt void ISR_ADC_AUDIO(void)
 					TV_SKYPE_Audio_ProtocolTotalMicroseconds = 0.0;
 					Audio_ADC_Counts_LowPass_place = 0;
 					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].ADC 			= ADC_counts1;
-					TimingCounts2																	= IR_RECEIVE_COUNTS_TIMEOUT - TMR_GetTimer2();
+					TimingCounts2																	= TIMER_2_PERIOD_COUNTS - TMR_GetTimer2();
 					Audio_ADC_Counts_LowPass_Buffer[Audio_ADC_Counts_LowPass_place].MicroSeconds 	= TMR_CountsToMicroseconds(TimingCounts2);
 					Audio_ADC_Counts_LowPass_place++;
 					TV_SKYPE_Audio_Code_Started = TRUE;

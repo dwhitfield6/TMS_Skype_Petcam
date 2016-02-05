@@ -79,7 +79,9 @@ extern unsigned int SSRelayOnCount;
 extern unsigned int SSRelayAntiTwitchCount;
 extern TYPE_LOWPASS Audio_ADC_Counts_LowPass_Buffer[LOWPASS_BUFFER_SIZE];
 extern unsigned short Audio_ADC_Counts_LowPass_place;
-extern ENUM_VU AudioVU;
+extern volatile ENUM_VU AudioVU;
+extern double AudioTriggerHigh;
+extern double AudioTriggerLow;
 
 /******************************************************************************/
 /* Defines                                                                    */

@@ -929,14 +929,14 @@ void UART_ProcessCharacterC(unsigned char data)
 			UART_SendCharC(SPACE);
 			UART_SendCharC(BACKSPACE);
 			RX_C_Buffer_Place--;
-			RX_C_Buffer[RX_A_Buffer_Place] = 0;
+			RX_C_Buffer[RX_C_Buffer_Place] = 0;
 		}
 	}
 	else if(data == CR)
 	{
 		if(RX_C_Buffer_Place > 0)
 		{
-			RX_C_Buffer[RX_A_Buffer_Place] = 0;
+			RX_C_Buffer[RX_C_Buffer_Place] = 0;
 			RX_C_Buffer_Place = 0;
 			UART_SendStringCRLNC("");
 			if(RX_C_Buffer_Place <= (LARGEST_COMMAND_WITH_EXTRA - 1))

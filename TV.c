@@ -131,16 +131,18 @@ void TV_GoToSkypeMode(void)
 	LED_SetMode(GREEN_BLINKING);
 	RLY_MechRelay(ON);
 	TV_SetMode(SKYPE);
+	Original_TV_inputMode = Current_TV_inputMode;
+	Original_TV_Power = Current_TV_Power;
 	if(!Current_TV_Power)
 	{
 		IR_SendNECWithRepeatASCII("Power", Sanyo);
-		MSC_DelayUS(1000000);
+		MSC_DelayUS(6000000);
 		Current_TV_Power = ON;
 	}
 	while(Current_TV_inputMode != HDMI1)
 	{
 		IR_SendNECWithRepeatASCII("Source", Sanyo);
-		MSC_DelayUS(1000000);
+		MSC_DelayUS(1500000);
 		Current_TV_inputMode++;
 		if(Current_TV_inputMode > VIDEO)
 		{
@@ -168,8 +170,22 @@ void TV_GoToOriginalMode(void)
 	UART_SendStringCRLNC("Changing modes...");
 	RLY_MechRelay(OFF);
 	TV_SetMode(ORIGINAL);
+	if(Original_TV_inputMode != Current_TV_inputMode)
+	{
+		while(Original_TV_inputMode != Current_TV_inputMode)
+		{
+			IR_SendNECWithRepeatASCII("Source", Sanyo);
+			MSC_DelayUS(1500000);
+			Current_TV_inputMode++;
+			if(Current_TV_inputMode > VIDEO)
+			{
+				Current_TV_inputMode = HDMI1;
+			}
+		}
+	}
 	if(Original_TV_Power != Current_TV_Power)
 	{
+		MSC_DelayUS(2000000);
 		if(Original_TV_Power)
 		{
 			IR_SendNECWithRepeatASCII("Power", Sanyo);
@@ -180,22 +196,7 @@ void TV_GoToOriginalMode(void)
 			IR_SendNECWithRepeatASCII("Power", Sanyo);
 			Current_TV_Power = ON;
 		}
-		MSC_DelayUS(2000000);
 	}
-	if(Original_TV_inputMode != Current_TV_inputMode)
-	{
-		while(Original_TV_inputMode != Current_TV_inputMode)
-		{
-			IR_SendNECWithRepeatASCII("Source", Sanyo);
-			MSC_DelayUS(1000000);
-			Current_TV_inputMode++;
-			if(Current_TV_inputMode > VIDEO)
-			{
-				Current_TV_inputMode = HDMI1;
-			}
-		}
-	}
-
 	UART_SendStringCRLNA("Mode = Original");
 	UART_SendStringCRLNC("Mode = Original");
 	UART_SendStringCRLNA("");

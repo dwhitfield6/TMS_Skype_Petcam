@@ -185,38 +185,38 @@ int main (void)
 						UART_SendStringCRLNC((unsigned char*)Sanyo[index].Description);
 						if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Source"))
 						{
-							if(Original_TV_Power)
+							if(Current_TV_Power)
 							{
-								Original_TV_inputMode++;
-								if(Original_TV_inputMode > VIDEO)
+								Current_TV_inputMode++;
+								if(Current_TV_inputMode > VIDEO)
 								{
-									Original_TV_inputMode = HDMI1;
+									Current_TV_inputMode = HDMI1;
 								}
 							}
 						}
 						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Back"))
 						{
-							if(Original_TV_Power)
+							if(Current_TV_Power)
 							{
-								if(Original_TV_inputMode == HDMI1)
+								if(Current_TV_inputMode == HDMI1)
 								{
-									Original_TV_inputMode = VIDEO;
+									Current_TV_inputMode = VIDEO;
 								}
 								else
 								{
-									Original_TV_inputMode--;
+									Current_TV_inputMode--;
 								}
 							}
 						}
 						else if(MSC_StringMatch((unsigned char*)Sanyo[index].Description, "Power"))
 						{
-							if(Original_TV_Power)
+							if(Current_TV_Power)
 							{
-								Original_TV_Power = FALSE;
+								Current_TV_Power = FALSE;
 							}
 							else
 							{
-								Original_TV_Power = TRUE;
+								Current_TV_Power = TRUE;
 							}
 						}
 					}
@@ -237,6 +237,11 @@ int main (void)
 						UART_SendStringCRLNC((unsigned char*)Idylis[index].Description);
 					}
 				}
+
+				UART_SendStringCRLNA("");
+				UART_SendStringCRLNC("");
+				UART_SendPromptA();
+				UART_SendPromptC();
     		}
     		memset(IR_Receive_Timing_Counts, 0, MAX_IR_RECEIVE_EVENTS);
     		memset(IR_Receive_Timing_MicroSeconds, 0, MAX_IR_RECEIVE_EVENTS);
@@ -255,7 +260,7 @@ int main (void)
 				{
 					AUD_Process(Audio_ADC_Counts_Unfiltered_Buffer, Audio_ADC_Counts_Unfiltered_place, AVERAGE, AudioProcessingSampleLarge, &AudioProcess1); 	// long average
 					AUD_Process(&Audio_ADC_Counts_Unfiltered_Buffer[AudioProcessingSampleLarge - AudioProcessingSampleSmall - 1], Audio_ADC_Counts_Unfiltered_place, AVERAGE, AudioProcessingSampleSmall, &AudioProcess2);						// short average
-					if((AudioProcess2 > (AudioProcess1 * 1.2)) || (AudioProcess2 < (AudioProcess1 * 0.8)))
+					if((AudioProcess2 > (AudioProcess1 * AudioTriggerHigh)) || (AudioProcess2 < (AudioProcess1 * AudioTriggerLow)))
 					{
 						SSRelayOnCount = SSRelayAntiTwitchCount;
 					}
@@ -328,7 +333,13 @@ int main (void)
 		    			TV_SetMode(ORIGINAL);
 		    		}
 				}
+
+				UART_SendStringCRLNA("");
+				UART_SendStringCRLNC("");
+				UART_SendPromptA();
+				UART_SendPromptC();
     		}
+
     		TV_SKYPE_Audio_Code_Started = FALSE;
     		TV_SKYPE_SetDecodeFlag(FALSE);
     	}
@@ -358,6 +369,12 @@ int main (void)
     	if(LED_GetMode() == RED_BLINKING || LED_GetMode() == GREEN_BLINKING)
     	{
     		LED_BlinkingAction(LED_GetMode());
+    	}
+
+    	if(Audio_ADC_Counts_LowPass_place == LOWPASS_BUFFER_SIZE)
+    	{
+    		/* if the buffer is ever full, process the data */
+    		TV_SKYPE_SetDecodeFlag(TRUE);
     	}
     }
 }
