@@ -186,7 +186,7 @@ void TV_GoToOriginalMode(void)
 	if(Original_TV_Power != Current_TV_Power)
 	{
 		MSC_DelayUS(2000000);
-		if(Original_TV_Power)
+		if(Current_TV_Power)
 		{
 			IR_SendNECWithRepeatASCII("Power", Sanyo);
 			Current_TV_Power = OFF;
