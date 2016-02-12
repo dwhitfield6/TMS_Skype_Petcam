@@ -165,7 +165,6 @@ int main (void)
 					if(IR_repeat_times >= TV_REPEAT_NEC_TIMES)
 					{
 						IR_repeat_times = 0;
-						IR_process = TRUE;
 					}
 					IR_repeat_times++;
 				}
