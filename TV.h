@@ -114,6 +114,7 @@ typedef struct t_skype_codes
 /******************************************************************************/
 extern ENUM_TV_INPUT Original_TV_inputMode;
 extern ENUM_TV_INPUT Current_TV_inputMode;
+extern unsigned char SkypeMode_InputChangeCount;
 extern unsigned char Original_TV_Power;
 extern unsigned char Current_TV_Power;
 extern unsigned char TV_SKYPE_Audio_Code_Started;

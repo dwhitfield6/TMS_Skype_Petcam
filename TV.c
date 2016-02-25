@@ -88,6 +88,7 @@ static unsigned char SKYPE_AudioProtocol = FALSE;
 /******************************************************************************/
 ENUM_TV_INPUT Original_TV_inputMode;
 ENUM_TV_INPUT Current_TV_inputMode;
+unsigned char SkypeMode_InputChangeCount = 0;
 unsigned char Original_TV_Power;
 unsigned char Current_TV_Power;
 unsigned char TV_SKYPE_Audio_Code_Started = FALSE;

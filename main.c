@@ -321,6 +321,20 @@ int main (void)
 		    		{
 		    			TV_GoToSkypeMode();
 		    			TV_SetMode(SKYPE);
+		    			SkypeMode_InputChangeCount = 0;
+		    		}
+		    		else
+		    		{
+		    			SkypeMode_InputChangeCount++;
+		    			if(SkypeMode_InputChangeCount > VIDEO)
+		    			{
+		    				SkypeMode_InputChangeCount = 0;
+		    				IR_SendNECWithRepeatASCII("Power", Sanyo);
+		    			}
+		    			else
+		    			{
+			    			IR_SendNECWithRepeatASCII("Source", Sanyo);
+		    			}
 		    		}
 				}
 				if(MSC_StringMatch((unsigned char*)SKYPE_Codes[index].Description, "Call End")) // code2
